@@ -1,0 +1,2 @@
+# flutter_chat_simple
+这是基于flutter_webscoket_simple简化整合的flutter_chat，代码性能更加优化，结构更清晰，更易于开发与使用。其中flutter_webscoket_simple不依赖于flutter的dart运行。以后开发将基于此进行开发
