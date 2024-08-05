@@ -2,17 +2,17 @@
 websocket  server与client通讯 自定义消息处理类: TEST消息类型
  */
 
-import 'package:app_template/microService/service/client/common/OtherClientMsgType.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
-import '../../../../module/dao/UserChat.dart';
 import '../../../../module/manager/GlobalManager.dart';
 import '../../../../ui/client/module/ClientModule.dart';
+import '../../common/CommunicationTypeClientModulator.dart';
+import '../WebsocketClientManager.dart';
 import 'TypeMessageClientHandler.dart';
 
 class RequestScanAddUserTypeMessageHandler extends TypeMessageClientHandler {
   MsgType type = MsgType.REQUEST_SCAN_ADD_USER;
-  void handler(WebSocketChannel? channel, Map msgDataTypeMap) {
+  void handler(
+      WebsocketClientManager websocketClientManager, Map msgDataTypeMap) {
     // 通过扫码请求添加好友请求
     // 从缓存中取出secret 通讯秘钥
     String? secret = GlobalManager.appCache.getString("chat_secret");
@@ -27,7 +27,7 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageClientHandler {
    */
   Future<void> scanQrAddUser(Map msgDataTypeMap) async {
     // msgDataTypeMap为明文，未加密
-    UserChat userChat = UserChat();
+    // UserChat userChat = UserChat();
     ClientModule clientModel = ClientModule();
 
     printInfo('Starting scanQrAddUser'); // 开始执行 scanQrAddUser 函数

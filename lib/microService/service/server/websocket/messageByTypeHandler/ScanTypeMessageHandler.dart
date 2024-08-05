@@ -4,8 +4,10 @@ websocket  server与client通讯 自定义消息处理类: TEST消息类型
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:app_template/microService/service/server/model/ClientObject.dart';
-import '../../../client/common/OtherClientMsgType.dart';
+import 'package:app_template/microService/service/server/model/ClientModel.dart';
+
+import '../../common/CommunicationTypeServerModulator.dart';
+import '../WebsocketServerManager.dart';
 import 'TypeMessageServerHandler.dart';
 
 class ScanTypeMessageHandler extends TypeMessageServerHandler {
@@ -15,10 +17,11 @@ class ScanTypeMessageHandler extends TypeMessageServerHandler {
   /*
   调用函数: 在指定type来临时自动调用处理
    */
-  void handler(HttpRequest request, WebSocket webSocket, Map msgDataTypeMap) {
+  void handler(HttpRequest request, WebSocket webSocket,
+      WebsocketServerManager websocketServerManager, Map msgDataTypeMap) {
     print("SCAN");
     // 获取ClientObject
-    ClientObject clientObject = getClientObject(request, webSocket);
+    ClientModel clientObject = getClientObject(request, webSocket);
 
     // 获取秘钥通讯加解密key
     String secret = clientObject.secret.toString();

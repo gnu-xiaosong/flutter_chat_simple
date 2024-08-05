@@ -3,10 +3,11 @@ websocket  server与client通讯 自定义消息处理类: TEST消息类型
  */
 import 'dart:convert';
 import 'dart:io';
+import 'package:app_template/microService/service/server/model/ClientModel.dart';
 import '../../../../module/manager/GlobalManager.dart';
-import '../../../client/common/OtherClientMsgType.dart';
-import '../../model/ClientObject.dart';
-import '../../schedule/OffLineHandler.dart';
+import '../../common/CommunicationTypeServerModulator.dart';
+import '../../schedule/message/OffLineHandler.dart';
+import '../WebsocketServerManager.dart';
 import 'TypeMessageServerHandler.dart';
 
 class AuthTypeMessageHandler extends TypeMessageServerHandler {
@@ -16,7 +17,8 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
   /*
   调用函数: 在指定type来临时自动调用处理
    */
-  void handler(HttpRequest request, WebSocket webSocket, Map msgDataTypeMap) {
+  void handler(HttpRequest request, WebSocket webSocket,
+      WebsocketServerManager websocketServerManager, Map msgDataTypeMap) {
     // 解密info字段
     msgDataTypeMap["info"] = decodeAuth(msgDataTypeMap["info"]);
 
@@ -24,6 +26,8 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
     auth(request, webSocket, msgDataTypeMap);
     // 广播在线client用户数
     broadcastInlineClients();
+    // 执行一次adduser调度任务
+    addUserQueueTask.execOnceWebsocketServerAddUserBusQueueScheduleTask();
   }
 
   /*
@@ -35,7 +39,7 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
     var clientPort = request.connectionInfo?.remotePort;
 
     // 1. client认证
-    Map clientAuthResult = clientInitAuth(msgDataTypeMap!);
+    Map clientAuthResult = clientInitAuth(msgDataTypeMap);
 
     printInfo("----------------AUTH认证------------------");
     // printInfo(clientAuthResult);
@@ -46,23 +50,23 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
       String data_encry = clientIp.toString() +
           clientPort.toString() +
           DateTime.now().toString();
-      String secret = encrypte(data_encry);
+      String? secret = encrypte(data_encry);
       // 2.1 如果认证成功则封装该client为WebsocketClientObject并添加进全局list
-      ClientObject client = ClientObject(
-        deviceId: msgDataTypeMap?["deviceId"],
-        socket: webSocket,
-        ip: clientIp.toString(),
-        secret: secret,
-        port: clientPort!.toInt(),
-      );
+      ClientModel client = ClientModel(
+          deviceId: msgDataTypeMap["deviceId"],
+          socket: webSocket,
+          ip: clientIp.toString(),
+          secret: secret,
+          port: clientPort!.toInt(),
+          retryConnCount: 0,
+          passAuth: true);
 
       // 先剔除全局list中相同deviceID的client对象
-      GlobalManager.webscoketClientObjectList = GlobalManager
-          .webscoketClientObjectList
+      GlobalManager.onlineClientList = GlobalManager.onlineClientList
           .where((clientItem) => clientItem.deviceId != client.deviceId)
           .toList();
       // 添加进list中
-      GlobalManager.webscoketClientObjectList.add(client);
+      GlobalManager.onlineClientList.add(client);
 
       // 返回消息
       Map re = {
@@ -81,12 +85,6 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
       webSocket.add(json.encode(re));
       printSuccess(
           'Client connected: IP = $clientIp, Port = $clientPort is connect successful!');
-
-      // ------认证成功被动触发一次离线消息队列处理
-      OffLine offLine = OffLine();
-      if (offLine.isOffLine) {
-        offLine.offLineHandler();
-      }
     } else {
       // 2.2.不通过client认证，则返回错误消息
       Map re = {
@@ -100,5 +98,7 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
       // 主动断开该client的连接
       webSocket.close();
     }
+
+    print("在线: ${GlobalManager.onlineClientList}");
   }
 }

@@ -2,21 +2,21 @@
 websocket  server与client通讯 自定义消息处理类: TEST消息类型
  */
 
-import 'package:app_template/microService/module/common/CommonModule.dart';
-import 'package:app_template/microService/service/client/common/OtherClientMsgType.dart';
 import 'package:app_template/microService/module/common/BroadcastModule.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
 import '../../../../module/manager/GlobalManager.dart';
 import '../../../../module/manager/NotificationsManager.dart';
 import '../../../../ui/client/model/enum.dart';
 import '../../../../ui/client/module/AudioModule.dart';
+import '../../common/CommunicationTypeClientModulator.dart';
+import '../WebsocketClientManager.dart';
 import 'TypeMessageClientHandler.dart';
 
 class MessageTypeMessageHandler extends TypeMessageClientHandler {
   MsgType type = MsgType.MESSAGE;
 
-  void handler(WebSocketChannel? channel, Map msgDataTypeMap) {
+  void handler(
+      WebsocketClientManager websocketClientManager, Map msgDataTypeMap) {
     // 从缓存中取出secret 通讯秘钥
     String? secret = GlobalManager.appCache.getString("chat_secret");
     // 解密info字段

@@ -4,8 +4,10 @@ websocket  server与client通讯 自定义消息处理类: TEST消息类型
 
 import 'dart:convert';
 import 'dart:io';
-import '../../../client/common/OtherClientMsgType.dart';
-import '../../model/ClientObject.dart';
+import 'package:app_template/microService/service/server/model/ClientModel.dart';
+
+import '../../common/CommunicationTypeServerModulator.dart';
+import '../WebsocketServerManager.dart';
 import 'TypeMessageServerHandler.dart';
 
 class RequestInlineClientTypeMessageHandler extends TypeMessageServerHandler {
@@ -15,9 +17,10 @@ class RequestInlineClientTypeMessageHandler extends TypeMessageServerHandler {
   /*
   调用函数: 在指定type来临时自动调用处理
    */
-  void handler(HttpRequest request, WebSocket webSocket, Map msgDataTypeMap) {
+  void handler(HttpRequest request, WebSocket webSocket,
+      WebsocketServerManager websocketServerManager, Map msgDataTypeMap) {
     // 获取ClientObject
-    ClientObject clientObject = getClientObject(request, webSocket);
+    ClientModel clientObject = getClientObject(request, webSocket);
 
     // 获取秘钥通讯加解密key
     String secret = clientObject.secret.toString();
@@ -35,21 +38,21 @@ class RequestInlineClientTypeMessageHandler extends TypeMessageServerHandler {
       HttpRequest request, WebSocket webSocket, Map msgDataTypeMap) {
     String deviceId = msgDataTypeMap?["info"]["deviceId"];
     // 1.客户端身份验证
-    bool _auth = clientAuth(deviceId, request, webSocket);
+    bool _auth = clientAuth(deviceId, request, webSocket)["result"];
 
     if (_auth) {
       // 认证成功
       // 1. 根据deviceId获取在线client的deviceId
       List inlineDeviceId = getInlineClient(deviceId);
       // 2.根据deviceId获取接收方clientObject
-      ClientObject? clientObject = getClientObjectByDeviceId(deviceId);
+      ClientModel? clientObject = getClientObjectByDeviceId(deviceId);
       // 3.封装消息
       Map re = {
         "type": "REQUEST_INLINE_CLIENT",
         "info": {"deviceId": inlineDeviceId}
       };
       // 4.加密
-      re["info"] = encodeMessage(clientObject!.secret, re["info"]);
+      re["info"] = encodeMessage(clientObject!.secret!, re["info"]);
       // 5.发送
       try {
         printSuccess("-----REQUEST_INLINE_CLIENT------");

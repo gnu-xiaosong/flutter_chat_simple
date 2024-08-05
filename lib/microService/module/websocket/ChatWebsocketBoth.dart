@@ -10,28 +10,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:app_template/config/AppConfig.dart';
-import 'package:app_template/microService/module/common/tools.dart';
 import 'package:app_template/microService/module/encryption/MessageEncrypte.dart';
-import 'package:app_template/microService/service/server/model/ClientObject.dart';
-import 'package:app_template/microService/service/server/model/ErrorObject.dart';
-import 'package:app_template/microService/service/server/websocket/WebsocketServerManager.dart';
 import 'package:lan_scanner/lan_scanner.dart';
 import 'package:network_info_plus/network_info_plus.dart';
-
 import '../../service/client/websocket/ChatWebsocketClient.dart';
-import '../../service/client/websocket/WebsocketClientManager.dart';
 import '../../service/server/websocket/ChatWebsocketServer.dart';
-import '../common/Console.dart';
 import '../manager/GlobalManager.dart';
 
-class ChatWebsocketManager with Console, CommonTool {
-  MessageEncrypte messageEncrypte = MessageEncrypte();
-  // websocket client instance
-  WebsocketClientManager websocketClientManager = WebsocketClientManager();
-  // websocket server instance
-  WebsocketServerManager websocketServerManager = WebsocketServerManager();
+class ChatWebsocketBoth extends MessageEncrypte {
   // 静态属性，存储唯一实例
-  static ChatWebsocketManager? _instance;
+  static ChatWebsocketBoth? _instance;
   /*
     选择本机为服务器端还是客户端策略
    */
@@ -47,14 +35,14 @@ class ChatWebsocketManager with Console, CommonTool {
   Object limitPort = 10;
 
   // 私有的命名构造函数，确保外部不能实例化该类
-  ChatWebsocketManager._internal() {
+  ChatWebsocketBoth._internal() {
     // 初始化逻辑
     // printInfo("-------chatWebsocket instance-----");
   }
 
   // 提供一个静态方法来获取实例
-  static ChatWebsocketManager getInstance() {
-    _instance ??= ChatWebsocketManager._internal();
+  static ChatWebsocketBoth getInstance() {
+    _instance ??= ChatWebsocketBoth._internal();
     return _instance!;
   }
 
@@ -119,28 +107,13 @@ class ChatWebsocketManager with Console, CommonTool {
 
     // 2.启动对用的socket
     if (isServer) {
+      // 配置参数
+      String? ip = InternetAddress.anyIPv4.address.toString();
+      int port = AppConfig.port;
+      ChatWebsocketServer chatWebsocketServer =
+          ChatWebsocketServer(ip: ip, port: port);
       // 启动server
-      websocketServerManager.setConfig(
-          ip: AppConfig.ip,
-          port: AppConfig.port,
-          whenHasClientConnInterrupt:
-              (WebsocketServerManager websocketServerManager,
-                  ClientObject clientObject) {
-            // websocketServerManager  WebsocketServerManager对象
-            // clientObject 中断的ClientObject对象
-            printError("whenHasClientConnInterrupt: ${clientObject}");
-          },
-          whenServerError: (WebsocketServerManager websocketServerManager,
-              ErrorObject errorObject) {
-            // websocketServerManager  WebsocketServerManager对象
-            // errorObject 错误异常ErrorObject对象
-            printError("whenServerError: ${errorObject}");
-          });
-      // 启动server
-      websocketServerManager.boot();
-      // 将是否是server的结果发送回主线程
-      printSuccess("启动server成功!");
-
+      chatWebsocketServer.bootServer();
       //**************启动一个client本地websocket服务***********
       // rebootClientServer("127.0.0.1");
       //*****************************************************
@@ -154,29 +127,13 @@ class ChatWebsocketManager with Console, CommonTool {
   启动client服务websocket
    */
   rebootClientServer(String ip) {
-    // 启动client
-    websocketClientManager.setConfig(
-        ip: ip,
-        port: AppConfig.port,
-        whenConnInterrupt: (WebsocketClientManager websocketClientManager) {
-          //  websocketClientManager  WebsocketClientManager对象
-          printError("whenConnInterrupt: ${websocketClientManager}");
-        },
-        whenClientError: (ErrorObject errorObject) {
-          // errorObject 错误异常ErrorObject对象,聚体枚举参数见ErrorObject类
-          printError("whenClientError: ${errorObject}");
-        });
-    // 连接
-    try {
-      websocketClientManager.conn();
-      // 将是否是server的结果发送回主线程
-      printSuccess("启动client成功!");
-    } catch (e) {
-      printCatch("启动client失败!more detail:$e");
-    } finally {
-      // 全局
-      GlobalManager.chatWebsocketClient = websocketClientManager;
-    }
+    // 配置参数
+    int port = AppConfig.port;
+
+    ChatWebsocketClient chatWebsocketClient =
+        ChatWebsocketClient(ip: ip, port: port);
+    // 连接server
+    chatWebsocketClient.connServer();
   }
 
   Future<bool> testConnection(String ipAddress, int port) async {
@@ -209,7 +166,7 @@ class ChatWebsocketManager with Console, CommonTool {
       };
 
       // 加密
-      req["info"] = messageEncrypte.encodeAuth(req["info"]);
+      req["info"] = encodeAuth(req["info"]);
       // 发送
       socket.write(json.encode(req));
       print("SCAN: ${req}");

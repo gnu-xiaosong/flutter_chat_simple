@@ -8,6 +8,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:app_template/microService/module/common/unique_device_id.dart';
+import 'package:app_template/microService/service/server/model/ClientModel.dart';
 import 'package:app_template/microService/service/server/module/MessageQueue.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,12 +19,10 @@ import '../../../manager/TestManager.dart';
 import '../../../models/AppModel.dart';
 import '../../../models/UserModel.dart';
 import '../../service/client/websocket/ChatWebsocketClient.dart';
-import '../../service/server/model/ClientObject.dart';
+import '../../service/client/websocket/WebsocketClientManager.dart';
 import '../../service/server/module/OffLineMessageQueue.dart';
-import '../../service/server/schedule/UserSchedule.dart';
+import '../../service/server/schedule/message/UserSchedule.dart';
 import 'AppLifecycleStateManager.dart';
-import '../websocket/ChatWebsocketIsolateManager.dart';
-import '../websocket/ChatWebsocketManager.dart';
 import 'NotificationsManager.dart';
 import 'ToolsManager.dart';
 
@@ -35,8 +34,9 @@ class GlobalManager {
   static AppModel appConfigModel = ToolsManager.loadAppModelConfig();
   // 3.初始化本地存储：sqlite3
   static LocalDatabase database = LocalDatabase();
-  // 4.websocketChatObject list
-  static List<ClientObject> webscoketClientObjectList = [];
+  // 4.在线的clientObject列表
+  static List<ClientModel> onlineClientList = [];
+  static List<ClientModel> allConnectedClientList = []; // 所有连接过的clientObject
   // 5.全局离线消息队列初始初
   static OffLineMessageQueue offLineMessageQueue = OffLineMessageQueue();
   // 6.去全局设置server在线client MessageQueue map: 用于client端使用: 页面client面向该编程即可
@@ -48,7 +48,7 @@ class GlobalManager {
   // 8.全局add user消息队列
   static MessageQueue offerUserAddQueue = MessageQueue();
   // 9.全局chatWebsocketClient
-  static ChatWebsocketClient? chatWebsocketClient;
+  // static ChatWebsocketClient? chatWebsocketClient;
   // 11.全局deviceId
   static String? deviceId;
   // 12. 全局监听广播流机制变量
@@ -65,14 +65,10 @@ class GlobalManager {
   final HttpManager _http = HttpManager.getInstance();
   HttpManager get GlobalHttp => _http; //用于继承的类访问
   // 2.单例化chat websocket
-  final ChatWebsocketManager _chatWebsocketManager =
-      ChatWebsocketManager.getInstance(); //实例化chat websocket
-  ChatWebsocketManager get GlobalChatWebsocket => _chatWebsocketManager;
-  // 2.单例化chat websocket isolate 线程执行
-  final ChatWebsocketIsolateManager _chatWebsocketIsolateManager =
-      ChatWebsocketIsolateManager.getInstance(); //实例化chat websocket
-  ChatWebsocketIsolateManager get GlobalChatWebsocketIsolate =>
-      _chatWebsocketIsolateManager;
+  static final WebsocketClientManager _chatWebsocketManager =
+      WebsocketClientManager.getInstance(); //实例化chat websocket
+  WebsocketClientManager get GlobalChatWebsocket => _chatWebsocketManager;
+
   // 3.单例化User schedule
   final UserSchedule _userSchedule =
       UserSchedule.getInstance(); //实例化chat websocket

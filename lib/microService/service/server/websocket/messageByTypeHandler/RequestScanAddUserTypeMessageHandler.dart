@@ -4,11 +4,13 @@ websocket  server与client通讯 自定义消息处理类: TEST消息类型
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:app_template/microService/service/server/model/ClientModel.dart';
+
 import '../../../../module/common/unique_device_id.dart';
 import '../../../../module/manager/GlobalManager.dart';
-import '../../../client/common/OtherClientMsgType.dart';
-import '../../model/ClientObject.dart';
-import '../../schedule/WaitAgreeUserAddClientHandler.dart';
+import '../../common/CommunicationTypeServerModulator.dart';
+import '../../schedule/message/WaitAgreeUserAddClientHandler.dart';
+import '../WebsocketServerManager.dart';
 import 'TypeMessageServerHandler.dart';
 
 class RequestScanAddUserTypeMessageHandler extends TypeMessageServerHandler {
@@ -18,9 +20,10 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageServerHandler {
   /*
   调用函数: 在指定type来临时自动调用处理
    */
-  void handler(HttpRequest request, WebSocket webSocket, Map msgDataTypeMap) {
+  void handler(HttpRequest request, WebSocket webSocket,
+      WebsocketServerManager websocketServerManager, Map msgDataTypeMap) {
     // 获取ClientObject
-    ClientObject clientObject = getClientObject(request, webSocket);
+    ClientModel clientObject = getClientObject(request, webSocket);
 
     // 获取秘钥通讯加解密key
     String secret = clientObject.secret.toString();
@@ -28,6 +31,7 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageServerHandler {
     // 解密info字段
     msgDataTypeMap["info"] = deSecretMessage(secret, msgDataTypeMap["info"]);
 
+    printSuccess("解密: $msgDataTypeMap");
     // 调用
     responseScanAddUser(request, webSocket, msgDataTypeMap);
   }
@@ -38,13 +42,15 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageServerHandler {
   Future<void> responseScanAddUser(
       HttpRequest request, WebSocket webSocket, Map msgDataTypeMap) async {
     // 接收方deviceId
-    String recive_deviceId = msgDataTypeMap?["info"]["recipient"]["id"] ?? "";
+    String recive_deviceId = msgDataTypeMap["info"]["recipient"]["id"] ?? "";
     // 发送者
-    String send_deviceId = msgDataTypeMap?["info"]["sender"]["id"] ?? "";
+    String send_deviceId = msgDataTypeMap["info"]["sender"]["id"] ?? "";
 
+    printWarn("在线clientObjectList: ${GlobalManager.onlineClientList}");
     // 根据deviceId获取clientObject
-    ClientObject? receive_clientObject =
+    ClientModel? receive_clientObject =
         getClientObjectByDeviceId(recive_deviceId);
+    ClientModel? send_clientObject = getClientObjectByDeviceId(send_deviceId);
 
     /// 1.封装数据
     Map? send_data = msgDataTypeMap;
@@ -55,10 +61,9 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageServerHandler {
       printInfo("对方不在线");
 
       // 2.第一道防护存储加密: 获取接收方的通讯秘钥
-      // 不在线，进入离线消息队列等待： 利用设备生成的设备唯一性ID作为key进行加密数据
-      String? key = (await UniqueDeviceId.getDeviceUuid()) ??
-          GlobalManager.appCache.getString("deviceId");
-      send_data["info"] = encodeMessage(key!, send_data["info"]);
+      // 不在线，进入离线消息队列等待,加密数据
+      send_data["info"] =
+          encodeMessage(send_clientObject!.secret!, send_data["info"]);
 
       printWarn(
           "because receiver is offline for REQUEST_SCAN_ADD_USER,so the msg data enter the offLineMessageQueue");
@@ -76,7 +81,7 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageServerHandler {
       // 在线直接发起add user请求
       /// 2.加密数据
       send_data["info"] =
-          encodeMessage(receive_clientObject.secret, send_data["info"]);
+          encodeMessage(receive_clientObject.secret!, send_data["info"]);
 
       /// 3.发送
       try {

@@ -1,18 +1,19 @@
 /*
 websocket  server与client通讯 自定义消息处理类: TEST消息类型
  */
-import 'package:app_template/microService/service/client/common/OtherClientMsgType.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
 import '../../../../module/common/unique_device_id.dart';
 import '../../../../module/manager/GlobalManager.dart';
 import '../../../../ui/client/model/enum.dart';
 import '../../../server/module/MessageQueue.dart';
+import '../../common/CommunicationTypeClientModulator.dart';
+import '../WebsocketClientManager.dart';
 import 'TypeMessageClientHandler.dart';
 
 class BroadcastInlineClientTypeMessageHandler extends TypeMessageClientHandler {
   MsgType type = MsgType.BROADCAST_INLINE_CLIENT;
-  void handler(WebSocketChannel? channel, Map msgDataTypeMap) {
+  void handler(
+      WebsocketClientManager websocketClientManager, Map msgDataTypeMap) {
     //处理逻辑
     receiveInlineClients(msgDataTypeMap);
   }
