@@ -2,9 +2,7 @@
 server 不同消息类型处理模块
  */
 import 'dart:convert';
-import 'package:app_template/microService/service/server/schedule/message/AddUserQueueTask.dart';
 import 'package:app_template/microService/service/server/schedule/message/OffLineHandler.dart';
-
 import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../schedule/message/MessageQueueTask.dart';
@@ -13,7 +11,6 @@ class ServerWebsocketModule extends MessageEncrypte {
   // 全局变量：离线消息处理
   OffLine offLine = OffLine();
   MessageQueueTask messageQueueTask = MessageQueueTask();
-  AddUserQueueTask addUserQueueTask = AddUserQueueTask();
 
   /*
   获取server在线用户:返回inline client deviceId list

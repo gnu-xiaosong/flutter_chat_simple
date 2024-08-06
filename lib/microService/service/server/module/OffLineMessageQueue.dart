@@ -9,6 +9,7 @@ class OffLineMessageQueue {
 
   // 将消息入队
   void enqueue(Map message) {
+    // 为空时取消进入
     _queue.addLast(message);
   }
 
@@ -19,6 +20,10 @@ class OffLineMessageQueue {
     } else {
       return null;
     }
+  }
+
+  List queueToList() {
+    return _queue.toList();
   }
 
   // 获取队列的长度

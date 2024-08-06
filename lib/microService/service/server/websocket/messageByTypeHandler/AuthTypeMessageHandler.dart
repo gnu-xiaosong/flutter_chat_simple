@@ -26,8 +26,8 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
     auth(request, webSocket, msgDataTypeMap);
     // 广播在线client用户数
     broadcastInlineClients();
-    // 执行一次adduser调度任务
-    addUserQueueTask.execOnceWebsocketServerAddUserBusQueueScheduleTask();
+    // 处理离线消息
+    offLine.offLineHandler();
   }
 
   /*

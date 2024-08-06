@@ -26,28 +26,23 @@ class TextEncryption with Console {
 
   String decrypt(String encryptedText, int shift, String key) {
     String decodedTextWithoutKey = "";
-    try {
-      String decodedText = '';
-      for (int i = 0; i < encryptedText.length; i++) {
-        int charCode = encryptedText.codeUnitAt(i);
+    String decodedText = '';
+    for (int i = 0; i < encryptedText.length; i++) {
+      int charCode = encryptedText.codeUnitAt(i);
 
-        // 只对字母进行反向移位，其他字符保持不变
-        if (charCode >= 65 && charCode <= 90) {
-          decodedText +=
-              String.fromCharCode((charCode - 65 + 26 - shift) % 26 + 65);
-        } else if (charCode >= 97 && charCode <= 122) {
-          decodedText +=
-              String.fromCharCode((charCode - 97 + 26 - shift) % 26 + 97);
-        } else {
-          decodedText += encryptedText[i];
-        }
+      // 只对字母进行反向移位，其他字符保持不变
+      if (charCode >= 65 && charCode <= 90) {
+        decodedText +=
+            String.fromCharCode((charCode - 65 + 26 - shift) % 26 + 65);
+      } else if (charCode >= 97 && charCode <= 122) {
+        decodedText +=
+            String.fromCharCode((charCode - 97 + 26 - shift) % 26 + 97);
+      } else {
+        decodedText += encryptedText[i];
       }
-      decodedTextWithoutKey =
-          utf8.decode(base64.decode(decodedText)).replaceAll(key, '');
-    } catch (e) {
-      printCatch("错误信息:未识别加密字符! ${e.toString()}");
     }
-
+    decodedTextWithoutKey =
+        utf8.decode(base64.decode(decodedText)).replaceAll(key, '');
     return decodedTextWithoutKey;
   }
 }
@@ -55,17 +50,13 @@ class TextEncryption with Console {
 class TextEncryptionForJson with Console {
   String decryptString(String encryptedText, int shift, String key) {
     String decodedTextWithoutKey = '';
-    try {
-      String decodedText = '';
-      for (int i = 0; i < encryptedText.length; i++) {
-        int charCode = encryptedText.codeUnitAt(i);
-        decodedText += String.fromCharCode((charCode - shift + 256) % 256);
-      }
-      decodedTextWithoutKey =
-          utf8.decode(base64.decode(decodedText)).replaceAll(key, '');
-    } catch (e) {
-      print("Error: Unrecognized encrypted character! ${e.toString()}");
+    String decodedText = '';
+    for (int i = 0; i < encryptedText.length; i++) {
+      int charCode = encryptedText.codeUnitAt(i);
+      decodedText += String.fromCharCode((charCode - shift + 256) % 256);
     }
+    decodedTextWithoutKey =
+        utf8.decode(base64.decode(decodedText)).replaceAll(key, '');
     return decodedTextWithoutKey;
   }
 

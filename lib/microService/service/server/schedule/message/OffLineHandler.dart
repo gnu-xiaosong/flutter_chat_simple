@@ -1,15 +1,15 @@
 /*
   离线消息队列处理类
  */
-
 import 'dart:convert';
+
 import '../../../../module/common/Console.dart';
 import '../../../../module/common/tools.dart';
-import '../../../../module/common/unique_device_id.dart';
 import '../../../../module/manager/GlobalManager.dart';
 import '../../../client/common/tool.dart';
 import '../../model/ClientModel.dart';
 import '../../../../module/encryption/MessageEncrypte.dart';
+import 'MessageQueueTask.dart';
 
 class OffLine extends MessageEncrypte with Console, CommonTool, ClientTool {
   // 离线消息队列开关
@@ -18,7 +18,7 @@ class OffLine extends MessageEncrypte with Console, CommonTool, ClientTool {
   /*
   将消息进入离线消息队列中
    */
-  Future<bool> enOffLineQueue(String deviceId, String type, Map message) async {
+  bool enOffLineQueue(String deviceId, String type, Map message) {
     /*
     参数说明:data  Map
     deviceId  string 发送者设备唯一性id
@@ -49,6 +49,10 @@ class OffLine extends MessageEncrypte with Console, CommonTool, ClientTool {
 
         // 进入离线消息队列中
         GlobalManager.offLineMessageQueue.enqueue(offMessage);
+        print("-----result----------");
+        GlobalManager.offLineMessageQueue.queueToList().map((e) {
+          printWarn("消息: ${e}");
+        });
         return true;
       } else {
         // 未发现sender clientObject
@@ -67,65 +71,42 @@ class OffLine extends MessageEncrypte with Console, CommonTool, ClientTool {
   void offLineHandler() {
     printInfo("---------Handler Offline Message Queue----------");
     int length = GlobalManager.offLineMessageQueue.length;
-    printInfo(
-        "OffLine msg counts: ${GlobalManager.offLineMessageQueue.length}");
+    print("消息数: ${length}");
+    // 循环执行离线消息队列
     while (length-- > 0) {
-      printInfo("msg index=$length");
-      // 获取当前出队列msg
-      Map? msg = GlobalManager.offLineMessageQueue.dequeue();
+      // 获取消息
+      Map? enmsg = GlobalManager.offLineMessageQueue.dequeue();
 
-      // 临时
-      Map? tmpMsg = msg;
+      // 排除为空的
+      try {
+        Map tmp = Map.from(enmsg!);
 
-      // **********切换secret进行文本的加密**********
-      String deviceId = msg?["deviceId"]; // 仅仅离线模式才有该字段,发送者
-      printInfo("Offline Msg Type: ${msg?["msg_map"]['type']}");
-      printInfo("before Content msg: $tmpMsg");
-      // 存储解密
-      ClientModel? clientObject = getClientObjectByDeviceId(deviceId);
-      tmpMsg?["msg_map"]["info"] =
-          decodeMessage(clientObject!.secret!, tmpMsg["msg_map"]["info"]);
-      printInfo("Content msg: $tmpMsg");
-
-      if (clientObject == null) {
-        printWarn("=============不在线====================");
-        // 如果接受者仍然不在线则将该消息重新添加进队列中
-        GlobalManager.offLineMessageQueue.enqueue(msg!);
-      } else {
-        printWarn("=============在线====================");
-        // 如果在线添加进入消息矩阵消息队列中
-        GlobalManager.onlineClientList =
-            GlobalManager.onlineClientList.map((clientObject) {
-          // 寻找目标clientObject
-          if (clientObject.deviceId == deviceId) {
-            // 算法加密:使用接收者加密秘钥
-            Map itemMsg = tmpMsg?["msg_map"];
-            printWarn("标记前: $itemMsg");
-            itemMsg["info"] =
-                encodeMessage(clientObject.secret!, itemMsg["info"]);
-
-            printWarn("标记后: $itemMsg");
-            // 根据离线消息类型处理
-            switch (tmpMsg?['type']) {
-              // 消息
-              case "message":
-                // 进入消息队列
-                clientObject.messageQueue.enqueue(itemMsg);
-                break;
-              // 请求添加好友
-              case "addUser":
-                // 进入消息队列: 其中de_map为明文
-                clientObject.awaitAddFriendsQueue.enqueue(itemMsg);
-                break;
-            }
-          }
-          return clientObject;
-        }).toList();
+        // 解密消息
+        ClientModel? senderClient =
+            getClientObjectByDeviceId(enmsg["deviceId"]);
+        printWarn("未解密:${enmsg["msg_map"]}");
+        enmsg["msg_map"]["info"] =
+            decodeMessage(senderClient!.secret!, enmsg["msg_map"]["info"]);
+        print("解密后: ${enmsg["msg_map"]}");
+        // 获取对象判断是否在线
+        String receiveDeviceId = enmsg?["msg_map"]["info"]["recipient"]["id"];
+        ClientModel? recipientClient =
+            getClientObjectByDeviceId(receiveDeviceId);
+        if (recipientClient != null &&
+            recipientClient.connected &&
+            recipientClient.passAuth) {
+          // 加密
+          enmsg["msg_map"]["info"] =
+              encodeMessage(recipientClient.secret!, enmsg["msg_map"]["info"]);
+          // 发送消息
+          recipientClient.socket.add(jsonEncode(enmsg["msg_map"]));
+        } else {
+          // 不在线：重新进入离线消息队列
+          GlobalManager.offLineMessageQueue.enqueue(tmp);
+        }
+      } catch (e) {
+        printError("数据加密失败!");
       }
-    }
-
-    if (length == 0) {
-      printInfo(" 离线消息队列为空!");
     }
   }
 }

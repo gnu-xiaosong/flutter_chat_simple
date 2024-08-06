@@ -726,7 +726,7 @@ server端响应
 ## 开发日历
 
 - server端离线消息队列调度存在问题，消息文本加解密问题
-- 
+- 离线消息队列待解决，出现bug，无法正常运行。addUser调度
 
 
 
@@ -738,7 +738,7 @@ server端响应
 
 * 2024-7-30  替换核心websocket，使用dart包flutter_websocket_simple包。
   
-* 修复scan扫描add user bug，并重新整合项目新架构，优化项目结构
+* 2024-8-5 修复scan扫描add user bug，并重新整合项目新架构，优化项目结构
   
   
   

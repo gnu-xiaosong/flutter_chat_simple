@@ -13,6 +13,7 @@ import '../../../../module/encryption/MessageEncrypte.dart';
 
 class MessageQueueTask extends MessageEncrypte
     with Console, CommonTool, ClientTool {
+  OffLine offLine = OffLine();
   // 私有构造函数
   MessageQueueTask._internal();
 
@@ -26,9 +27,7 @@ class MessageQueueTask extends MessageEncrypte
   }
 
   // 执行一次webscoket serverbus消息队列任务调度一次
-  Future<void> execOnceWebsocketServerMessageBusQueueScheduleTask() async {
-    // 执行离线消息队列处理消息
-    OffLine().offLineHandler();
+  void execOnceWebsocketServerMessageBusQueueScheduleTask() {
     // 单例模式: 实例化 busSchedule
     // BusSchedule busSchedule = BusSchedule();
     printSuccess("*******************消息队列调度********************************");
@@ -50,7 +49,7 @@ class MessageQueueTask extends MessageEncrypte
         continue;
       }
 
-      // 执行
+      // 在线执行
       if (clientObject.connected && clientObject.status == 1) {
         // 发送 send 消息
         printInfo("---------------------------------------------");
@@ -70,27 +69,20 @@ class MessageQueueTask extends MessageEncrypte
             GlobalManager.onlineClientList[index].messageQueue.dequeue();
 
         // 解密消息: 这里用户自定义
-        msg_map!["info"] = decodeMessage(clientObject.secret!, msg_map["info"]);
+        msg_map?["info"] = decodeMessage(clientObject.secret!, msg_map["info"]);
         printSuccess("解密消息: $msg_map");
         // 2.获取接受者的deviceId
-        String receive_deviceId = msg_map["info"]["recipient"]["id"];
+        String receive_deviceId = msg_map?["info"]["recipient"]["id"];
 
         // 3.获取接受者的clientObject
         ClientModel? receive_clientObject =
             getClientObjectByDeviceId(receive_deviceId);
-        if (receive_clientObject == null ||
-            receive_clientObject.connected == false) {
-          print('接收者处于离线模式，将进入离线消息队列中!');
-          // 接收者处于离线状态: 将消息append进入离线消息队列中: deviceId为发送者 msg_map已加密
-          if (await OffLine()
-              .enOffLineQueue(clientObject.deviceId!, "message", msg_map)) {
-            printInfo("data=$msg_map  进入离线消息队列successful!");
-          }
-        } else {
+
+        if (receive_clientObject != null || receive_clientObject!.connected) {
           // client在线直接发送消息给receiveClient
           if (receive_clientObject.status == 1) {
             // 4.加密消息
-            msg_map["info"] =
+            msg_map?["info"] =
                 encodeMessage(receive_clientObject.secret!, msg_map["info"]);
             // 5.发送
             try {
