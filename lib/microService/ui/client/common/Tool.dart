@@ -2,13 +2,39 @@ import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:motion_toast/motion_toast.dart';
 
 import '../../../../config/AppConfig.dart';
 import '../../../module/common/unique_device_id.dart';
 import '../../../module/manager/GlobalManager.dart';
+import '../../../module/common/NotificationInApp.dart';
 
 class UiTool {
+  /*
+  复制到粘贴板
+   */
+  void copyToClipboard(String text) async {
+    try {
+      // 将文本包装在ClipboardData对象中
+      ClipboardData clipboardData = ClipboardData(text: text);
+      NotificationInApp().successToast("copy successful!");
+      // 使用Clipboard.setData方法将文本复制到剪贴板
+      Clipboard.setData(clipboardData).then((_) {
+        print("copy: ${text}");
+        // 复制成功
+        NotificationInApp().successToast("copy successful".tr());
+      }).catchError((Object error) {
+        // 复制失败
+        NotificationInApp()
+            .successToast('Failed to copy text to clipboard: $error');
+      });
+      // 这里可以添加一些反馈给用户，例如显示一个Snackbar
+    } catch (e) {
+      // 处理错误，例如显示一个错误消息
+    }
+  }
+
   /*
   生成加好友二维码的存储信息
    */

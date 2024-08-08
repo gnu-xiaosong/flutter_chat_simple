@@ -3,8 +3,10 @@ websocket  server与client通讯 自定义消息处理类: TEST消息类型
  */
 import 'dart:convert';
 import 'dart:io';
+import 'package:app_template/microService/module/common/NotificationInApp.dart';
 import 'package:app_template/microService/service/server/model/ClientModel.dart';
 import '../../../../module/manager/GlobalManager.dart';
+import '../../../../ui/server/common/serverTool.dart';
 import '../../common/CommunicationTypeServerModulator.dart';
 import '../../schedule/message/OffLineHandler.dart';
 import '../WebsocketServerManager.dart';
@@ -28,6 +30,9 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
     broadcastInlineClients();
     // 处理离线消息
     offLine.offLineHandler();
+
+    // 更新在线数
+    ServerUiTool().updateShowInfo();
   }
 
   /*
@@ -85,6 +90,10 @@ class AuthTypeMessageHandler extends TypeMessageServerHandler {
       webSocket.add(json.encode(re));
       printSuccess(
           'Client connected: IP = $clientIp, Port = $clientPort is connect successful!');
+
+      // UI提示
+      NotificationInApp().connSuccessModel(
+          'from $clientIp:$clientPort device is connect successful!');
     } else {
       // 2.2.不通过client认证，则返回错误消息
       Map re = {

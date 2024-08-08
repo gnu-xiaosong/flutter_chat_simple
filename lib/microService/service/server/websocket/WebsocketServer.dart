@@ -11,11 +11,7 @@ class WebSocketServer with Console, CommonTool {
   InternetAddress? ip = InternetAddress.anyIPv4;
 
   // 端口port
-  int port;
-
-  WebSocketServer({
-    this.port = 1314,
-  });
+  int port = 1314;
 
   // 初始化HttpServer服务
   late HttpServer _server;
@@ -39,29 +35,28 @@ class WebSocketServer with Console, CommonTool {
     // 启动前的初始化操作
     this.bootInitial(this);
 
-    try {
-      // 绑定ip和端口
-      HttpServer.bind(ip, port, shared: true).then((server) async {
-        printSuccess("WebSocket server running on ip=$ip port=$port");
-        _server = server;
-        bindAddrSuccesshandler(this);
+    // 绑定ip和端口
+    HttpServer.bind(ip, port, shared: true).then((server) async {
+      printSuccess("WebSocket server running on ip=$ip port=$port");
+      _server = server;
+      bindAddrSuccesshandler(this);
 
-        await for (var request in _server) {
-          if (WebSocketTransformer.isUpgradeRequest(request)) {
-            print("Handling WebSocket request");
-            _handleWebSocket(request);
-          } else {
-            print("Handling regular HTTP request");
-            _handleRegularHttpRequest(request);
-          }
+      await for (var request in _server) {
+        if (WebSocketTransformer.isUpgradeRequest(request)) {
+          print("Handling WebSocket request");
+          _handleWebSocket(request);
+        } else {
+          print("Handling regular HTTP request");
+          _handleRegularHttpRequest(request);
         }
-      }).catchError((e) {
-        print('Error binding server: $e');
-      });
-    } catch (e, stackTrace) {
-      // 处理server异常: 错误类型
+      }
+    }).onError((error, stackTrace) {
+      //绑定地址失败
+      handleServerError(error!, stackTrace, ErrorType.serverBindAdrr);
+    }).catchError((e, stackTrace) {
+      // 启动server异常: 错误类型
       handleServerError(e, stackTrace, ErrorType.websocketServerBoot);
-    }
+    });
   }
 
   /*

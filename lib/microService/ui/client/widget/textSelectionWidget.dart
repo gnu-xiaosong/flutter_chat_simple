@@ -9,7 +9,7 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ion.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 
-import '../common/NotificationInApp.dart';
+import '../common/Tool.dart';
 
 class EditableTextToolbarBuilderExampleApp extends StatefulWidget {
   String messageText;
@@ -35,20 +35,9 @@ class _EditableTextToolbarBuilderExampleAppState
       "name": "copy".tr(),
       "icon": Iconify(Ion.copy),
       "click": (String selectedText) {
+        UiTool uiTool = UiTool();
         // 点击函数
-        // 将文本包装在ClipboardData对象中
-        ClipboardData clipboardData = ClipboardData(text: selectedText);
-        NotificationInApp().success("copy successful!");
-        // 使用Clipboard.setData方法将文本复制到剪贴板
-        Clipboard.setData(clipboardData).then((_) {
-          print("copy: ${selectedText}");
-          // 复制成功
-          NotificationInApp().success("copy successful".tr());
-        }).catchError((Object error) {
-          // 复制失败
-          NotificationInApp()
-              .success('Failed to copy text to clipboard: $error');
-        });
+        uiTool.copyToClipboard(selectedText);
       }
     },
     {

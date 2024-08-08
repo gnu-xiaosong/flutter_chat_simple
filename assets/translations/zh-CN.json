@@ -101,5 +101,16 @@
   "copy": "复制",
   "selectAll": "全选",
   "search": "搜索",
-  "copy successful": "复制成功"
+  "copy successful": "复制成功",
+  "running": "运行中",
+  "boot": "启动",
+  "connected": "连接",
+  "online client list": "连接客户端列表",
+  "disconnect": "断开",
+  "no device": "无设备",
+  "ip": "地址",
+  "port": "端口",
+  "retry": "重连",
+  "max retry": "最大重连",
+  "normal": "正常"
 }

@@ -33,6 +33,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.3.4"
+  animated_snack_bar:
+    dependency: "direct main"
+    description:
+      name: animated_snack_bar
+      sha256: "9ec2d79507546f65b82038c9ac5ddfc3c2fccf285def43070606b0ec0fc56d34"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0"
   animated_text_kit:
     dependency: transitive
     description:
@@ -753,6 +761,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  ffloat_nullsafety:
+    dependency: "direct main"
+    description:
+      name: ffloat_nullsafety
+      sha256: a5db61396f2217b49185adc2c72b3a5265a7c963f36a8265cf0dc901e714e011
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.3.6"
   file:
     dependency: transitive
     description:
@@ -849,6 +865,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.8.4"
+  fluid_dialog:
+    dependency: "direct main"
+    description:
+      name: fluid_dialog
+      sha256: "180c8be98efecc7257e1ee337fef9882256eb2b597dc3e0d41db3392b1ccea81"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -1027,6 +1051,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.0"
+  flutter_neumorphic_plus:
+    dependency: "direct main"
+    description:
+      name: flutter_neumorphic_plus
+      sha256: "8fa0a1ff1c025e2d61850798d244e61c37cd4717bd340eadf4c9baa00b24353f"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.4.0"
   flutter_overboard:
     dependency: "direct main"
     description:
@@ -1278,13 +1310,21 @@ packages:
     source: hosted
     version: "2.3.1"
   hive:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: hive
       sha256: "8dcf6db979d7933da8217edcec84e9df1bdb4e4edc7fc77dbd5aa74356d6d941"
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.3"
+  hive_flutter:
+    dependency: "direct main"
+    description:
+      name: hive_flutter
+      sha256: dca1da446b1d808a51689fb5d0c6c9510c0a2ba01e22805d492c73b68e33eecc
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.0"
   hive_generator:
     dependency: "direct dev"
     description:
@@ -1406,7 +1446,7 @@ packages:
     source: hosted
     version: "0.2.1+1"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
@@ -2642,6 +2682,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  toasty_box:
+    dependency: "direct main"
+    description:
+      name: toasty_box
+      sha256: f43694033701ca181de719e2487bf2b39b80b6c9fa4e9e3f27ae99b7f5ce5db3
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.4"
   toggle_switch:
     dependency: "direct main"
     description:

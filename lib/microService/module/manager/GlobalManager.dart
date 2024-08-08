@@ -11,17 +11,18 @@ import 'package:app_template/microService/module/common/unique_device_id.dart';
 import 'package:app_template/microService/service/server/model/ClientModel.dart';
 import 'package:app_template/microService/service/server/module/MessageQueue.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../database/LocalStorage.dart';
 import '../../../manager/HttpManager.dart';
 import '../../../manager/TestManager.dart';
 import '../../../models/AppModel.dart';
 import '../../../models/UserModel.dart';
-import '../../service/client/websocket/ChatWebsocketClient.dart';
 import '../../service/client/websocket/WebsocketClientManager.dart';
 import '../../service/server/module/OffLineMessageQueue.dart';
 import '../../service/server/schedule/message/UserSchedule.dart';
+import '../../ui/server/module/StoreDataModule.dart';
 import 'AppLifecycleStateManager.dart';
 import 'NotificationsManager.dart';
 import 'ToolsManager.dart';
@@ -58,6 +59,20 @@ class GlobalManager {
       globalStreamController.stream; // 获取广播流
   // 13.在线状态
   static bool isOnline = false;
+  // 14.启动开始时间
+  static DateTime? websocketBootStartTime = DateTime.now();
+  // 15.全局controller变量
+  static var globalControl;
+  // 16.全局hiveBox
+  static var hiveBox;
+  // 17. 全局定时器
+  static late Timer globalTimer;
+  // 18. 全局Lsit监听器
+  static late // 创建一个 ValueNotifier
+      ValueNotifier<List<Map<String, dynamic>>> globalListValueNotifier =
+      ValueNotifier<List<Map<String, dynamic>>>([]);
+  // 19.记录websocket server启动次数
+  static double globalServerBootCount = 0;
   /**************↑↑↑↑↑↑↑↑全局参数变量初始化操作↑↑↑↑↑↑↑↑***************/
 
   /****************↓↓↓↓↓↓工具类初始化操作↓↓↓↓↓↓↓**********************/
@@ -88,6 +103,13 @@ class GlobalManager {
   //初始化全局信息，会在APP启动时执行
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
+    // ********************Hive配置****************************
+    // 初始化Hive
+    await Hive.initFlutter();
+    // 创建一个Box
+    await Hive.openBox("app");
+    // 初始化所有Hive的参数值
+    await StoreDataModule().initialHiveParameter();
 
     // 调试管理器模块
     TestManager.debug();

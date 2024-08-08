@@ -7,6 +7,7 @@ enum ErrorType {
   network, // 网络原因
   auth, // websocket client身份认证
   clientSendText, // client发送文本类型
+  serverBindAdrr, // 绑定ip地址异常
   websocketClientConn, // 客户端client连接异常
   websocketServerBoot, // websocket server 启动错误
   websocketClientListen, // 启动 websocket client 监听异常
