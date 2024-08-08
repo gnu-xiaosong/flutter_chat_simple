@@ -13,6 +13,16 @@
 * **本地化存储**
 * **存储及通信加密化，连接通讯更安全**
 
+
+
+## 下载
+app下载分为：
+* server: 专门作为server 
+* client: 主要为chat的客户端）
+* server_and_client: 集成server和client端于一体
+下载链接见release发行版本
+
+
 ## 系统架构
 
 ## 目录结构
