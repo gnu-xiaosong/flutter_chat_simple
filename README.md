@@ -749,6 +749,7 @@ server端响应
 * 2024-7-30  替换核心websocket，使用dart包flutter_websocket_simple包。
   
 * 2024-8-5 修复scan扫描add user bug，并重新整合项目新架构，优化项目结构
+* 2024-8-10 增加msi构建模块，并设置应用图标
   
   
   
