@@ -1,11 +1,11 @@
-import 'package:app_template/microService/ui/client/config/menuConfig.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:popup_menu_plus/popup_menu_plus.dart';
 import '../../../../config/AppConfig.dart';
-import '../../../module/manager/GlobalManager.dart';
 import '../../../module/websocket/ChatWebsocketBoth.dart';
 import '../component/MessageListComponent.dart';
+import '../config/menuConfig.dart';
 
 class ChatList extends StatefulWidget {
   const ChatList({super.key});

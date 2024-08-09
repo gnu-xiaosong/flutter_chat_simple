@@ -7,9 +7,6 @@
  */
 import 'dart:async';
 import 'dart:convert';
-import 'package:app_template/microService/module/common/unique_device_id.dart';
-import 'package:app_template/microService/service/server/model/ClientModel.dart';
-import 'package:app_template/microService/service/server/module/MessageQueue.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -20,9 +17,12 @@ import '../../../manager/TestManager.dart';
 import '../../../models/AppModel.dart';
 import '../../../models/UserModel.dart';
 import '../../service/client/websocket/WebsocketClientManager.dart';
+import '../../service/server/model/ClientModel.dart';
+import '../../service/server/module/MessageQueue.dart';
 import '../../service/server/module/OffLineMessageQueue.dart';
 import '../../service/server/schedule/message/UserSchedule.dart';
 import '../../ui/server/module/StoreDataModule.dart';
+import '../common/unique_device_id.dart';
 import 'AppLifecycleStateManager.dart';
 import 'NotificationsManager.dart';
 import 'ToolsManager.dart';

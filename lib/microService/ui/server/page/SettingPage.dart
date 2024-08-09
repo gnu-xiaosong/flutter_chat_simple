@@ -1,4 +1,3 @@
-import 'package:app_template/microService/ui/server/widget/NeumorphicSwitchWidget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
@@ -7,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../model/AppConfigModel.dart';
 import '../module/AppModule.dart';
 import '../widget/NeumorphicCounterWidget.dart';
+import '../widget/NeumorphicSwitchWidget.dart';
 import '../widget/NeumorphicTextFieldWidget.dart';
 
 class SettingPage extends StatefulWidget {

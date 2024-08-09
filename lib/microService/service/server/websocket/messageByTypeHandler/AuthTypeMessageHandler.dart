@@ -3,12 +3,11 @@ websocket  server与client通讯 自定义消息处理类: TEST消息类型
  */
 import 'dart:convert';
 import 'dart:io';
-import 'package:app_template/microService/module/common/NotificationInApp.dart';
-import 'package:app_template/microService/service/server/model/ClientModel.dart';
+import '../../../../module/common/NotificationInApp.dart';
 import '../../../../module/manager/GlobalManager.dart';
 import '../../../../ui/server/common/serverTool.dart';
 import '../../common/CommunicationTypeServerModulator.dart';
-import '../../schedule/message/OffLineHandler.dart';
+import '../../model/ClientModel.dart';
 import '../WebsocketServerManager.dart';
 import 'TypeMessageServerHandler.dart';
 

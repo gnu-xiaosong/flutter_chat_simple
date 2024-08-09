@@ -2,13 +2,13 @@
  扫描类：主要扫码登录,聊天(加好友、加群) 等业务场景
  */
 import 'dart:convert';
-import 'package:app_template/config/AppConfig.dart';
-import 'package:app_template/microService/module/common/Console.dart';
-import 'package:app_template/microService/module/encryption/MessageEncrypte.dart';
-import 'package:app_template/microService/module/common/unique_device_id.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../config/AppConfig.dart';
+import '../../../module/common/Console.dart';
+import '../../../module/common/unique_device_id.dart';
+import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../component/ConstomAddDialogComponent.dart';
 

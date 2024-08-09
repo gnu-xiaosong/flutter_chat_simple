@@ -1,6 +1,7 @@
-import 'package:app_template/widgets/AppBars/appBar_windows_1.dart';
-import 'package:app_template/widgets/windows/panes/PaneStyle1.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+
+import '../../widgets/AppBars/appBar_windows_1.dart';
+import '../../widgets/windows/panes/PaneStyle1.dart';
 
 class WindowsLayout extends StatefulWidget {
   const WindowsLayout({super.key});

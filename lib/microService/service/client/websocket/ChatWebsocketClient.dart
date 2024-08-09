@@ -2,11 +2,10 @@
 单例设计： websocketClient
  */
 import 'dart:convert';
-
-import 'package:app_template/microService/module/manager/GlobalManager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../module/common/enum.dart';
 import '../../../module/common/unique_device_id.dart';
+import '../../../module/manager/GlobalManager.dart';
 import '../../server/model/ErrorModel.dart';
 import '../common/CommunicationTypeClientModulator.dart';
 import '../module/ClientWebsocketModule.dart';

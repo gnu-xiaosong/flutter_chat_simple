@@ -2,11 +2,10 @@
 聊天用户事务操作
  */
 
-import 'package:app_template/microService/module/common/Console.dart';
 import 'package:drift/drift.dart';
-
 import '../../../../../database/LocalStorage.dart';
 import '../../../../../database/daos/UserDao.dart';
+import '../common/Console.dart';
 
 class UserChat with Console {
   // 实例化DAO

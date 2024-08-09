@@ -2,18 +2,18 @@
 desc: 这是本地数据库存储类:利用sqlite3引擎，drift包
 */
 import 'dart:io';
-import 'package:app_template/database/tables/ChatTable.dart';
-import 'package:app_template/database/tables/GroupTable.dart';
-import 'package:app_template/database/tables/PasswdTable.dart';
-import 'package:app_template/database/tables/TaskTable.dart';
-import 'package:app_template/database/tables/UserGroupRelationsTable.dart';
+import 'package:socket_service/database/tables/ChatTable.dart';
+import 'package:socket_service/database/tables/GroupTable.dart';
+import 'package:socket_service/database/tables/PasswdTable.dart';
+import 'package:socket_service/database/tables/TaskTable.dart';
+import 'package:socket_service/database/tables/UserGroupRelationsTable.dart';
+import 'package:socket_service/database/tables/UserTable.dart';
 import 'package:sqlite3/sqlite3.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
-import 'package:app_template/database/tables/UserTable.dart';
 // 创建 LocalStorage 类
 part 'LocalStorage.g.dart'; // Drift 将生成这个文件
 

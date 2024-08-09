@@ -1,18 +1,18 @@
 import 'dart:async';
-import 'package:app_template/database/LocalStorage.dart';
-import 'package:app_template/microService/module/common/BroadcastModule.dart';
-import 'package:app_template/microService/ui/client/widget/userOnlineStatusWidget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
+import '../../../../database/LocalStorage.dart';
 import '../../../../database/daos/UserDao.dart';
 import '../../../../widgets/dropdowns/DropdownButton1.dart';
+import '../../../module/common/BroadcastModule.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../common/Tool.dart';
 import '../component/ChatViewComponent.dart';
 import '../model/enum.dart';
+import '../widget/userOnlineStatusWidget.dart';
 
 class ChatPage extends StatefulWidget {
   ChatPage({super.key}) {}

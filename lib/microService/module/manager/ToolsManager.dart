@@ -7,8 +7,8 @@
  */
 import 'dart:ui';
 
-import 'package:app_template/config/AppConfig.dart';
-import 'package:app_template/models/AppModel.dart';
+import '../../../config/AppConfig.dart';
+import '../../../models/AppModel.dart';
 
 class ToolsManager {
   static AppModel loadAppModelConfig() {

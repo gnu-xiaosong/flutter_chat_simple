@@ -1,10 +1,9 @@
 /*
 desc: UserDao类DAO操作: DAO类集中管理 CRUD 操作
 */
-import 'package:app_template/database/LocalStorage.dart';
-import 'package:app_template/database/daos/BaseDao.dart';
-
 import '../../microService/module/manager/GlobalManager.dart';
+import '../LocalStorage.dart';
+import 'BaseDao.dart';
 
 class GroupDao implements BaseDao<Group> {
   // 查询数据

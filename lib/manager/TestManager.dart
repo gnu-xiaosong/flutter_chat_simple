@@ -6,12 +6,9 @@
  * @Description: 测试工具类
  */
 
-import 'package:app_template/microService/module/common/Console.dart';
 import 'package:dio/dio.dart';
-import 'package:drift/drift.dart';
-import '../database/LocalStorage.dart';
-import '../database/daos/UserDao.dart';
-import '../microService/module/common/unique_device_id.dart';
+
+import '../microService/module/common/Console.dart';
 
 class TestManager with Console {
   // 公共调试函数

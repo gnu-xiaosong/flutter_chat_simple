@@ -68,7 +68,7 @@ class _MyQrPageState extends State<MyQrPage> {
                                 size: 250,
                                 roundEdges: true,
                                 errorCorrectLevel: QrErrorCorrectLevel.M,
-                                image: AssetImage('assets/images/logo.png'),
+                                image: AssetImage('assets/images/app_icon.png'),
                               ),
                             )
                           ],

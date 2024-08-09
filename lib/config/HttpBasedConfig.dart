@@ -6,8 +6,9 @@
  * @Description: http请求参数配置类
  */
 
-import 'package:app_template/config/AppConfig.dart';
 import 'package:dio/dio.dart';
+
+import 'AppConfig.dart';
 
 
 class HttpBasedConfig  extends AppConfig{

@@ -2,9 +2,8 @@
 基于WebsocketServerManager的chat聊天实现
  */
 import 'dart:io';
-import 'package:app_template/microService/module/common/NotificationInApp.dart';
-import 'package:app_template/microService/ui/server/model/AppConfigModel.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../../../module/common/NotificationInApp.dart';
 import '../../../module/common/enum.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../../../service/server/common/CommunicationTypeServerModulator.dart';
@@ -14,6 +13,7 @@ import '../../../service/server/module/ServerWebsocketModule.dart';
 import '../../../service/server/websocket/WebsocketServer.dart';
 import '../../../service/server/websocket/WebsocketServerManager.dart';
 import '../common/serverTool.dart';
+import '../model/AppConfigModel.dart';
 import '../module/AppModule.dart';
 
 class UiWebsocketServer extends ServerWebsocketModule {

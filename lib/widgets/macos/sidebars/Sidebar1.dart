@@ -5,14 +5,15 @@
 * @LastEditTime: 2024-01-02 10:35:29
 * @Description: windows Tab 在頂部的AppBar
 */
-import 'package:app_template/config/WinConfig.dart';
-import 'package:app_template/states/OtherState.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:macos_ui/macos_ui.dart';
 import 'package:provider/provider.dart';
+
+import '../../../config/WinConfig.dart';
+import '../../../states/OtherState.dart';
 
 Sidebar sidebar1(BuildContext context) {
   return Sidebar(

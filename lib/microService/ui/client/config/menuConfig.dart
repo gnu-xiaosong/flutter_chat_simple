@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:popup_menu_plus/popup_menu_plus.dart';
-import 'package:app_template/microService/ui/client/page/AddUserPage.dart';
-import 'package:app_template/microService/ui/client/page/CreateGroupPage.dart';
-import 'package:app_template/microService/ui/client/page/ScanPage.dart';
 
+import '../page/AddUserPage.dart';
+import '../page/CreateGroupPage.dart';
 import '../page/MyQrPage.dart';
+import '../page/ScanPage.dart';
 
 List menus = <Map>[
   {

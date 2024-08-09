@@ -2,9 +2,8 @@
 项目配置模块
  */
 import 'dart:io';
-
-import 'package:app_template/microService/ui/server/module/StoreDataModule.dart';
 import '../model/AppConfigModel.dart';
+import 'StoreDataModule.dart';
 
 class AppModule extends StoreDataModule {
   /*

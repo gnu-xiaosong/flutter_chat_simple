@@ -1,11 +1,10 @@
 /*
 * 启动类
 * */
-
-import 'package:app_template/Layouts/windows/WindowsLayout.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
+import '../Layouts/windows/WindowsLayout.dart';
 import '../microService/module/manager/GlobalManager.dart';
 import '../states/DarkState.dart';
 import '../states/DescState.dart';

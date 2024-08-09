@@ -6,10 +6,9 @@
  * @Description: app描述信息共享状态  继承基类状态AppState
  */
 
-import 'package:app_template/models/AppModel.dart';
-import 'package:app_template/states/AppState.dart';
-
 import '../microService/module/manager/GlobalManager.dart';
+import '../models/AppModel.dart';
+import 'AppState.dart';
 
 class DescState extends AppState {
   /*

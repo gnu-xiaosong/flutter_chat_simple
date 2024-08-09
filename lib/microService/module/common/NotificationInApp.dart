@@ -1,8 +1,6 @@
 /*
 封装在应用内的通知与提示，区别于系统层的通知
  */
-import 'package:animated_snack_bar/animated_snack_bar.dart';
-import 'package:app_template/microService/module/manager/GlobalManager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -12,6 +10,8 @@ import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:toasty_box/toast_enums.dart';
 import 'package:toasty_box/toast_service.dart';
+
+import '../manager/GlobalManager.dart';
 
 class NotificationInApp {
   NotificationInApp() {

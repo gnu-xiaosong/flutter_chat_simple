@@ -1,9 +1,5 @@
 // import 'package:app_template/boot/WindowsBoot.dart';
-import 'package:app_template/config/AppConfig.dart';
-import 'package:app_template/states/DarkState.dart';
-import 'package:app_template/states/DescState.dart';
-import 'package:app_template/states/OtherState.dart';
-import 'package:app_template/states/ThemeState.dart';
+
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:socket_service/states/DarkState.dart';
+import 'package:socket_service/states/DescState.dart';
+import 'package:socket_service/states/OtherState.dart';
+import 'package:socket_service/states/ThemeState.dart';
 import 'package:upgrader/upgrader.dart';
 import 'dart:io';
 //全局变量
@@ -23,6 +23,7 @@ import 'boot/MacosBoot.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'common/AppCommon.dart';
+import 'config/AppConfig.dart';
 import 'microService/module/manager/AppLifecycleStateManager.dart';
 import 'microService/module/manager/GlobalManager.dart';
 

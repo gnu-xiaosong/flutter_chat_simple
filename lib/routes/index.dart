@@ -5,15 +5,15 @@
  * @LastEditTime: 2023-12-29 17:36:13
  * @Description: 路由设置
  */
-import 'package:app_template/pages/Introduction/Introduction1.dart';
-import 'package:app_template/pages/logins/default/index/index.dart';
 import 'package:flutter/material.dart';
 //导入layout文件
 import '../Layouts/mobile/MobileLayout1.dart';
 import '../microService/ui/client/page/ChatPage.dart';
 import '../microService/ui/server/page/HomePage.dart';
+import '../pages/Introduction/Introduction1.dart';
 import '../pages/Introduction/introduction2/introduction_animation_screen.dart';
 import '../pages/adaptive/Home.dart';
+import '../pages/logins/default/index/index.dart';
 
 //路由表
 Map<String, WidgetBuilder> routes = {

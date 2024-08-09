@@ -1,15 +1,15 @@
 import 'dart:async';
-import 'package:app_template/microService/service/server/module/MessageQueue.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:popup_menu_plus/popup_menu_plus.dart';
-import 'package:app_template/database/LocalStorage.dart';
 import 'package:random_avatar/random_avatar.dart';
+import '../../../../database/LocalStorage.dart';
 import '../../../../database/daos/UserDao.dart';
 import '../../../module/manager/GlobalManager.dart';
+import '../../../service/server/module/MessageQueue.dart';
 import '../model/ChatMessage.dart';
 import '../common/TimeChat.dart';
 import '../model/ChatUser.dart';

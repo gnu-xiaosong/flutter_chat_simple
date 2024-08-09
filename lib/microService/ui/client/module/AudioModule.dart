@@ -1,8 +1,9 @@
 /*
 音效类
  */
-import 'package:app_template/microService/module/common/Console.dart';
 import 'package:just_audio/just_audio.dart';
+
+import '../../../module/common/Console.dart';
 
 // 枚举音效
 enum Audios { message, scan }

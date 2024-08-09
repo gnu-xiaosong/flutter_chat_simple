@@ -6,8 +6,6 @@
  * @Description: 常量配置文件：主题，请求方法等
  * 命名规范: 变量名全部要大写
  */
-import 'package:app_template/models/AppModel.dart';
-import 'package:flutter/material.dart';
 
 //请求方法名
 enum METHODS {
@@ -17,4 +15,3 @@ enum METHODS {
 }
 
 //全局配置信息
-

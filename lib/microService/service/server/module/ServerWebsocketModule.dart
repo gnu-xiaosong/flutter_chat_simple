@@ -2,10 +2,10 @@
 server 不同消息类型处理模块
  */
 import 'dart:convert';
-import 'package:app_template/microService/service/server/schedule/message/OffLineHandler.dart';
 import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../schedule/message/MessageQueueTask.dart';
+import '../schedule/message/OffLineHandler.dart';
 
 class ServerWebsocketModule extends MessageEncrypte {
   // 全局变量：离线消息处理

@@ -1,4 +1,4 @@
-package com.example.app_template
+package com.xskj.ichat
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

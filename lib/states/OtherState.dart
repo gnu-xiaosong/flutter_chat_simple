@@ -6,8 +6,11 @@
  * @Description: 其他额外共享状态  继承基类状态BasedState
  */
 
-import 'package:app_template/models/index.dart';
+
+
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../models/OtherModel.dart';
 import 'AppState.dart';
 
 class OtherState extends AppState {

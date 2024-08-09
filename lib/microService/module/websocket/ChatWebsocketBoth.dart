@@ -9,12 +9,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:app_template/config/AppConfig.dart';
-import 'package:app_template/microService/module/encryption/MessageEncrypte.dart';
 import 'package:lan_scanner/lan_scanner.dart';
 import 'package:network_info_plus/network_info_plus.dart';
+import '../../../config/AppConfig.dart';
 import '../../service/client/websocket/ChatWebsocketClient.dart';
 import '../../service/server/websocket/ChatWebsocketServer.dart';
+import '../encryption/MessageEncrypte.dart';
 import '../manager/GlobalManager.dart';
 
 class ChatWebsocketBoth extends MessageEncrypte {

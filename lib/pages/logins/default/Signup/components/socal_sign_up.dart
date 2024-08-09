@@ -1,5 +1,6 @@
-import 'package:app_template/pages/logins/default/Signup/components/social_icon.dart';
+
 import 'package:flutter/material.dart';
+import 'package:socket_service/pages/logins/default/Signup/components/social_icon.dart';
 import 'or_divider.dart';
 
 class SocalSignUp extends StatelessWidget {

@@ -1,7 +1,7 @@
 /*
   离线消息队列处理类: 客户端
  */
-import 'package:app_template/microService/service/server/module/ServerWebsocketModule.dart';
+import '../../module/ServerWebsocketModule.dart';
 import '../../../../module/common/Console.dart';
 import '../../../../module/manager/GlobalManager.dart';
 

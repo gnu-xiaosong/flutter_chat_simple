@@ -1,9 +1,7 @@
-name: app_template                     # 项目名称
-description: "A new Flutter project."  # 项目名称
+name: socket_service                     # 项目名称
+description: "这是基于flutter_webscoket_simple简化整合的flutter_chat，代码性能更加优化，结构更清晰，更易于开发与使用。其中flutter_webscoket_simple不依赖于flutter的dart运行。以后开发将基于此进行开发"  # 项目名称
 publish_to: 'none'                     # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
-
-
 
 #环境
 environment:
@@ -158,12 +156,7 @@ dependencies:
   intl: ^0.18.0
   animated_snack_bar: ^0.4.0
   toasty_box: ^1.0.4
-
-
-
-
-
-
+  flutter_launcher_icons: ^0.13.1
 
 
 
@@ -184,6 +177,8 @@ dev_dependencies:
   drift_dev: ^2.15.0
   source_gen: ^1.0.0
   hive_generator: ^2.0.1
+  msix: ^3.16.7
+  flutter_launcher_icons: "^0.13.1"
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -212,3 +207,31 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+
+
+
+msix_config:
+  display_name: socket_service
+  publisher_display_name: xskj
+  identity_name: com.xskj.ichat
+  msix_version: 1.0.0
+  logo_path: assets/icons/app_icon.png
+  capabilities: internetClient, location, microphone, webcam

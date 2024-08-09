@@ -6,10 +6,7 @@
  * @Description: 主题共享状态  继承基类状态BasedState
  */
 
-import 'dart:ui';
-
-import 'package:app_template/config/ThemesConfig.dart';
-import 'package:flutter/material.dart';
+import '../config/ThemesConfig.dart';
 import 'AppState.dart';
 
 class ThemeState extends AppState {

@@ -3,9 +3,9 @@
  */
 
 import 'dart:convert';
-import 'package:app_template/database/daos/ChatDao.dart';
 import 'package:drift/drift.dart';
 import '../../../../../database/LocalStorage.dart';
+import '../../../database/daos/ChatDao.dart';
 
 class CommonDao {
   ChatDao chatDao = ChatDao();

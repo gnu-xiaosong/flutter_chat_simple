@@ -1,12 +1,11 @@
-import 'package:app_template/config/WinConfig.dart';
-import 'package:app_template/states/OtherState.dart';
-import 'package:app_template/widgets/AppBars/appBar_windows_1.dart';
-import 'package:app_template/widgets/windows/panes/PaneStyle1.dart';
+
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:provider/provider.dart';
+import '../../config/WinConfig.dart';
+import '../../states/OtherState.dart';
 import '../../widgets/macos/sidebars/Sidebar1.dart';
 
 class MacosLayout extends StatefulWidget {

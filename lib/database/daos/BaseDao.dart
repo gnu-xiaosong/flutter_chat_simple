@@ -1,7 +1,6 @@
 /*
 desc: BaseDao基类DAO
 */
-import 'package:drift/drift.dart';
 
 abstract class BaseDao<T> {
   // // 插入数据

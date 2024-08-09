@@ -1,8 +1,10 @@
-import 'package:app_template/config/WinConfig.dart';
-import 'package:app_template/states/OtherState.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
+
+import '../../../config/WinConfig.dart';
+import '../../../states/OtherState.dart';
 
 NavigationPane PaneStyle1(BuildContext context) {
   PaneDisplayMode displayMode = PaneDisplayMode.open;

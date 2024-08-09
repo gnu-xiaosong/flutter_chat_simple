@@ -1,8 +1,9 @@
-import 'package:app_template/states/OtherState.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../config/EmbedingConfig.dart';
+import '../../../states/OtherState.dart';
 
 class EmbedBody extends StatefulWidget {
   const EmbedBody({super.key});

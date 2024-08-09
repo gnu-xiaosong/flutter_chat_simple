@@ -6,10 +6,11 @@
  * @Description: 安装介绍页面1
  */
 
-import 'package:app_template/config/AppConfig.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overboard/flutter_overboard.dart';
+
+import '../../config/AppConfig.dart';
 
 //配置引导页
 List<PageModel> introducePages = [];

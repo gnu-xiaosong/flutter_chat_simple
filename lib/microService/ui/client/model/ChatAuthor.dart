@@ -2,9 +2,9 @@
 第三方聊天用户实体
  */
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:app_template/microService/ui/client/model/User.dart';
 
 import '../../../module/manager/GlobalManager.dart';
+import 'User.dart';
 
 class ChatAuthor extends User {
   // 创建日期: 秒

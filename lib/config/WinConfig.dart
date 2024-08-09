@@ -6,17 +6,14 @@
  * @Description: PC端配置类
  */
 
-import 'package:app_template/config/AppConfig.dart';
-import 'package:app_template/widgets/tabViews/CustomPaintTabView.dart';
-import 'package:app_template/widgets/tabViews/MacosTabView1.dart';
-import 'package:app_template/widgets/tabViews/WindowsTabView1.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'dart:io';
-import '../widgets/tabViews/TabView2.dart';
+import '../widgets/tabViews/CustomPaintTabView.dart';
 import '../widgets/tabViews/TabView3.dart';
 import '../widgets/tabViews/TabView4.dart';
+import '../widgets/tabViews/WindowsTabView1.dart';
+import 'AppConfig.dart';
 
 class WinConfig extends AppConfig {
   //父级的BuildContext

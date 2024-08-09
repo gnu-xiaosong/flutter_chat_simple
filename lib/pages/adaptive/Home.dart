@@ -7,9 +7,6 @@
  */
 
 import 'dart:ui';
-
-import 'package:app_template/states/DarkState.dart';
-import 'package:app_template/states/DescState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';

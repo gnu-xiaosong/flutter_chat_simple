@@ -1,13 +1,10 @@
-import 'package:app_template/microService/ui/server/common/serverTool.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/mdi.dart';
+import '../common/serverTool.dart';
 import '../component/BootServerComponent.dart';
-import '../component/BottomInfoComponent.dart';
 import '../component/ServerInfoComponent.dart';
 import '../model/AppConfigModel.dart';
 import '../module/AppModule.dart';

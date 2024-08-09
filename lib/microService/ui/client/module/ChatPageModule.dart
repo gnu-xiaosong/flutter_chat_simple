@@ -3,9 +3,6 @@
  */
 import 'dart:convert';
 import 'dart:io';
-import 'package:app_template/config/AppConfig.dart';
-import 'package:app_template/microService/ui/client/model/ChatAuthor.dart';
-import 'package:app_template/microService/ui/client/module/ClientModule.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +10,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../config/AppConfig.dart';
 import '../../../../database/LocalStorage.dart';
 import '../../../../database/daos/ChatDao.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import '../../../module/DAO/common.dart';
 import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
+import '../model/ChatAuthor.dart';
 import '../model/ChatMessage.dart';
 import '../model/ChatUser.dart';
 import '../model/CommunicationMessageObject.dart';
 import 'package:mime/mime.dart';
 import 'package:http/http.dart' as http;
+
+import 'ClientModule.dart';
 
 class ChatPageModel extends MessageEncrypte {
   String? deviceId; //对方deviceId

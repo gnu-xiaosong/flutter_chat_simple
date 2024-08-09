@@ -2,7 +2,6 @@
 client客户端功能模块
  */
 import 'dart:convert';
-import 'package:app_template/microService/ui/client/model/CommunicationMessageObject.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -10,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import '../../../module/DAO/UserChat.dart';
 import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
+import '../model/CommunicationMessageObject.dart';
 
 class ClientModule extends MessageEncrypte {
   late Map decode_msg;
@@ -127,7 +127,7 @@ class ClientModule extends MessageEncrypte {
       cancelBtnText: 'Cancel'.tr(),
       barrierDismissible: false,
       confirmBtnColor: Colors.green,
-      // customAsset: 'assets/images/logo.png',
+      // customAsset: 'assets/images/app_icon.png',
       widget: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SizedBox(height: 15),
         Text(

@@ -1,11 +1,12 @@
 /*
 desc: ChatDao类DAO操作: 聊天记录DAO类集中管理 CRUD 操作
 */
-import 'package:app_template/database/LocalStorage.dart';
-import 'package:app_template/database/daos/BaseDao.dart';
+
 import 'package:drift/drift.dart';
 
 import '../../microService/module/manager/GlobalManager.dart';
+import '../LocalStorage.dart';
+import 'BaseDao.dart';
 
 class ChatDao implements BaseDao<Chat> {
   // 获取database单例

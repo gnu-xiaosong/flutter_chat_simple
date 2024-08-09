@@ -1,6 +1,4 @@
-import 'package:app_template/microService/module/common/NotificationInApp.dart';
-import 'package:app_template/microService/module/manager/GlobalManager.dart';
-import 'package:app_template/microService/ui/server/module/AppModule.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hot_toast/flutter_hot_toast.dart';
@@ -9,6 +7,9 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ep.dart';
+import '../../../module/common/NotificationInApp.dart';
+import '../../../module/manager/GlobalManager.dart';
+import '../module/AppModule.dart';
 import '../websocket/UiWebsocketServer.dart';
 
 class BootServerWidget extends StatefulWidget {

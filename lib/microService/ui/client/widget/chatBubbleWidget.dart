@@ -1,7 +1,7 @@
-import 'package:app_template/microService/ui/client/widget/textSelectionWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:socket_service/microService/ui/client/widget/textSelectionWidget.dart';
 
 import '../../../module/manager/GlobalManager.dart';
 

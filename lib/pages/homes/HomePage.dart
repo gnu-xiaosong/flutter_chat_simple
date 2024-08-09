@@ -6,11 +6,10 @@
  * @Description: 主页面文件
  */
 
-import 'package:app_template/states/DarkState.dart';
-import 'package:app_template/states/DescState.dart';
-import 'package:app_template/widgets/AppBars/AppBar_Tabs_in_top_1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../states/DarkState.dart';
+import '../../states/DescState.dart';
 import '../../states/ThemeState.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     return Consumer2<DescState, ThemeState>(
         builder: (BuildContext context, desc, themeState, child) => Scaffold(
               //app顶部栏
-             // appBar: ,
+              // appBar: ,
               //App主体
               body: const Index(),
             ));

@@ -2,7 +2,7 @@
 websocket  server与client通讯 消息处理基类
  */
 
-import 'package:app_template/microService/service/server/module/ServerWebsocketModule.dart';
+import '../../module/ServerWebsocketModule.dart';
 
 class TypeMessageServerHandler extends ServerWebsocketModule {
   /*
