@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 
+import '../../microService/ui/server/page/HomePage.dart';
 import '../../widgets/AppBars/appBar_windows_1.dart';
 import '../../widgets/windows/panes/PaneStyle1.dart';
 
@@ -20,7 +21,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
       //面板区域
       pane: PaneStyle1(context),
       //-------注意：如果设置content则appbar和pane则无效，即content为自定义面板（包括appbar和pane)------
-      // content: ,
+      // content: HomePage(),
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_service/microService/ui/client/module/ClientStoreDataModule.dart';
 import '../../../database/LocalStorage.dart';
 import '../../../manager/HttpManager.dart';
 import '../../../manager/TestManager.dart';
@@ -107,9 +108,12 @@ class GlobalManager {
     // 初始化Hive
     await Hive.initFlutter();
     // 创建一个Box
-    await Hive.openBox("app");
-    // 初始化所有Hive的参数值
-    await StoreDataModule().initialHiveParameter();
+    await Hive.openBox("server"); // server端
+    await Hive.openBox("client"); // client端
+
+    // 初始化所有server端Hive的参数值
+    await ServerStoreDataModule().initialHiveParameter();
+    await ClientStoreDataModule().initialHiveParameter();
 
     // 调试管理器模块
     TestManager.debug();

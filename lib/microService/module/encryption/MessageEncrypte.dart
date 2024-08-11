@@ -5,7 +5,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
-
 import '../../../config/AppConfig.dart';
 import '../../service/client/common/tool.dart';
 import '../../service/server/common/tool.dart';

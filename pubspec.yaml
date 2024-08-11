@@ -232,6 +232,6 @@ msix_config:
   display_name: socket_service
   publisher_display_name: xskj
   identity_name: com.xskj.ichat
-  msix_version: 1.0.0
+  msix_version: 1.0.0.0
   logo_path: assets/icons/app_icon.png
   capabilities: internetClient, location, microphone, webcam

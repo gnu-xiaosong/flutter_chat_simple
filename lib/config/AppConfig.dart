@@ -142,7 +142,7 @@ class AppConfig extends ToolsManager {
   static List bottomTabs = <Map>[
     {
       "name": "chat".tr(),
-      "page": const ChatList(),
+      "page": const MessagePage(),
       "icon": Icons.chat_bubble_outlined
     },
     {"name": "shopping".tr(), "page": const Page3(), "icon": Icons.shop},

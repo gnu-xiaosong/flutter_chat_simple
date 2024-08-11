@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
@@ -33,7 +32,7 @@ class _IndexState extends State<ShowIpAndPortInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box>(
-        valueListenable: Hive.box("app").listenable(keys: ["serverConfig"]),
+        valueListenable: Hive.box("server").listenable(keys: ["serverConfig"]),
         builder: (context, box, child) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -8,17 +8,16 @@
 import 'package:flutter/material.dart';
 //导入layout文件
 import '../Layouts/mobile/MobileLayout1.dart';
+import '../microService/ui/client/layout/IndexLayout.dart';
 import '../microService/ui/client/page/ChatPage.dart';
-import '../microService/ui/server/page/HomePage.dart';
 import '../pages/Introduction/Introduction1.dart';
 import '../pages/Introduction/introduction2/introduction_animation_screen.dart';
-import '../pages/adaptive/Home.dart';
 import '../pages/logins/default/index/index.dart';
 
 //路由表
 Map<String, WidgetBuilder> routes = {
   "/": (context) =>
-      HomePage(), // AdaptiveHome(), // WorkStation(), // AddTaskPage(), //  WorkStation(), // AddTaskPage(), //  const CipherBookPage(), // const AdaptiveHome(), //AddUserQr(), // , //const MobileLayout1(), ChatPage(),
+      ClientIndexLayout(), // AdaptiveHome(), // WorkStation(), // AddTaskPage(), //  WorkStation(), // AddTaskPage(), //  const CipherBookPage(), // const AdaptiveHome(), //AddUserQr(), // , //const MobileLayout1(), ChatPage(),
   //const MobileLayout1(), //注册根路由:默认第一个为系统根路由： initialRoute: "/",
   "home": (context) => const MobileLayout1(), // home 页路由
   "introduce": (context) => Introduction1(), //介绍页路由

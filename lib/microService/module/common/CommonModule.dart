@@ -24,4 +24,16 @@ class CommonModel {
       GlobalManager.userMapMsgQueue.remove(deviceId);
     }
   }
+
+  /*
+  将给定index转为enum值
+*/
+  T indexTranslateEnum<T>(int index, List<T> enumValues) {
+    // 检查索引是否在有效范围内
+    if (index >= 0 && index < enumValues.length) {
+      return enumValues[index];
+    } else {
+      throw RangeError("Index out of range for enum conversion.");
+    }
+  }
 }

@@ -112,5 +112,10 @@
   "port": "端口",
   "retry": "重连",
   "max retry": "最大重连",
-  "normal": "正常"
+  "normal": "正常",
+  "message": "消息",
+  "user": "用户",
+  "server_ip": "服务地址",
+  "server_port": "服务端口",
+  "ws_type": "ws协议"
 }

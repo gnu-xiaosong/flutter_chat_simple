@@ -9,6 +9,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macos_ui/macos_ui.dart';
+import '../microService/ui/server/page/HomePage.dart';
 import '../widgets/tabViews/CustomPaintTabView.dart';
 import '../widgets/tabViews/TabView3.dart';
 import '../widgets/tabViews/TabView4.dart';
@@ -34,70 +35,70 @@ class WinConfig extends AppConfig {
       // ),
       "enabled": true,
       "body":
-          CustomPaintTabView(), // Platform.isWindows ? WindowsTabView1() : MacosTabView1(),
+          HomePage(), //CustomPaintTabView(), // Platform.isWindows ? WindowsTabView1() : MacosTabView1(),
       "items": []
     },
-    {
-      "title": "shopping",
-      "icon": MacosIcon(CupertinoIcons.home),
-
-      // Icon(
-      //   Platform.isMacOS ? FluentIcons.shop : CupertinoIcons.shopping_cart,
-      //   size: 15,
-      // ),
-      "enabled": true,
-      "body": WindowsTabView1(),
-      "items": []
-    },
-    {
-      "title": "person",
-      "icon": MacosIcon(CupertinoIcons.person),
-
-      // Icon(
-      //   FluentIcons.people_repeat,
-      //   size: 15,
-      // ),
-      "enabled": true,
-      "body": TabView3(),
-      "items": []
-    },
-    {
-      "title": "browser",
-      "icon": MacosIcon(CupertinoIcons.bag_badge_minus),
-
-      // Icon(
-      //   FluentIcons.browser_screen_shot,
-      //   size: 15,
-      // ),
-      "enabled": true,
-      "body": TabView4(),
-      "items": [
-        {
-          "title": "home",
-          "icon": MacosIcon(CupertinoIcons.bag_badge_minus),
-
-          // Icon(
-          //   FluentIcons.home,
-          //   size: 15,
-          // ),
-          "enabled": true,
-          "body": _NavigationBodyItem(),
-          "items": []
-        },
-        {
-          "title": "shopping",
-          "icon": MacosIcon(CupertinoIcons.bag_badge_minus),
-
-          // Icon(
-          //   FluentIcons.shop,
-          //   size: 15,
-          // ),
-          "enabled": true,
-          "body": _NavigationBodyItem(),
-          "items": []
-        },
-      ]
-    },
+    // {
+    //   "title": "shopping",
+    //   "icon": MacosIcon(CupertinoIcons.home),
+    //
+    //   // Icon(
+    //   //   Platform.isMacOS ? FluentIcons.shop : CupertinoIcons.shopping_cart,
+    //   //   size: 15,
+    //   // ),
+    //   "enabled": true,
+    //   "body": WindowsTabView1(),
+    //   "items": []
+    // },
+    // {
+    //   "title": "person",
+    //   "icon": MacosIcon(CupertinoIcons.person),
+    //
+    //   // Icon(
+    //   //   FluentIcons.people_repeat,
+    //   //   size: 15,
+    //   // ),
+    //   "enabled": true,
+    //   "body": TabView3(),
+    //   "items": []
+    // },
+    // {
+    //   "title": "browser",
+    //   "icon": MacosIcon(CupertinoIcons.bag_badge_minus),
+    //
+    //   // Icon(
+    //   //   FluentIcons.browser_screen_shot,
+    //   //   size: 15,
+    //   // ),
+    //   "enabled": true,
+    //   "body": TabView4(),
+    //   "items": [
+    //     {
+    //       "title": "home",
+    //       "icon": MacosIcon(CupertinoIcons.bag_badge_minus),
+    //
+    //       // Icon(
+    //       //   FluentIcons.home,
+    //       //   size: 15,
+    //       // ),
+    //       "enabled": true,
+    //       "body": _NavigationBodyItem(),
+    //       "items": []
+    //     },
+    //     {
+    //       "title": "shopping",
+    //       "icon": MacosIcon(CupertinoIcons.bag_badge_minus),
+    //
+    //       // Icon(
+    //       //   FluentIcons.shop,
+    //       //   size: 15,
+    //       // ),
+    //       "enabled": true,
+    //       "body": _NavigationBodyItem(),
+    //       "items": []
+    //     },
+    //   ]
+    // },
   ];
 
 //侧边栏底部

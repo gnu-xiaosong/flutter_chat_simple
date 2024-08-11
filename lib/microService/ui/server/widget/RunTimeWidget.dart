@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:hive/hive.dart';
@@ -59,7 +57,7 @@ class _IndexState extends State<RunTimeWidget> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box>(
-        valueListenable: Hive.box("app").listenable(keys: ["isRunning"]),
+        valueListenable: Hive.box("server").listenable(keys: ["isRunning"]),
         builder: (context, box, child) {
           if (box.get("isRunning")) {
             // 启动

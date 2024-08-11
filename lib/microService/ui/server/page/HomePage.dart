@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: Hive.box("app").listenable(keys: ["darkMode"]),
+        valueListenable: Hive.box("server").listenable(keys: ["darkMode"]),
         builder: (context, box, child) {
           return NeumorphicTheme(
               themeMode: appModule.getDarkModeInHive()
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(0),
                 child: ValueListenableBuilder<Box>(
                     valueListenable:
-                        Hive.box("app").listenable(keys: ["serverConfig"]),
+                        Hive.box("server").listenable(keys: ["serverConfig"]),
                     builder: (context, box, child) {
                       // 获取配置类对象
                       AppConfigModel? appConfigModel = appModule.getAppConfig();

@@ -41,7 +41,7 @@ class WebsocketClientManager extends WebsocketClient {
       // ip地址
       String? ip,
       // port端口
-      int? port,
+      required int port,
       // 协议
       String type = "ws",
       // 回调函数: 连接前的初始化操作
@@ -56,7 +56,7 @@ class WebsocketClientManager extends WebsocketClient {
       required Function whenClientError}) {
     // 初始化参数
     super.ip = ip;
-    super.port = port!;
+    super.port = port;
     super.type = type;
     // 设置回调
     this.initialBeforeConnHandler = initialBeforeConn;
@@ -105,8 +105,6 @@ class WebsocketClientManager extends WebsocketClient {
   void handlerClientError(ErrorObject errorObject) {
     // 调用回调
     whenClientError!(errorObject);
-    // 调用父
-    super.handlerClientError(errorObject);
   }
 
   /*

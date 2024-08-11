@@ -2,19 +2,22 @@
 数据存储模块
  */
 import 'dart:io';
+import 'dart:math';
 
 import 'package:hive/hive.dart';
 
-class ServerStoreDataModule {
+import 'CommonModule.dart';
+
+class ClientStoreDataModule extends CommonModule {
   // 打开box
-  var box = Hive.box('server');
+  var box = Hive.box('client');
 
   /*
    初始化所有参数值
    */
   initialHiveParameter() async {
     getIsRunningInHive();
-    getServerConfigInHive();
+    getClientConfigInHive();
     getDarkModeInHive();
     getRetryInHive();
     getMaxRetryInHive();
@@ -85,24 +88,24 @@ class ServerStoreDataModule {
   /*
   获取Hive中box=app的serverConfig的键值
    */
-  Map<String, dynamic>? getServerConfigInHive() {
-    var serverConfig = box.get("serverConfig");
-    if (serverConfig == null) {
+  Map<String, dynamic>? getClientConfigInHive() {
+    var config = box.get("clientConfig");
+    if (config == null) {
       print("---------serverConfig Hive is not exist----------------");
       // 无，创建
       Map<String, dynamic> config = {
-        "name": "websocket server",
-        "websocket_ip": InternetAddress.anyIPv4.address,
-        "websocket_port": 1314,
+        "username": generateRandomUsername(7),
+        "serverIp": "192.168.1.3",
+        "serverPort": 1314,
+        'wsType': "ws"
       };
-      box.put("serverConfig", config);
+      box.put("clientConfig", config);
     }
 
-    serverConfig = box.get("serverConfig");
+    config = box.get("clientConfig");
 
-    if (serverConfig is Map) {
-      Map<String, dynamic> serverConfigMap =
-          Map<String, dynamic>.from(serverConfig);
+    if (config is Map) {
+      Map<String, dynamic> serverConfigMap = Map<String, dynamic>.from(config);
       print('Server Config: $serverConfigMap');
       //转为AppConfigModel
       return serverConfigMap;

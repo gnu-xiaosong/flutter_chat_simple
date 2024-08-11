@@ -67,7 +67,7 @@ class AppConfigModel extends AppModule {
    */
   void storeData() {
     // 保存配置文件
-    var box = Hive.box('app');
+    var box = Hive.box('server');
     box.put("serverConfig", toJson());
   }
 }

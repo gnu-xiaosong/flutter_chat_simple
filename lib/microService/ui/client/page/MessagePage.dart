@@ -1,28 +1,27 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:popup_menu_plus/popup_menu_plus.dart';
 import '../../../../config/AppConfig.dart';
 import '../../../module/websocket/ChatWebsocketBoth.dart';
 import '../component/MessageListComponent.dart';
-import '../config/menuConfig.dart';
+import '../config/addMenuConfig.dart';
+import '../websocket/UiWebsocketClient.dart';
 
-class ChatList extends StatefulWidget {
-  const ChatList({super.key});
+class MessagePage extends StatefulWidget {
+  const MessagePage({super.key});
 
   @override
-  State<ChatList> createState() => _ChatListState();
+  State<MessagePage> createState() => _indexState();
 }
 
-class _ChatListState extends State<ChatList> {
-  _ChatListState() {}
+class _indexState extends State<MessagePage> {
   GlobalKey btnKeyMenu = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    // 加载websocket
-    ChatWebsocketBoth.getInstance().bootWebsocket();
+    // // 加载websocket
+    // ChatWebsocketBoth.getInstance().bootWebsocket();
   }
 
   @override
@@ -60,6 +59,17 @@ class _ChatListState extends State<ChatList> {
           ]),
           actions: [
             IconButton(
+              onPressed: () {
+                print("conn webscoekt server........");
+                UiWebsocketClient uiWebsocketClient = UiWebsocketClient();
+                uiWebsocketClient.connServer();
+              },
+              icon: const Icon(
+                Icons.restart_alt,
+                size: 35,
+              ),
+            ),
+            IconButton(
               key: btnKeyMenu,
               onPressed: () {
                 showMenu();
@@ -83,7 +93,7 @@ class _ChatListState extends State<ChatList> {
             ),
           ),
         ),
-        body: Container(child: ListUser()));
+        body: Container(child: MessageListComponent()));
   }
 
   void showMenu() {
@@ -109,5 +119,18 @@ class _ChatListState extends State<ChatList> {
       }
     }
     print('Click menu -> ${item.menuTitle}');
+  }
+
+  // 顶部下拉菜单栏
+  List topMenus() {
+    return menus;
+  }
+
+  void onDismiss() {
+    print('Menu is dismiss');
+  }
+
+  void onShow() {
+    print('Menu is show');
   }
 }

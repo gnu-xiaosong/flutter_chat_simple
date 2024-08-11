@@ -4,6 +4,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -26,6 +27,7 @@ import 'common/AppCommon.dart';
 import 'config/AppConfig.dart';
 import 'microService/module/manager/AppLifecycleStateManager.dart';
 import 'microService/module/manager/GlobalManager.dart';
+import 'microService/ui/server/module/AppModule.dart';
 
 BuildContext? appContext;
 
@@ -53,16 +55,17 @@ void main() => GlobalManager.init().then((e) async {
 
       try {
         // 初始化自定义窗口
-        if (Platform.isWindows || Platform.isMacOS || Platform.isLinux)
+        if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
           doWhenWindowReady(() {
             final win = appWindow;
             const initialSize = Size(500, 650);
             win.minSize = initialSize;
             win.size = initialSize;
             win.alignment = Alignment.center;
-            win.title = "Custom window with Flutter";
+            win.title = AppModule().getAppConfig()!.name.toString();
             win.show();
           });
+        }
       } catch (e) {
         print("current platform unsupport Windows!");
       }

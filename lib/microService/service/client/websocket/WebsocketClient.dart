@@ -14,7 +14,7 @@ class WebsocketClient extends ClientWebsocketModule {
   String? ip;
 
   // 端口port
-  int port = 1314;
+  late int port;
 
   WebSocketChannel? channel;
 
@@ -26,52 +26,57 @@ class WebsocketClient extends ClientWebsocketModule {
   void initialBeforeConn(WebsocketClient websocketClient) {}
 
   // 连接websocketServer
-  void connnect() {
+  Future<void> connnect() async {
+    bool isFirstConnection = true; // 标记是否为第一次连接成功
+    // 监听信息
     // 连接前的出初始化操作
     initialBeforeConn(this);
     try {
       // 开始连接
-      channel = WebSocketChannel.connect(Uri.parse("$type://${ip}:${port}"));
-      channel!.ready;
-      //*****************连接成功回调处理函数*********************
-      printSuccess("this websocket is connected for $type://${ip}:${port}");
-      conn_success(channel);
+      final wsUrl = Uri.parse("$type://${ip}:${port}");
+      final channel = WebSocketChannel.connect(wsUrl);
+      await channel.ready;
+
+      // 监听
+      channel.stream.listen((message) {
+        // print("received: $message");
+        if (isFirstConnection) {
+          // 仅在第一次连接成功后调用
+          print("WebSocket 已连接到 $type://${ip}:${port}");
+          //*****************连接成功回调处理函数*********************
+          printSuccess("this websocket is connected for $type://${ip}:${port}");
+          conn_success(channel);
+          isFirstConnection = false; // 确保只调用一次
+        }
+        // 处理监听信息
+        listenMessageHandler(channel!, message);
+      }, onError: (e) {
+        // 调用异常处理函数
+        // 调用异常处理函数
+        ErrorObject errorObject =
+            ErrorObject(type: ErrorType.websocketClientListen);
+        handlerClientError(errorObject);
+
+        // 连接错误
+        print("+INFO:connect is error!more detail:$e");
+      }, onDone: () {
+        // websocket连接中断
+        print('WebSocket client disconnected.');
+        // ***************连接中断**************
+        this.interruptHandler(channel!);
+        // 调用异常处理函数
+        ErrorObject errorObject =
+            ErrorObject(type: ErrorType.connWebsocketServer);
+        handlerClientError(errorObject);
+        //****************连接中断**************
+      });
     } catch (e) {
-      print(
-          "-WARN:connect is error, this client is interrupted! more detail: $e");
-      // 连接异常: 调用异常处理函数
-      ErrorObject errorObject =
-          ErrorObject(type: ErrorType.connWebsocketServer);
+      // 连接失败
+      ErrorObject errorObject = ErrorObject(
+          type: ErrorType.connWebsocketServer,
+          content: "Connection server refused!");
       handlerClientError(errorObject);
-      // 关闭连接
-      channel!.sink.close(status.goingAway);
     }
-
-    // 监听信息
-    channel!.stream.listen((message) {
-      // print("received: $message");
-      // 处理监听信息
-      listenMessageHandler(channel!, message);
-    }, onError: (e) {
-      // 调用异常处理函数
-      // 调用异常处理函数
-      ErrorObject errorObject =
-          ErrorObject(type: ErrorType.websocketClientListen);
-      handlerClientError(errorObject);
-
-      // 连接错误
-      print("+INFO:connect is error!more detail:$e");
-    }, onDone: () {
-      // websocket连接中断
-      print('WebSocket client disconnected.');
-      // ***************连接中断**************
-      this.interruptHandler(channel!);
-      // 调用异常处理函数
-      ErrorObject errorObject =
-          ErrorObject(type: ErrorType.connWebsocketServer);
-      handlerClientError(errorObject);
-      //****************连接中断**************
-    });
   }
 
   // 连接中断处理

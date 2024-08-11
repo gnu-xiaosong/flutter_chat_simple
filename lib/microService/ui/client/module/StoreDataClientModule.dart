@@ -5,21 +5,42 @@ import 'dart:io';
 
 import 'package:hive/hive.dart';
 
-class ServerStoreDataModule {
+class StoreDataClientModule {
   // 打开box
-  var box = Hive.box('server');
+  var box = Hive.box('client');
 
   /*
    初始化所有参数值
    */
   initialHiveParameter() async {
     getIsRunningInHive();
-    getServerConfigInHive();
+    getClientConfigInHive();
     getDarkModeInHive();
     getRetryInHive();
     getMaxRetryInHive();
+    getSecretInHive();
     // 初始化参数
     setIsRunningInHive(false);
+  }
+
+  /*
+  获取通讯秘钥
+   */
+  String getSecretInHive() {
+    var secret = box.get("secret");
+    if (secret == null) {
+      print("---------serverConfig Hive is not exist----------------");
+      // 无，创建
+      box.put("secret", "secret");
+    }
+    return box.get("secret").toString();
+  }
+
+  /*
+  设置通讯秘钥
+   */
+  setSecretInHive(String value) {
+    box.put("secret", value);
   }
 
   /*
@@ -85,8 +106,8 @@ class ServerStoreDataModule {
   /*
   获取Hive中box=app的serverConfig的键值
    */
-  Map<String, dynamic>? getServerConfigInHive() {
-    var serverConfig = box.get("serverConfig");
+  Map<String, dynamic>? getClientConfigInHive() {
+    var serverConfig = box.get("clientConfig");
     if (serverConfig == null) {
       print("---------serverConfig Hive is not exist----------------");
       // 无，创建
@@ -94,20 +115,21 @@ class ServerStoreDataModule {
         "name": "websocket server",
         "websocket_ip": InternetAddress.anyIPv4.address,
         "websocket_port": 1314,
+        'wsType': "ws"
       };
-      box.put("serverConfig", config);
+      box.put("clientConfig", config);
     }
 
-    serverConfig = box.get("serverConfig");
+    serverConfig = box.get("clientConfig");
 
     if (serverConfig is Map) {
       Map<String, dynamic> serverConfigMap =
           Map<String, dynamic>.from(serverConfig);
-      print('Server Config: $serverConfigMap');
+      print('clientConfig: $serverConfigMap');
       //转为AppConfigModel
       return serverConfigMap;
     } else {
-      print('serverConfig is not a Map');
+      print('sclientConfig is not a Map');
       return null;
     }
   }

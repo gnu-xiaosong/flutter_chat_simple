@@ -1,9 +1,13 @@
 /*
 websocket  server与client通讯 消息处理基类
  */
+import '../../../../module/common/NotificationInApp.dart';
 import '../../module/ClientWebsocketModule.dart';
+import '../../../../ui/common/module/ExceptionUiModule.dart';
 
-class TypeMessageClientHandler extends ClientWebsocketModule {
+class TypeMessageClientHandler extends ClientWebsocketModule
+    with ExceptionUiModule {
+  NotificationInApp notificationInApp = NotificationInApp();
   /*
   消息加密方法
    */

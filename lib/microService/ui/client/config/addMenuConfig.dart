@@ -7,6 +7,9 @@ import '../page/CreateGroupPage.dart';
 import '../page/MyQrPage.dart';
 import '../page/ScanPage.dart';
 
+/*
+add按钮弹出菜单配置
+ */
 List menus = <Map>[
   {
     "menu": PopUpMenuItem(

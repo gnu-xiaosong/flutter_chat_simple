@@ -1,7 +1,5 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hot_toast/flutter_hot_toast.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -106,7 +104,8 @@ class _RotatingStartButtonState extends State<RotatingStartButton>
             color: Color.fromRGBO(221, 221, 221, 1),
           ),
           child: ValueListenableBuilder<Box>(
-              valueListenable: Hive.box('app').listenable(keys: ["isRunning"]),
+              valueListenable:
+                  Hive.box('server').listenable(keys: ["isRunning"]),
               builder: (context, box, widget) {
                 return Column(
                   children: [
