@@ -13,8 +13,7 @@ import 'WebsocketClient.dart';
 import 'WebsocketClientManager.dart';
 
 class ChatWebsocketClient extends ClientWebsocketModule {
-  WebsocketClientManager websocketClientManager =
-      WebsocketClientManager.getInstance();
+  WebsocketClientManager websocketClientManager = WebsocketClientManager();
   CommunicationTypeClientModulator communicationTypeClientModulator =
       CommunicationTypeClientModulator();
 

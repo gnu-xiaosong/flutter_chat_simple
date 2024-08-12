@@ -26,7 +26,6 @@ class AuthTypeMessageHandler extends TypeMessageClientHandler {
     // 打印消息
     printInfo("--------------AUTH TASK HANDLER--------------------");
     printInfo(">> receive: $msgDataTypeMap");
-
     try {
       if (int.parse(msgDataTypeMap["info"]["code"]) == 200) {
         // 认证成功

@@ -82,7 +82,7 @@ class GlobalManager {
   HttpManager get GlobalHttp => _http; //用于继承的类访问
   // 2.单例化chat websocket
   static final WebsocketClientManager _chatWebsocketManager =
-      WebsocketClientManager.getInstance(); //实例化chat websocket
+      WebsocketClientManager(); //实例化chat websocket
   WebsocketClientManager get GlobalChatWebsocket => _chatWebsocketManager;
 
   // 3.单例化User schedule

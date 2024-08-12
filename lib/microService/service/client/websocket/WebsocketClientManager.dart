@@ -9,17 +9,11 @@ import '../../server/model/ErrorModel.dart';
 import 'WebsocketClient.dart';
 
 class WebsocketClientManager extends WebsocketClient {
-  // 私有的命名构造函数，确保外部不能实例化该类
-  WebsocketClientManager._internal() {
-    // 初始化逻辑
-    // printInfo("-------chatWebsocket instance-----");
-  }
-  // 静态属性，存储唯一实例
-  static WebsocketClientManager? _instance;
-  // 提供一个静态方法来获取实例
-  static WebsocketClientManager getInstance() {
-    _instance ??= WebsocketClientManager._internal();
-    return _instance!;
+  WebsocketClientManager._internal();
+  static final WebsocketClientManager _instance =
+      WebsocketClientManager._internal();
+  factory WebsocketClientManager() {
+    return _instance;
   }
 
   // 回调函数: 处理当连接中断 参数为中断连接的client信息 this = WebsocketClientManager

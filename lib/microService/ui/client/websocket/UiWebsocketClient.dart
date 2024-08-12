@@ -16,8 +16,7 @@ import '../model/AppSettingModel.dart';
 import '../module/AppSettingModule.dart';
 
 class UiWebsocketClient extends ClientWebsocketModule with ExceptionUiModule {
-  WebsocketClientManager websocketClientManager =
-      WebsocketClientManager.getInstance();
+  WebsocketClientManager websocketClientManager = WebsocketClientManager();
   CommunicationTypeClientModulator communicationTypeClientModulator =
       CommunicationTypeClientModulator();
   AppClientSettingModule appClientSettingModule = AppClientSettingModule();
@@ -35,6 +34,7 @@ class UiWebsocketClient extends ClientWebsocketModule with ExceptionUiModule {
         whenConnSuccessWithServer: whenConnSuccessWithServer,
         messageHandler: messageHandler,
         whenClientError: whenClientError);
+    // 初始化逻辑
   }
 
   /*
@@ -106,8 +106,7 @@ class UiWebsocketClient extends ClientWebsocketModule with ExceptionUiModule {
     // 发送请求认证
     // 发送
     try {
-      printInfo(">> send: $authInfo");
-      websocketClientManager.sendText(json.encode(authInfo));
+      websocketClientManager.send(json.encode(authInfo));
     } catch (e) {
       printError("-ERR:发送AUTH认证失败!请重新发起认证，连接将中断!");
       // 认证身份异常

@@ -20,6 +20,18 @@ import '../manager/GlobalManager.dart';
 class ChatWebsocketBoth extends MessageEncrypte {
   // 静态属性，存储唯一实例
   static ChatWebsocketBoth? _instance;
+  // 私有的命名构造函数，确保外部不能实例化该类
+  ChatWebsocketBoth._internal() {
+    // 初始化逻辑
+    // printInfo("-------chatWebsocket instance-----");
+  }
+
+  // 提供一个静态方法来获取实例
+  static ChatWebsocketBoth getInstance() {
+    _instance ??= ChatWebsocketBoth._internal();
+    return _instance!;
+  }
+
   /*
     选择本机为服务器端还是客户端策略
    */
@@ -33,18 +45,6 @@ class ChatWebsocketBoth extends MessageEncrypte {
   bool isServer = true; // 是否作为服务端
   // 限制扫描最大ip数
   Object limitPort = 10;
-
-  // 私有的命名构造函数，确保外部不能实例化该类
-  ChatWebsocketBoth._internal() {
-    // 初始化逻辑
-    // printInfo("-------chatWebsocket instance-----");
-  }
-
-  // 提供一个静态方法来获取实例
-  static ChatWebsocketBoth getInstance() {
-    _instance ??= ChatWebsocketBoth._internal();
-    return _instance!;
-  }
 
   Future<bool> selectLocalHostAsServerStrategy() async {
     if (!GlobalManager.appCache.containsKey("server_ip") ||
@@ -128,7 +128,7 @@ class ChatWebsocketBoth extends MessageEncrypte {
    */
   rebootClientServer(String ip) {
     // 配置参数
-    int port = AppConfig.port;
+    int port = 1314;
 
     ChatWebsocketClient chatWebsocketClient =
         ChatWebsocketClient(ip: ip, port: port);
