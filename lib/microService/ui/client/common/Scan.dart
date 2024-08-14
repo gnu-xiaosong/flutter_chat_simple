@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:socket_service/microService/ui/client/module/AppSettingModule.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../config/AppConfig.dart';
 import '../../../module/common/Console.dart';
@@ -12,7 +13,7 @@ import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../component/ConstomAddDialogComponent.dart';
 
-class Scan with Console {
+class Scan extends AppClientSettingModule with Console {
   // 扫码不同类型调用方法
   void scanHandlerByType(
       BuildContext context, MobileScannerController controller, Map qr_map) {
@@ -56,9 +57,8 @@ class Scan with Console {
     };
 
     // 加密
-    message["info"] = MessageEncrypte().encodeMessage(
-        GlobalManager.appCache.getString("chat_secret").toString(),
-        message["info"]);
+    message["info"] =
+        MessageEncrypte().encodeMessage(getSecretInHive(), message["info"]);
 
     // 存储在消息队列中
     GlobalManager.clientWaitUserAgreeQueue.enqueue(message);
@@ -67,7 +67,7 @@ class Scan with Console {
     try {
       print("message:$message");
       // 调用全局实例:发送
-      GlobalManager().GlobalChatWebsocket.send(json.encode(message));
+      GlobalManager.GlobalChatWebsocket.send(json.encode(message));
 
       printInfo("REQUEST_SCAN_ADD_USER: send is successful!");
     } catch (e) {

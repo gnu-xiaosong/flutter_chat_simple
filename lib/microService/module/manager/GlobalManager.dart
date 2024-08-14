@@ -22,8 +22,11 @@ import '../../service/server/model/ClientModel.dart';
 import '../../service/server/module/MessageQueue.dart';
 import '../../service/server/module/OffLineMessageQueue.dart';
 import '../../service/server/schedule/message/UserSchedule.dart';
+import '../../ui/common/module/ServerStoreDataCommonModule.dart';
 import '../../ui/server/module/StoreDataModule.dart';
+import '../adapter/CommandInfoAdapter.dart';
 import '../common/unique_device_id.dart';
+import '../model/CommandInfoModel.dart';
 import 'AppLifecycleStateManager.dart';
 import 'NotificationsManager.dart';
 import 'ToolsManager.dart';
@@ -81,9 +84,7 @@ class GlobalManager {
   final HttpManager _http = HttpManager.getInstance();
   HttpManager get GlobalHttp => _http; //用于继承的类访问
   // 2.单例化chat websocket
-  static final WebsocketClientManager _chatWebsocketManager =
-      WebsocketClientManager(); //实例化chat websocket
-  WebsocketClientManager get GlobalChatWebsocket => _chatWebsocketManager;
+  static late WebsocketClientManager GlobalChatWebsocket;
 
   // 3.单例化User schedule
   final UserSchedule _userSchedule =
@@ -107,13 +108,19 @@ class GlobalManager {
     // ********************Hive配置****************************
     // 初始化Hive
     await Hive.initFlutter();
+    // 注册调制器
+    Hive.registerAdapter(CommandInfoAdapter());
+
     // 创建一个Box
     await Hive.openBox("server"); // server端
     await Hive.openBox("client"); // client端
+    await Hive.openBox<List<CommandInfoModel>>(
+        'commandsBox'); // CommandInfoModel列表
 
     // 初始化所有server端Hive的参数值
     await ServerStoreDataModule().initialHiveParameter();
     await ClientStoreDataModule().initialHiveParameter();
+    await ServerStoreDataCommonModule().initialHiveParameter();
 
     // 调试管理器模块
     TestManager.debug();

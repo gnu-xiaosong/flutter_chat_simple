@@ -4,13 +4,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:socket_service/microService/ui/client/module/AppSettingModule.dart';
 
 import '../../../../config/AppConfig.dart';
 import '../../../module/common/unique_device_id.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../../../module/common/NotificationInApp.dart';
 
-class UiTool {
+class UiTool extends AppClientSettingModule {
   /*
   复制到粘贴板
    */
@@ -40,9 +41,10 @@ class UiTool {
    */
   Future<Map> generateAddUserQrInfo() async {
     // 设备唯一性id
-    String deviceId = await UniqueDeviceId.getDeviceUuid();
+    String deviceId = GlobalManager.deviceId.toString() ??
+        await UniqueDeviceId.getDeviceUuid();
     // 用户名
-    String username = AppConfig.username;
+    String? username = getAppConfig()?.username;
     // 封装
     Map re = {"type": "ADD_USER", "deviceId": deviceId, "username": username};
 

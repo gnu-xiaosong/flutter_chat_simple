@@ -9,7 +9,6 @@
 // app首次启动时执行
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:secure_app_switcher/secure_app_switcher.dart';
-
 import '../common/unique_device_id.dart';
 import 'GlobalManager.dart';
 

@@ -10,14 +10,14 @@ import '../model/AppConfigModel.dart';
 import '../module/AppModule.dart';
 import 'SettingPage.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeServerPage extends StatefulWidget {
+  const HomeServerPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeServerPage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomeServerPage> {
   AppModule appModule = AppModule();
   ServerUiTool serverUiTool = ServerUiTool();
   // widget

@@ -35,6 +35,7 @@ class UiWebsocketClient extends ClientWebsocketModule with ExceptionUiModule {
         messageHandler: messageHandler,
         whenClientError: whenClientError);
     // 初始化逻辑
+    GlobalManager.GlobalChatWebsocket = websocketClientManager;
   }
 
   /*

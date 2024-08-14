@@ -5,9 +5,11 @@ import 'dart:io';
 
 import 'package:hive/hive.dart';
 
-class ServerStoreDataModule {
+import '../../common/module/ServerStoreDataCommonModule.dart';
+
+class ServerStoreDataModule extends ServerStoreDataCommonModule {
   // 打开box
-  var box = Hive.box('server');
+  var box = Hive.box('commandsBox');
 
   /*
    初始化所有参数值

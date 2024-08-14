@@ -1,17 +1,14 @@
 /*
 websocket client 模块 ：处理有关client websocket有关逻辑
  */
+import 'package:socket_service/microService/ui/client/module/AppSettingModule.dart';
 import '../../../../database/daos/ChatDao.dart';
 import '../../../module/DAO/UserChat.dart';
 import '../../../module/DAO/common.dart';
 import '../../../module/common/BroadcastModule.dart';
 import '../../../module/common/CommonModule.dart';
-import '../../../module/common/NotificationInApp.dart';
-import '../../../module/common/enum.dart';
-import '../../../module/common/unique_device_id.dart';
 import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
-import '../../server/model/ErrorModel.dart';
 
 class ClientWebsocketModule extends MessageEncrypte {
   // 子类继承共享
@@ -20,6 +17,7 @@ class ClientWebsocketModule extends MessageEncrypte {
   ChatDao chatDao = ChatDao();
   BroadcastModule broadcastModule = BroadcastModule();
   CommonDao commonDao = CommonDao();
+  AppClientSettingModule appClientSettingModule = AppClientSettingModule();
 
   /*
    client与server中断处理策略

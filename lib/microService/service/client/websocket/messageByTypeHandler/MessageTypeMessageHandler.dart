@@ -17,7 +17,7 @@ class MessageTypeMessageHandler extends TypeMessageClientHandler {
   void handler(
       WebsocketClientManager websocketClientManager, Map msgDataTypeMap) {
     // 从缓存中取出secret 通讯秘钥
-    String? secret = GlobalManager.appCache.getString("chat_secret");
+    String? secret = appClientSettingModule.getSecretInHive();
     // 解密info字段
     msgDataTypeMap["info"] = decodeMessage(secret!, msgDataTypeMap["info"]);
     // 接收消息

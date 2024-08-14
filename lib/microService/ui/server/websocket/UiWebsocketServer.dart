@@ -202,9 +202,14 @@ class UiWebsocketServer extends ServerWebsocketModule {
    */
   closeServer() {
     print("close the websocket server");
-    websocketServerManager.stop();
+
+    // 清空
+    GlobalManager.onlineClientList = [];
+    //
+    broadcastInlineClients();
     //清空
     GlobalManager.onlineClientList.clear();
+    websocketServerManager.stop();
     // 更新
     serverUiTool.updateShowInfo();
   }

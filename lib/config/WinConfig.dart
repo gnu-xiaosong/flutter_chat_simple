@@ -35,7 +35,7 @@ class WinConfig extends AppConfig {
       // ),
       "enabled": true,
       "body":
-          HomePage(), //CustomPaintTabView(), // Platform.isWindows ? WindowsTabView1() : MacosTabView1(),
+          HomeServerPage(), //CustomPaintTabView(), // Platform.isWindows ? WindowsTabView1() : MacosTabView1(),
       "items": []
     },
     // {

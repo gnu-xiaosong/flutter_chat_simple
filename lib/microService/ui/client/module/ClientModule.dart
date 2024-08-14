@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:socket_service/microService/ui/client/model/AppSettingModel.dart';
+import 'package:socket_service/microService/ui/client/module/AppSettingModule.dart';
 import '../../../module/DAO/UserChat.dart';
 import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
@@ -16,6 +18,7 @@ class ClientModule extends MessageEncrypte {
   UserChat userChat = UserChat();
   CommunicationMessageObject communicationMessageObject =
       CommunicationMessageObject();
+  AppClientSettingModule appClientSettingModule = AppClientSettingModule();
 
   /*
   send方法:该方法负责客户端的chat  MESSAGE类型消息发送函数
@@ -51,7 +54,7 @@ class ClientModule extends MessageEncrypte {
         metadata: metadata);
 
     printError("发送消息: ${msg}");
-    String secret = GlobalManager.appCache.getString("chat_secret") ?? "";
+    String secret = appClientSettingModule.getSecretInHive();
     if (secret.isEmpty) {
       print("-warning: 通讯秘钥 'chat_secret' 为空！消息加密失败。");
       return false;
@@ -60,7 +63,7 @@ class ClientModule extends MessageEncrypte {
     try {
       msg["info"] = MessageEncrypte().encodeMessage(secret, msg["info"]);
       // 发送
-      GlobalManager().GlobalChatWebsocket.send(json.encode(msg));
+      GlobalManager.GlobalChatWebsocket.send(json.encode(msg));
       return true;
     } catch (e) {
       print("发送消息失败：$e");
@@ -75,7 +78,7 @@ class ClientModule extends MessageEncrypte {
   addUserMsgQueue(Map data) async {
     try {
       // 通讯秘钥
-      String? secret = await GlobalManager.appCache.getString("chat_secret");
+      String? secret = appClientSettingModule.getSecretInHive();
       // 加密info字段
       data?["info"] = encodeMessage(secret!, data["info"]);
 
@@ -112,7 +115,7 @@ class ClientModule extends MessageEncrypte {
   singleAgreeUserHandler(Map msg) {
     // 数据解密
     // 解密秘钥
-    String? secret = GlobalManager.appCache.getString("chat_secret");
+    String? secret = appClientSettingModule.getSecretInHive();
     // 解密info字段
     msg?["info"] = decodeMessage(secret!, msg["info"]);
 
@@ -172,11 +175,10 @@ class ClientModule extends MessageEncrypte {
     msg["info"]["recipient"] = tmp;
 
     // 消息加密
-    msg["info"] = encodeMessage(
-        GlobalManager.appCache.getString("chat_secret").toString(),
-        msg["info"]);
+    msg["info"] =
+        encodeMessage(appClientSettingModule.getSecretInHive(), msg["info"]);
     // 发送消息
-    GlobalManager().GlobalChatWebsocket.send(json.encode(msg));
+    GlobalManager.GlobalChatWebsocket.send(json.encode(msg));
   }
 
   /*
@@ -202,12 +204,11 @@ class ClientModule extends MessageEncrypte {
       msg["info"]["recipient"] = tmp;
 
       // 消息加密
-      msg["info"] = encodeMessage(
-          GlobalManager.appCache.getString("chat_secret").toString(),
-          msg["info"]);
+      msg["info"] =
+          encodeMessage(appClientSettingModule.getSecretInHive(), msg["info"]);
 
       // 发送请求给服务端
-      GlobalManager().GlobalChatWebsocket.send(json.encode(msg));
+      GlobalManager.GlobalChatWebsocket.send(json.encode(msg));
       // 打印
       printSuccess("response send to request is successful!");
     } catch (e, stacktrace) {

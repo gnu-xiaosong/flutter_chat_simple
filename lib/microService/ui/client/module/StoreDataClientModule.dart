@@ -5,7 +5,9 @@ import 'dart:io';
 
 import 'package:hive/hive.dart';
 
-class StoreDataClientModule {
+import '../../common/module/ServerStoreDataCommonModule.dart';
+
+class StoreDataClientModule extends ServerStoreDataCommonModule {
   // 打开box
   var box = Hive.box('client');
 

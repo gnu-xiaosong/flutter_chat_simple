@@ -15,9 +15,9 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageClientHandler {
       WebsocketClientManager websocketClientManager, Map msgDataTypeMap) {
     // 通过扫码请求添加好友请求
     // 从缓存中取出secret 通讯秘钥
-    String? secret = GlobalManager.appCache.getString("chat_secret");
+    String? secret = appClientSettingModule.getSecretInHive();
     // 解密info字段
-    msgDataTypeMap["info"] = decodeMessage(secret!, msgDataTypeMap["info"]);
+    msgDataTypeMap["info"] = decodeMessage(secret, msgDataTypeMap["info"]);
     // 调用
     scanQrAddUser(msgDataTypeMap);
   }
@@ -48,7 +48,7 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageClientHandler {
       // 同意好友请求
       if (status == "agree") {
         // 解密秘钥
-        String? secret = await GlobalManager.appCache.getString("chat_secret");
+        String? secret = appClientSettingModule.getSecretInHive();
         printInfo('User agreed'); // 对方已同意
         int count = GlobalManager.clientWaitUserAgreeQueue.length; // 获取消息队列数
         print("clientWaitUserAgreeQueue length: ${count}");

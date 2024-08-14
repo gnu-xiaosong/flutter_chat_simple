@@ -8,6 +8,7 @@ import '../../../../ui/common/module/ExceptionUiModule.dart';
 class TypeMessageClientHandler extends ClientWebsocketModule
     with ExceptionUiModule {
   NotificationInApp notificationInApp = NotificationInApp();
+
   /*
   消息加密方法
    */

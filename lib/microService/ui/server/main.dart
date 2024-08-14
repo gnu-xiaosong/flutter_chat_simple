@@ -79,7 +79,7 @@ class _MaterialApplicationState extends State<MaterialApplication>
         lightSource: LightSource.topLeft,
         depth: 6,
       ),
-      home: HomePage(),
+      home: HomeServerPage(),
     );
   }
 }

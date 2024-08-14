@@ -1,7 +1,6 @@
 /*
 websocket  server与client通讯 自定义消息处理类: TEST消息类型
  */
-import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../../module/common/unique_device_id.dart';
 import '../../../../module/manager/GlobalManager.dart';
 import '../../../../ui/client/model/enum.dart';
