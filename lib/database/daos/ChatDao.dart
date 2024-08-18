@@ -17,10 +17,14 @@ class ChatDao implements BaseDao<Chat> {
    */
   Future<List<Chat>> selectChatMessagesByDeviceId(
       ChatsCompanion chatsCompanion) async {
-    // 构建查询: 获取双方的聊天信息
+    // 构建查询: 获取双方的聊天信息，限制20条
     final query = db.select(db.chats)
       ..where((tbl) => (tbl.senderId.equals(chatsCompanion.recipientId.value!) |
-          tbl.recipientId.equals(chatsCompanion.recipientId.value!)));
+          tbl.recipientId.equals(chatsCompanion.recipientId.value!)))
+      ..orderBy([
+        (tbl) => OrderingTerm.desc(tbl.timestamp)
+      ]) // 或者使用 `tbl.id` 代替 `tbl.timestamp`
+      ..limit(30);
     // 获取查询结果
     final result = await query.get();
     return result.toList();

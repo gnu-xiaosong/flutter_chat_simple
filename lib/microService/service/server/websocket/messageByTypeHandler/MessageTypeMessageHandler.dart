@@ -7,6 +7,7 @@ import 'dart:io';
 import '../../model/ClientModel.dart';
 import '../../../../module/manager/GlobalManager.dart';
 import '../../common/CommunicationTypeServerModulator.dart';
+import '../../model/OffLineDataModel.dart';
 import '../WebsocketServerManager.dart';
 import 'TypeMessageServerHandler.dart';
 
@@ -81,13 +82,14 @@ class MessageTypeMessageHandler extends TypeMessageServerHandler {
         // 排除为空的
         try {
           print("数据加密");
-          // 算法加密
+          // 算法加密: 使用本机特征deviceId加密
           msgDataTypeMap["info"] =
-              encodeMessage(clientObject.secret!, msgDataTypeMap["info"]);
-          // 不在线:进入离线消息队列
+              encodeMessage(GlobalManager.deviceId!, msgDataTypeMap["info"]);
+          //*******************不在线:进入离线消息队列,消息已经加密*******************
           printSuccess("进入消息队列后: $msgDataTypeMap");
           offLine.enOffLineQueue(
-              clientObject.deviceId!, "message", msgDataTypeMap);
+              clientObject.deviceId!, OffLineType.message, msgDataTypeMap);
+          //*******************不在线:进入离线消息队列 *******************
         } catch (e) {
           printError("数据加密失败!");
         }

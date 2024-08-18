@@ -65,7 +65,7 @@ class RequestScanAddUserTypeMessageHandler extends TypeMessageServerHandler {
 
       printWarn(
           "because receiver is offline for REQUEST_SCAN_ADD_USER,so the msg data enter the offLineMessageQueue");
-      // 进入离线消息队列
+      // 进入离线消息队列:
       WaitAgreeUserAddClientHandler waitAgreeUserAddClientHandler =
           WaitAgreeUserAddClientHandler();
       if (waitAgreeUserAddClientHandler.isWaitAgreeUserAdd) {

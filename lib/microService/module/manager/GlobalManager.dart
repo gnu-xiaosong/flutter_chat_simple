@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:socket_service/microService/ui/client/module/ClientStoreDataModule.dart';
 import '../../../database/LocalStorage.dart';
 import '../../../manager/HttpManager.dart';
 import '../../../manager/TestManager.dart';
@@ -19,14 +18,14 @@ import '../../../models/AppModel.dart';
 import '../../../models/UserModel.dart';
 import '../../service/client/websocket/WebsocketClientManager.dart';
 import '../../service/server/model/ClientModel.dart';
-import '../../service/server/module/MessageQueue.dart';
-import '../../service/server/module/OffLineMessageQueue.dart';
+import '../../service/server/queues/MessageQueue.dart';
+import '../../service/server/queues/OffLineMessageQueue.dart';
 import '../../service/server/schedule/message/UserSchedule.dart';
-import '../../ui/common/module/ServerStoreDataCommonModule.dart';
+import '../../service/store/OffMessageDateStore.dart';
+import '../../ui/client/module/StoreDataClientModule.dart';
 import '../../ui/server/module/StoreDataModule.dart';
 import '../adapter/CommandInfoAdapter.dart';
 import '../common/unique_device_id.dart';
-import '../model/CommandInfoModel.dart';
 import 'AppLifecycleStateManager.dart';
 import 'NotificationsManager.dart';
 import 'ToolsManager.dart';
@@ -114,13 +113,12 @@ class GlobalManager {
     // 创建一个Box
     await Hive.openBox("server"); // server端
     await Hive.openBox("client"); // client端
-    await Hive.openBox<List<CommandInfoModel>>(
-        'commandsBox'); // CommandInfoModel列表
+    await Hive.openBox('common'); // CommandInfoModel列表
+    await OffMessageDateStore.initialize();
 
-    // 初始化所有server端Hive的参数值
-    await ServerStoreDataModule().initialHiveParameter();
-    await ClientStoreDataModule().initialHiveParameter();
-    await ServerStoreDataCommonModule().initialHiveParameter();
+    // 初始化参数
+    ServerStoreDataModule().initial();
+    StoreDataClientModule().initial();
 
     // 调试管理器模块
     TestManager.debug();

@@ -32,7 +32,8 @@ class _IndexState extends State<ShowIpAndPortInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box>(
-        valueListenable: Hive.box("server").listenable(keys: ["serverConfig"]),
+        valueListenable:
+            Hive.box("server").listenable(keys: ["serverConfig", "isRunning"]),
         builder: (context, box, child) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,

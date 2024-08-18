@@ -753,8 +753,14 @@ server端响应
 * 2024-7-30  替换核心websocket，使用dart包flutter_websocket_simple包。
   
 * 2024-8-5 修复scan扫描add user bug，并重新整合项目新架构，优化项目结构
+
 * 2024-8-10 增加msi构建模块，并设置应用图标
+
 * 2024-8-12 修复websoketClient snd 关闭server无法广播在线在线client bug
+
+* 2024.8.19  修复server端离线消息缓存本地存储，存在bug，第一个离校消息由于对方没有断线离开而损失。
+  
+  
   
   
   

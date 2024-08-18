@@ -1,9 +1,10 @@
 /*
   离线消息队列处理类: 客户端
  */
+import '../../model/OffLineDataModel.dart';
 import '../../module/ServerWebsocketModule.dart';
 import '../../../../module/common/Console.dart';
-import '../../../../module/manager/GlobalManager.dart';
+import '../../queues/OffDataStoreQueue.dart';
 
 class WaitAgreeUserAddClientHandler extends ServerWebsocketModule with Console {
   // 等待好友申请消息队列开关:
@@ -29,10 +30,9 @@ class WaitAgreeUserAddClientHandler extends ServerWebsocketModule with Console {
      */
     // 进入等待好友申请消息队列中
     try {
-      offLine.enOffLineQueue(sendDeviceId, "addUser", enMsgMap);
+      offLine.enOffLineQueue(sendDeviceId, OffLineType.addUser, enMsgMap);
       printSuccess("msg进入等待好友申请消息队列成功! data=$enMsgMap");
-      printSuccess(
-          "OffLineQueue length=${GlobalManager.offLineMessageQueue.length}");
+      printSuccess("OffLineQueue length=${OffDataStoreQueue().length}");
       return true;
     } catch (e) {
       printCatch("msg进入等待好友申请消息队列失败!, more detail: $e");

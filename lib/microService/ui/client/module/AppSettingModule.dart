@@ -4,7 +4,6 @@
 import 'dart:io';
 import '../../../module/common/CommonModule.dart';
 import '../model/AppSettingModel.dart';
-import 'ClientStoreDataModule.dart';
 import 'StoreDataClientModule.dart';
 
 class AppClientSettingModule extends StoreDataClientModule {
@@ -31,6 +30,7 @@ class AppClientSettingModule extends StoreDataClientModule {
    */
   AppClientSettingModel? getAppConfig() {
     Map<String, dynamic>? data = getClientConfigInHive();
+    print("这里呀!：$data");
     if (data == null) {
       return null;
     } else {

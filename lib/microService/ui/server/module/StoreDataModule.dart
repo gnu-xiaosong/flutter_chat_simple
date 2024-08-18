@@ -1,5 +1,5 @@
 /*
-数据存储模块
+数据存储模块server端
  */
 import 'dart:io';
 
@@ -9,18 +9,12 @@ import '../../common/module/ServerStoreDataCommonModule.dart';
 
 class ServerStoreDataModule extends ServerStoreDataCommonModule {
   // 打开box
-  var box = Hive.box('commandsBox');
+  var box = Hive.box('server');
 
   /*
-   初始化所有参数值
+  初始化
    */
-  initialHiveParameter() async {
-    getIsRunningInHive();
-    getServerConfigInHive();
-    getDarkModeInHive();
-    getRetryInHive();
-    getMaxRetryInHive();
-    // 初始化参数
+  initial() {
     setIsRunningInHive(false);
   }
 
@@ -28,13 +22,7 @@ class ServerStoreDataModule extends ServerStoreDataCommonModule {
   获取断线重连次数
    */
   double getMaxRetryInHive() {
-    var serverConfig = box.get("maxRetry");
-    if (serverConfig == null) {
-      print("---------serverConfig Hive is not exist----------------");
-      // 无，创建
-      box.put("maxRetry", 10.0);
-    }
-    return double.parse(box.get("maxRetry").toString());
+    return double.parse(box.get("maxRetry", defaultValue: 10.0).toString());
   }
 
   /*
@@ -48,13 +36,7 @@ class ServerStoreDataModule extends ServerStoreDataCommonModule {
   获取断线重连参数
    */
   bool getRetryInHive() {
-    var serverConfig = box.get("retry");
-    if (serverConfig == null) {
-      print("---------serverConfig Hive is not exist----------------");
-      // 无，创建
-      box.put("retry", true);
-    }
-    return box.get("retry");
+    return box.get("retry", defaultValue: true);
   }
 
   /*
@@ -68,13 +50,7 @@ class ServerStoreDataModule extends ServerStoreDataCommonModule {
   模式获取：dark，light
    */
   bool getDarkModeInHive() {
-    var serverConfig = box.get("darkMode");
-    if (serverConfig == null) {
-      print("---------serverConfig Hive is not exist----------------");
-      // 无，创建
-      box.put("darkMode", false);
-    }
-    return box.get("darkMode");
+    return box.get("darkMode", defaultValue: false);
   }
 
   /*
@@ -118,14 +94,10 @@ class ServerStoreDataModule extends ServerStoreDataCommonModule {
   获取Hive中的server运行状态bool
    */
   bool getIsRunningInHive() {
-    var isRunning = box.get("isRunning");
-    if (isRunning == null) {
-      print("---------serverConfig Hive is not exist----------------");
-      // 无，创建
-      box.put("isRunning", false);
-    }
+    var isRunning = box.get("isRunning", defaultValue: false);
+
     // 获取
-    return box.get("isRunning");
+    return isRunning;
   }
 
   /*

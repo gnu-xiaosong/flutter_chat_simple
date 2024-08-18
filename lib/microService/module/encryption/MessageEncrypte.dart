@@ -51,14 +51,6 @@ class MessageEncrypte with Console, CommonTool, ClientTool, ServerTool {
         textEncryptionForJson.encryptJson(data_map, shift, auth_key);
 
     return endata_map;
-
-    // // return data_map;
-    // data_map.forEach((key, value) {
-    //   data_map[key] = TextEncryption()
-    //       .encrypt(value.toString(), shift, auth_key.toString());
-    // });
-    //
-    // return data_map;
   }
 
   // 认证消息解密算法
@@ -68,13 +60,6 @@ class MessageEncrypte with Console, CommonTool, ClientTool, ServerTool {
         textEncryptionForJson.decryptJson(data_map, shift, auth_key);
 
     return endata_map;
-
-    // data_map.forEach((key, value) {
-    //   String text = TextEncryption()
-    //       .decrypt(value.toString(), shift, auth_key.toString());
-    //   data_map[key] = text;
-    // });
-    // return data_map;
   }
 
   //*****************************************************************************************

@@ -18,10 +18,8 @@ import '../pages/logins/default/index/index.dart';
 
 //路由表
 Map<String, WidgetBuilder> routes = {
-  "/": (context) =>
-      AdaptiveHome(), // HomeServerPage(), // ClientIndexLayout(), //HomePage(),
-  // // AdaptiveHome(), // WorkStation(), // AddTaskPage(), //  WorkStation(), // AddTaskPage(), //  const CipherBookPage(), // const AdaptiveHome(), //AddUserQr(), // , //const MobileLayout1(), ChatPage(),
-  //const MobileLayout1(), //注册根路由:默认第一个为系统根路由： initialRoute: "/",
+  "/": (context) => ClientIndexLayout(),
+  //   HomeServerPage(), // ClientIndexLayout(),
   "home": (context) => const MobileLayout1(), // home 页路由
   "introduce": (context) => Introduction1(), //介绍页路由
   "login": (context) => const Login(),

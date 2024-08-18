@@ -9,7 +9,7 @@ import 'package:random_avatar/random_avatar.dart';
 import '../../../../database/LocalStorage.dart';
 import '../../../../database/daos/UserDao.dart';
 import '../../../module/manager/GlobalManager.dart';
-import '../../../service/server/module/MessageQueue.dart';
+import '../../../service/server/queues/MessageQueue.dart';
 import '../model/ChatMessage.dart';
 import '../common/TimeChat.dart';
 import '../model/ChatUser.dart';

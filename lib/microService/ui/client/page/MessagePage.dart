@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:popup_menu_plus/popup_menu_plus.dart';
 import '../../../../config/AppConfig.dart';
-import '../../../module/websocket/ChatWebsocketBoth.dart';
 import '../component/MessageListComponent.dart';
 import '../config/addMenuConfig.dart';
 import '../websocket/UiWebsocketClient.dart';
@@ -20,8 +19,6 @@ class _indexState extends State<MessagePage> {
   @override
   void initState() {
     super.initState();
-    // // 加载websocket
-    // ChatWebsocketBoth.getInstance().bootWebsocket();
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart' as Flutter;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import '../../../../database/daos/ChatDao.dart';
 import '../../../module/manager/GlobalManager.dart';
-import '../../../service/server/module/MessageQueue.dart';
+import '../../../service/server/queues/MessageQueue.dart';
 import '../common/Tool.dart';
 import '../model/ChatAuthor.dart';
 import '../module/ChatPageModule.dart';

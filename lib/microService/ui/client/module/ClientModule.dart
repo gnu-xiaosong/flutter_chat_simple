@@ -80,7 +80,7 @@ class ClientModule extends MessageEncrypte {
       // 通讯秘钥
       String? secret = appClientSettingModule.getSecretInHive();
       // 加密info字段
-      data?["info"] = encodeMessage(secret!, data["info"]);
+      data?["info"] = encodeMessage(secret, data["info"]);
 
       // 添加进消息队列中
       GlobalManager.clientWaitUserAgreeQueue.enqueue(data);

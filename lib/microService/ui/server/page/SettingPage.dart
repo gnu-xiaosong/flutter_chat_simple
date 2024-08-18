@@ -34,9 +34,10 @@ class _IndexState extends State<SettingPage>
     AppConfigModel? appConfigModel = appModule.getAppConfig();
 
     return ValueListenableBuilder(
-        valueListenable: Hive.box("server")
-            .listenable(keys: ["darkMode", "retry", "maxRetry"]),
+        valueListenable: Hive.box("server").listenable(
+            keys: ["darkMode", "retry", "maxRetry", "serverConfig"]),
         builder: (context, box, child) {
+          print("端口:${appConfigModel!.websocketPort.toString().tr()}");
           return Scaffold(
             appBar: AppBar(title: Text('setting'.tr())),
             body: Neumorphic(
@@ -47,7 +48,7 @@ class _IndexState extends State<SettingPage>
                 // 端口地址
                 NeumorphicTextField(
                   label: "port",
-                  hint: appConfigModel!.websocketPort.toString().tr(),
+                  hint: appConfigModel.websocketPort.toString().tr(),
                   onChanged: (newIp) {
                     setState(() {
                       if (appConfigModel != null) {
@@ -56,7 +57,7 @@ class _IndexState extends State<SettingPage>
                       }
                     });
                   },
-                  flex: 1,
+                  flex: 4,
                 ),
                 SizedBox(height: 10),
                 // 是否断线重连

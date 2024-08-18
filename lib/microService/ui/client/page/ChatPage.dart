@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
 import '../../../../database/LocalStorage.dart';
 import '../../../../database/daos/UserDao.dart';
-import '../../../../widgets/dropdowns/DropdownButton1.dart';
 import '../../../module/common/BroadcastModule.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../common/Tool.dart';
@@ -131,9 +130,9 @@ class _ChatPageState extends State<ChatPage> {
                         onPressed: () {},
                         icon: Icon(Icons.delete),
                       ),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton1(),
-                      )
+                      // DropdownButtonHideUnderline(
+                      //   child: DropdownButton1(),
+                      // )
                     ],
                     // 自定义图标样式
                     actionsIconTheme: IconThemeData(

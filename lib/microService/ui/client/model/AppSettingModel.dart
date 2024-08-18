@@ -56,6 +56,8 @@ class AppClientSettingModel {
 
   // Factory method to create an instance from JSON
   factory AppClientSettingModel.fromJson(Map<String, dynamic> json) {
+    print("ll: $json");
+    print("测试: ${json['username']}");
     return AppClientSettingModel(
       username: json['username'],
       serverIp: json['serverIp'],

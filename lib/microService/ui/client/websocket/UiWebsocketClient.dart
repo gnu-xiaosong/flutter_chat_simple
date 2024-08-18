@@ -24,6 +24,7 @@ class UiWebsocketClient extends ClientWebsocketModule with ExceptionUiModule {
 
   UiWebsocketClient() {
     appClientSettingModel = appClientSettingModule.getAppConfig()!;
+    printSuccess("这里: $appClientSettingModel");
     // 配置参数
     websocketClientManager.setConfig(
         ip: appClientSettingModel.serverIp,

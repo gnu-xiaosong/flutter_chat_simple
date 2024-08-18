@@ -4,7 +4,7 @@ websocket  server与client通讯 自定义消息处理类: TEST消息类型
 import '../../../../module/common/unique_device_id.dart';
 import '../../../../module/manager/GlobalManager.dart';
 import '../../../../ui/client/model/enum.dart';
-import '../../../server/module/MessageQueue.dart';
+import '../../../server/queues/MessageQueue.dart';
 import '../../common/CommunicationTypeClientModulator.dart';
 import '../WebsocketClientManager.dart';
 import 'TypeMessageClientHandler.dart';
