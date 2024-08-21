@@ -1,10 +1,23 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
-
 import '../../../module/common/NotificationInApp.dart';
 import '../../../module/manager/GlobalManager.dart';
+import '../../../module/plugin/storeData/ServerStoreDataPlugin.dart';
+import '../../../service/store/LogDataStore.dart';
 
 class ServerUiTool {
+  void checkFileExists(String path) async {
+    File file = File(path);
+    bool exists = await file.exists();
+    if (exists) {
+      print('文件存在');
+    } else {
+      print('文件不存在');
+    }
+  }
+
   /*
   复制到粘贴板
    */
@@ -41,7 +54,25 @@ class ServerUiTool {
 
     // 更新断线连接重试次数
     tmpList[1]["text"] = GlobalManager.globalServerBootCount;
+
+    // 更改全局日志总数
+    tmpList[2]["text"] = LogDataStore.getLogModelListInHive().length;
+
+    // 插件数
+    tmpList[3]["text"] =
+        "${ServerStoreDataPlugin.getPluginListInHive().where((e) => e.status).length}/${ServerStoreDataPlugin.getPluginListInHive().length}";
+
     // 更改
     GlobalManager.globalListValueNotifier.value = tmpList;
+  }
+
+  void deleteDirectory(String path) async {
+    try {
+      Directory dir = Directory(path);
+      await dir.delete(recursive: true); // recursive: true 表示删除目录及其所有子目录和文件
+      print('目录删除成功');
+    } catch (e) {
+      print('删除目录时发生错误: $e');
+    }
   }
 }

@@ -760,10 +760,27 @@ server端响应
 
 * 2024.8.19  修复server端离线消息缓存本地存储，存在bug，第一个离校消息由于对方没有断线离开而损失。
   
+* 2024.8.20 新增server_UI的日志信息记录功能模块
   
+  <img src="project/README/image-20240820120421625.png" alt="image-20240820120421625" style="zoom:33%;" />
   
+  导入包modal_bottom_sheet存在依赖冲突: 隐藏material中的ModalBottomSheetRoute
   
+  <img src="project/README/image-20240820134458203.png" alt="image-20240820134458203" style="zoom:33%;" />
   
+* 2024.8.21 新增server端插件系统，支持dart插件化支持，并修复面板显示bug
+
+  <img src="project/README/image-20240821094205370.png" alt="image-20240821094205370" style="zoom:25%;" /><img src="project/README/image-20240821094247980.png" alt="image-20240821094247980" style="zoom:25%;" />
+
+  采用dart_plugin_system项目开发，具体开发文档参见仓库https://github.com/gnu-xiaosong/dart_plugin_system   
+
+  同时将flutter版本升级到20.xx版本
+
+
+
   
+
+  
+
   
 

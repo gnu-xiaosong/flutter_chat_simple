@@ -117,5 +117,14 @@
   "user": "用户",
   "server_ip": "服务地址",
   "server_port": "服务端口",
-  "ws_type": "ws协议"
+  "ws_type": "ws协议",
+  "log info": "日志信息",
+  "log": "日志",
+  "plugin": "插件",
+  "plugins": "插件列表",
+  "no plugins": "暂无插件",
+  "add plugin": "添加插件",
+  "Enabled": "已启用",
+  "Disabled": "已禁用",
+  "delete": "删除"
 }

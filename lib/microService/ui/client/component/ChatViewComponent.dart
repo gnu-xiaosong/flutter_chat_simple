@@ -91,26 +91,24 @@ class _chatViewState extends State<chatView> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Flutter.Chat(
-          scrollPhysics: const BouncingScrollPhysics(),
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          messages: _messages, // 消息列表
-          onAttachmentPressed:
-              chatPageModel.handleAttachmentPressed, // 附件按钮点击事件
-          onMessageTap: chatPageModel.handleMessageTap, // 消息点击事件
-          onPreviewDataFetched:
-              chatPageModel.handlePreviewDataFetched, // 预览数据加载完成事件
-          onSendPressed: chatPageModel.handleSendPressed, // 发送按钮点击事件
-          showUserAvatars: true, // 显示用户头像
-          showUserNames: true, // 显示用户名
-          user: chatAuthor.user(), // 本机用户
-          // 自定义底部菜单栏
-          customBottomWidget: ChatBottom(chatPageModel),
-          bubbleBuilder: chatBubbleBuilder,
-        ),
-      ],
+    return Container(
+      child: Flutter.Chat(
+        theme: const Flutter.DarkChatTheme(),
+        scrollPhysics: const BouncingScrollPhysics(),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        messages: _messages, // 消息列表
+        onAttachmentPressed: chatPageModel.handleAttachmentPressed, // 附件按钮点击事件
+        onMessageTap: chatPageModel.handleMessageTap, // 消息点击事件
+        onPreviewDataFetched:
+            chatPageModel.handlePreviewDataFetched, // 预览数据加载完成事件
+        onSendPressed: chatPageModel.handleSendPressed, // 发送按钮点击事件
+        showUserAvatars: true, // 显示用户头像
+        showUserNames: true, // 显示用户名
+        user: chatAuthor.user(), // 本机用户
+        // 自定义底部菜单栏
+        customBottomWidget: ChatBottom(chatPageModel),
+        bubbleBuilder: chatBubbleBuilder,
+      ),
     );
   }
 

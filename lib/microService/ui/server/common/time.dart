@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 
-class ServerUiTime {
+import '../../../module/common/Time.dart';
+
+class ServerUiTime extends TimeTool {
   String formatDateTime(DateTime dateTime) {
     // 创建一个 DateFormat 对象，指定日期时间格式为 'yyyy-MM-dd HH:mm:ss'
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');

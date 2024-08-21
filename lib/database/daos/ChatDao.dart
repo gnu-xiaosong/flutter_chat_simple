@@ -22,7 +22,7 @@ class ChatDao implements BaseDao<Chat> {
       ..where((tbl) => (tbl.senderId.equals(chatsCompanion.recipientId.value!) |
           tbl.recipientId.equals(chatsCompanion.recipientId.value!)))
       ..orderBy([
-        (tbl) => OrderingTerm.desc(tbl.timestamp)
+        (tbl) => OrderingTerm.asc(tbl.timestamp)
       ]) // 或者使用 `tbl.id` 代替 `tbl.timestamp`
       ..limit(30);
     // 获取查询结果

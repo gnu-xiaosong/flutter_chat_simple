@@ -10,11 +10,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../config/AppConfig.dart';
-import '../../states/ThemeState.dart';
-import '../../widgets/floatButtons/SpeedDial.dart';
 import '../../widgets/sheets/mune_sheet.dart';
 
 PanelController slideControl = PanelController();

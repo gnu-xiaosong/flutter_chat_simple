@@ -10,10 +10,6 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macos_ui/macos_ui.dart';
 import '../microService/ui/server/page/HomePage.dart';
-import '../widgets/tabViews/CustomPaintTabView.dart';
-import '../widgets/tabViews/TabView3.dart';
-import '../widgets/tabViews/TabView4.dart';
-import '../widgets/tabViews/WindowsTabView1.dart';
 import 'AppConfig.dart';
 
 class WinConfig extends AppConfig {

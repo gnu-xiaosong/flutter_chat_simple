@@ -61,14 +61,14 @@ class UiWebsocketServer extends ServerWebsocketModule {
   1.启动前的初始化操作
    */
   initial(WebSocketServer webSocketServer) {
-    print("initial handler");
+    printInfo("initial handler");
   }
 
   /*
    2.当server绑定地址成功后调用
    */
   whenServerBindAddrSuccess(WebSocketServer webSocketServer) {
-    print("bind addr is successful to handler");
+    printInfo("bind addr is successful to handler");
     // 停止旋转
     GlobalManager.globalControl.stop();
     // 改变bootServer ui
@@ -79,7 +79,7 @@ class UiWebsocketServer extends ServerWebsocketModule {
    3.当client连接成功时调用
    */
   whenClientConnSuccess(HttpRequest request, WebSocket webSocket) {
-    print("client connect is successful ");
+    printInfo("client connect is successful ");
 
     // 添加进全局变量中: 所有连接过的
     /// 1.封装clientObject对象
@@ -113,6 +113,8 @@ class UiWebsocketServer extends ServerWebsocketModule {
             titleText: "disconnect",
             messageText:
                 "disconnect with ${clientObject.ip}:${clientObject.port}");
+        printInfo(
+            "disconnect:disconnect with ${clientObject.ip}:${clientObject.port} ");
         return true;
       }
       return false;
@@ -145,8 +147,8 @@ class UiWebsocketServer extends ServerWebsocketModule {
    5.当出现异常或错误时调用：错误类型见ErrorType枚举类型
    */
   whenServerError(WebSocketServer webSocketServer, ErrorObject errorObject) {
-    print("exist server error ");
-    print("$errorObject");
+    printInfo("exist server error ");
+    printInfo("$errorObject");
     if (errorObject.type == ErrorType.websocketServerBoot) {
       // 启动server失败
       // 停止旋转
@@ -164,6 +166,7 @@ class UiWebsocketServer extends ServerWebsocketModule {
         // UI提示
         notificationInApp.motionSuccessToast(
             titleText: "boot server", messageText: "the server is booted");
+        printInfo("boot server the server is booted");
       }
     }
 
@@ -179,8 +182,6 @@ class UiWebsocketServer extends ServerWebsocketModule {
    消息处理调用
    */
   handlerMessage(HttpRequest request, WebSocket webSocket, Map message) {
-    print("+message handler");
-
     // 第一层处理:调用调制器函数处理事先定义好的不同类型消息处理类
     communicationTypeServerModulator.handler(
         request, webSocket, websocketServerManager, message);
@@ -195,13 +196,16 @@ class UiWebsocketServer extends ServerWebsocketModule {
     printWarn(
         "=================handler websocket server procedure=======================");
     websocketServerManager.boot();
+
+    // 更新在线数
+    serverUiTool.updateShowInfo();
   }
 
   /*
   关闭server
    */
   closeServer() {
-    print("close the websocket server");
+    printInfo("close the websocket server");
 
     // 清空
     GlobalManager.onlineClientList = [];

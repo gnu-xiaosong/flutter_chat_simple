@@ -4,7 +4,6 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -22,7 +21,6 @@ import 'boot/EmbedBoot.dart';
 import 'boot/WindowsBoot.dart';
 import 'boot/MacosBoot.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'common/AppCommon.dart';
 import 'config/AppConfig.dart';
 import 'microService/module/manager/AppLifecycleStateManager.dart';

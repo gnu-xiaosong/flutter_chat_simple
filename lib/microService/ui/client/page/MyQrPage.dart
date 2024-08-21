@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import '../common/Tool.dart';
+import '../model/AppSettingModel.dart';
+import '../module/AppSettingModule.dart';
 
 class MyQrPage extends StatefulWidget {
   const MyQrPage({super.key});
@@ -13,6 +15,8 @@ class MyQrPage extends StatefulWidget {
 }
 
 class _MyQrPageState extends State<MyQrPage> {
+  AppClientSettingModule appClientSettingModule = AppClientSettingModule();
+
   // 添加一个方法来获取并编码二维码信息
   Future<String> getQrMessage() async {
     // 生成二维码信息
@@ -24,6 +28,8 @@ class _MyQrPageState extends State<MyQrPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppClientSettingModel? appClientSettingModel =
+        appClientSettingModule.getAppConfig();
     return Scaffold(
         appBar: AppBar(
           title: Text('My Qr'.tr()),
@@ -70,6 +76,12 @@ class _MyQrPageState extends State<MyQrPage> {
                                 errorCorrectLevel: QrErrorCorrectLevel.M,
                                 image: AssetImage('assets/images/app_icon.png'),
                               ),
+                            ),
+                            SizedBox(height: 20),
+                            // 用戶名称
+                            Center(
+                              child:
+                                  Text("用户:${appClientSettingModel?.username}"),
                             )
                           ],
                         ),

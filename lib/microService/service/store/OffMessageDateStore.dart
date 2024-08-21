@@ -2,8 +2,6 @@
 离线消息本地持久还存储
  */
 import 'package:hive/hive.dart';
-import 'package:socket_service/microService/module/encryption/MessageEncrypte.dart';
-import 'package:socket_service/microService/module/manager/GlobalManager.dart';
 import '../server/model/OffLineDataModel.dart';
 
 class OffMessageDateStore {

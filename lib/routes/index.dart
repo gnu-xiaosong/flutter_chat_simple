@@ -18,8 +18,9 @@ import '../pages/logins/default/index/index.dart';
 
 //路由表
 Map<String, WidgetBuilder> routes = {
-  "/": (context) => ClientIndexLayout(),
-  //   HomeServerPage(), // ClientIndexLayout(),
+  "/": (context) => HomeServerPage(),
+  //   ClientIndexLayout(), // // ClientIndexLayout(),
+  //  // ClientIndexLayout(),
   "home": (context) => const MobileLayout1(), // home 页路由
   "introduce": (context) => Introduction1(), //介绍页路由
   "login": (context) => const Login(),

@@ -26,6 +26,7 @@ import '../../ui/client/module/StoreDataClientModule.dart';
 import '../../ui/server/module/StoreDataModule.dart';
 import '../adapter/CommandInfoAdapter.dart';
 import '../common/unique_device_id.dart';
+import '../plugin/storeData/ServerStoreDataPlugin.dart';
 import 'AppLifecycleStateManager.dart';
 import 'NotificationsManager.dart';
 import 'ToolsManager.dart';
@@ -115,6 +116,8 @@ class GlobalManager {
     await Hive.openBox("client"); // client端
     await Hive.openBox('common'); // CommandInfoModel列表
     await OffMessageDateStore.initialize();
+    // 初始化持久化存储插件列表
+    await ServerStoreDataPlugin.initialize();
 
     // 初始化参数
     ServerStoreDataModule().initial();

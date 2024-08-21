@@ -7,10 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
+import 'package:iconify_flutter_plus/icons/material_symbols.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
-
+import 'package:iconify_flutter_plus/icons/zondicons.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../module/manager/GlobalManager.dart';
+import '../../../module/plugin/storeData/ServerStoreDataPlugin.dart';
+import '../../../service/store/LogDataStore.dart';
+import 'LogInfoComponent.dart';
 import 'OnlineClientListComponent.dart';
+import 'PluginListComponent.dart';
 
 class ServerInfoComponent extends StatefulWidget {
   const ServerInfoComponent({super.key});
@@ -125,7 +131,51 @@ class _IndexState extends State<ServerInfoComponent> {
         "label": "retry",
         "text": 0,
         "onTap": () {}
-      }
+      },
+      {
+        "icon": const Iconify(
+          Mdi.file_document_edit_outline,
+          size: 40,
+        ),
+        "label": "log",
+        "text": LogDataStore.getLogModelListInHive().length,
+        "onTap": () {
+          showMaterialModalBottomSheet(
+            context: context,
+            builder: (context) => const LogInfoComponent(),
+          );
+        }
+      },
+      {
+        "icon": const Iconify(
+          Zondicons.plugin,
+          size: 40,
+        ),
+        "label": "plugin",
+        "text":
+            "${ServerStoreDataPlugin.getPluginListInHive().where((e) => e.status).length}/${ServerStoreDataPlugin.getPluginListInHive().length}",
+        "onTap": () {
+          // 显示
+          showCupertinoModalBottomSheet(
+            context: context,
+            builder: (context) => const PluginListComponent(),
+          );
+        }
+      },
+      {
+        "icon": const Iconify(
+          MaterialSymbols.view_module,
+          size: 40,
+        ),
+        "label": "modules",
+        "text": LogDataStore.getLogModelListInHive().length,
+        "onTap": () {
+          showMaterialModalBottomSheet(
+            context: context,
+            builder: (context) => const LogInfoComponent(),
+          );
+        }
+      },
     ];
     // 创建一个 ValueNotifier
     GlobalManager.globalListValueNotifier.value = labelToolList;
