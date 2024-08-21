@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import '../../../module/common/NotificationInApp.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../../../module/plugin/storeData/ServerStoreDataPlugin.dart';
+import '../../../service/server/extentions/EnumExtension.dart';
 import '../../../service/store/LogDataStore.dart';
 
 class ServerUiTool {
@@ -61,6 +62,9 @@ class ServerUiTool {
     // 插件数
     tmpList[3]["text"] =
         "${ServerStoreDataPlugin.getPluginListInHive().where((e) => e.status).length}/${ServerStoreDataPlugin.getPluginListInHive().length}";
+
+    // 模块数
+    tmpList[4]["text"] = MsgTypeEnumExtension.count;
 
     // 更改
     GlobalManager.globalListValueNotifier.value = tmpList;

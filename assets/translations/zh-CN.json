@@ -126,5 +126,7 @@
   "add plugin": "添加插件",
   "Enabled": "已启用",
   "Disabled": "已禁用",
-  "delete": "删除"
+  "delete": "删除",
+  "ws modules": "ws模块",
+  "handler module": "模块处理"
 }

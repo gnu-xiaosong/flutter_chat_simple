@@ -13,8 +13,10 @@ import 'package:iconify_flutter_plus/icons/zondicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../../../module/plugin/storeData/ServerStoreDataPlugin.dart';
+import '../../../service/server/extentions/EnumExtension.dart';
 import '../../../service/store/LogDataStore.dart';
 import 'LogInfoComponent.dart';
+import 'MessageHandlerModuleComponent.dart';
 import 'OnlineClientListComponent.dart';
 import 'PluginListComponent.dart';
 
@@ -167,12 +169,13 @@ class _IndexState extends State<ServerInfoComponent> {
           MaterialSymbols.view_module,
           size: 40,
         ),
-        "label": "modules",
-        "text": LogDataStore.getLogModelListInHive().length,
+        "label": "ws modules",
+        "text": MsgTypeEnumExtension.count,
         "onTap": () {
-          showMaterialModalBottomSheet(
+          showCupertinoModalBottomSheet(
+            expand: true,
             context: context,
-            builder: (context) => const LogInfoComponent(),
+            builder: (context) => const MessageHandlerModuleComponent(),
           );
         }
       },
