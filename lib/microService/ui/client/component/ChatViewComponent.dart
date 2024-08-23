@@ -1,13 +1,19 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:chalkdart/chalkstrings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart' as Flutter;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../../../database/daos/ChatDao.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../../../service/server/queues/MessageQueue.dart';
 import '../common/Tool.dart';
 import '../model/ChatAuthor.dart';
 import '../module/ChatPageModule.dart';
+import '../module/StoreDataClientModule.dart';
 import '../widget/chatBubbleWidget.dart';
 import 'ChatBottomComponent.dart';
 
@@ -29,6 +35,8 @@ class _chatViewState extends State<chatView> {
   UiTool uiTool = UiTool();
   // user本机类
   ChatAuthor chatAuthor = ChatAuthor();
+
+  StoreDataClientModule storeDataClientModule = StoreDataClientModule();
 
   String? deviceId;
   late AnimationController animControl;
@@ -92,24 +100,55 @@ class _chatViewState extends State<chatView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Flutter.Chat(
-        theme: const Flutter.DarkChatTheme(),
-        scrollPhysics: const BouncingScrollPhysics(),
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        messages: _messages, // 消息列表
-        onAttachmentPressed: chatPageModel.handleAttachmentPressed, // 附件按钮点击事件
-        onMessageTap: chatPageModel.handleMessageTap, // 消息点击事件
-        onPreviewDataFetched:
-            chatPageModel.handlePreviewDataFetched, // 预览数据加载完成事件
-        onSendPressed: chatPageModel.handleSendPressed, // 发送按钮点击事件
-        showUserAvatars: true, // 显示用户头像
-        showUserNames: true, // 显示用户名
-        user: chatAuthor.user(), // 本机用户
-        // 自定义底部菜单栏
-        customBottomWidget: ChatBottom(chatPageModel),
-        bubbleBuilder: chatBubbleBuilder,
+      child: Stack(
+        children: [
+          // 背景图
+          ValueListenableBuilder(
+              valueListenable:
+                  Hive.box("client").listenable(keys: ["wallpaper"]),
+              builder: (_, box, child) => Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 47.h),
+                    child:
+                        _loadImage(storeDataClientModule.getChatWallPaper()[0]),
+                  )),
+          // 聊天信息
+          Flutter.Chat(
+            theme:
+                Flutter.DefaultChatTheme(backgroundColor: Colors.transparent),
+            scrollPhysics: const BouncingScrollPhysics(),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            messages: _messages, // 消息列表
+            onAttachmentPressed:
+                chatPageModel.handleAttachmentPressed, // 附件按钮点击事件
+            onMessageTap: chatPageModel.handleMessageTap, // 消息点击事件
+            onPreviewDataFetched:
+                chatPageModel.handlePreviewDataFetched, // 预览数据加载完成事件
+            onSendPressed: chatPageModel.handleSendPressed, // 发送按钮点击事件
+            showUserAvatars: true, // 显示用户头像
+            showUserNames: true, // 显示用户名
+            user: chatAuthor.user(), // 本机用户
+            // 自定义底部菜单栏
+            customBottomWidget: ChatBottom(chatPageModel),
+            bubbleBuilder: chatBubbleBuilder,
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _loadImage(String path) {
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      // 网络图片
+      return Image.network(path, fit: BoxFit.cover);
+    } else if (path.startsWith('/')) {
+      // 本地文件系统图片
+      return Image.file(File(path), fit: BoxFit.cover);
+    } else {
+      // asset 图片
+      return Image.asset(path, fit: BoxFit.cover);
+    }
   }
 
   /*

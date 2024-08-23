@@ -12,6 +12,7 @@ import 'package:iconify_flutter_plus/icons/zondicons.dart';
 import '../common/serverTool.dart';
 import '../component/AddPluginComponent.dart';
 import '../component/BootServerComponent.dart';
+import '../component/BottomInfoComponent.dart';
 import '../component/ServerInfoComponent.dart';
 import '../model/AppConfigModel.dart';
 import '../module/AppModule.dart';
@@ -118,7 +119,13 @@ class _HomePageState extends State<HomeServerPage> {
                               BootServerComponent(),
                               SizedBox(height: 10),
                               // 显示信息
-                              ServerInfoComponent()
+                              ServerInfoComponent(),
+
+                              SizedBox(
+                                height: 100,
+                              ),
+                              // 底部版权信息
+                              BottomInfoComponent()
                             ],
                           ),
                         ),

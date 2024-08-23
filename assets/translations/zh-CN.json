@@ -128,5 +128,9 @@
   "Disabled": "已禁用",
   "delete": "删除",
   "ws modules": "ws模块",
-  "handler module": "模块处理"
+  "handler module": "模块处理",
+  "find": "探寻",
+  "max find": "最大探测",
+  "wall paper": "壁纸",
+  "chat ui": "聊天UI"
 }

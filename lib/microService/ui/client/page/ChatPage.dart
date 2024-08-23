@@ -1,14 +1,21 @@
 import 'dart:async';
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fluid_dialog/fluid_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/ic.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
 import '../../../../database/LocalStorage.dart';
 import '../../../../database/daos/UserDao.dart';
 import '../../../module/common/BroadcastModule.dart';
 import '../../../module/manager/GlobalManager.dart';
 import '../common/Tool.dart';
+import '../component/ChatStyleSettingComponent.dart';
 import '../component/ChatViewComponent.dart';
 import '../model/enum.dart';
 import '../widget/userOnlineStatusWidget.dart';
@@ -120,15 +127,46 @@ class _ChatPageState extends State<ChatPage> {
                     ]),
                     //action（操作）right
                     actions: [
+                      // 主题设置
                       IconButton(
                         onPressed: () {
-                          // customBackground(context);
+                          // 设置主题
+                          showDialog(
+                            context: context,
+                            builder: (context) => FluidDialog(
+                              // Use a custom curve for the alignment transition
+                              alignmentCurve: Curves.easeInOutCubicEmphasized,
+                              // Setting custom durations for all animations.
+                              sizeDuration: const Duration(milliseconds: 300),
+                              alignmentDuration:
+                                  const Duration(milliseconds: 600),
+                              transitionDuration:
+                                  const Duration(milliseconds: 600),
+                              reverseTransitionDuration:
+                                  const Duration(milliseconds: 50),
+                              // Here we use another animation from the animations package instead of the default one.
+                              // transitionBuilder: (child, animation) => ZoomIn(
+                              //   child: child,
+                              // ),
+                              // Configuring how the dialog looks.
+                              defaultDecoration: BoxDecoration(
+                                color: NeumorphicTheme.baseColor(context),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              rootPage: FluidDialogPage(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(32),
+                                  color: NeumorphicTheme.baseColor(context),
+                                ),
+                                alignment: Alignment
+                                    .center, //Aligns the dialog to the bottom left.
+                                builder: (context) =>
+                                    const ChatStyleSettingComponent(), // This can be any widget.
+                              ),
+                            ),
+                          );
                         },
-                        icon: Icon(Icons.add),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.delete),
+                        icon: Iconify(Ic.outline_color_lens),
                       ),
                       // DropdownButtonHideUnderline(
                       //   child: DropdownButton1(),

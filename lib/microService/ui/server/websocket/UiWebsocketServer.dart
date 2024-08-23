@@ -119,6 +119,7 @@ class UiWebsocketServer extends ServerWebsocketModule {
       }
       return false;
     }); //在线连接
+
     GlobalManager.allConnectedClientList =
         GlobalManager.allConnectedClientList.map((clientObject) {
       // 找出对应存储的client

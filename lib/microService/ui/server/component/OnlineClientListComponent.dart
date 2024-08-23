@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../module/manager/GlobalManager.dart';
+import '../../client/module/AppSettingModule.dart';
 import '../common/serverTool.dart';
 import '../common/time.dart';
 
@@ -74,6 +74,9 @@ class _IndexState extends State<OnlineClientListComponent> {
                                         .remove(clientObject);
                                     // 更新数据
                                     serverUiTool.updateShowInfo();
+
+                                    // 将重连关闭
+
                                     setState(() {});
                                   },
                                   backgroundColor: Color(0xFFFE4A49),

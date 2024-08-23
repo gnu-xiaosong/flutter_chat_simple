@@ -1333,6 +1333,14 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "7.7.0"
+  glass_kit:
+    dependency: "direct main"
+    description:
+      name: glass_kit
+      sha256: ccb7c31b07403d757bd338901a0f4859c081db05a6593916be87d7c20f07d9b7
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "4.0.1"
   glob:
     dependency: transitive
     description:
@@ -2714,6 +2722,22 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "0.0.1"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: ca34210d70dd7ecb77489c21c8131a7f5546dea47780cd5f510326348091cb42
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "26.2.10"
+  syncfusion_flutter_gauges:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_gauges
+      sha256: "9de7f312c3f1e7ff4ee0d7de11c6f1e15a35403de5bac8c951303f4a0e43650b"
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "26.2.10"
   synchronized:
     dependency: transitive
     description:

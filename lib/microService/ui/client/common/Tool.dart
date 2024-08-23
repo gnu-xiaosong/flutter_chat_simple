@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,24 @@ import '../../../module/manager/GlobalManager.dart';
 import '../../../module/common/NotificationInApp.dart';
 
 class UiTool extends AppClientSettingModule {
+  /*
+  删除本地文件
+   */
+  Future<void> deleteFile(String filePath) async {
+    final file = File(filePath);
+
+    try {
+      if (await file.exists()) {
+        await file.delete();
+        print('文件已成功删除');
+      } else {
+        print('文件不存在');
+      }
+    } catch (e) {
+      print('删除文件时发生错误: $e');
+    }
+  }
+
   /*
   复制到粘贴板
    */

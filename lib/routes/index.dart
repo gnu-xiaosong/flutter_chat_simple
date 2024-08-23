@@ -13,13 +13,12 @@ import '../microService/ui/client/page/ChatPage.dart';
 import '../microService/ui/server/page/HomePage.dart';
 import '../pages/Introduction/Introduction1.dart';
 import '../pages/Introduction/introduction2/introduction_animation_screen.dart';
-import '../pages/adaptive/Home.dart';
 import '../pages/logins/default/index/index.dart';
 
 //路由表
 Map<String, WidgetBuilder> routes = {
-  "/": (context) => HomeServerPage(),
-  //   ClientIndexLayout(), // // ClientIndexLayout(),
+  "/": (context) => ClientIndexLayout(), // HomeServerPage(), //, //,
+  //   // // ClientIndexLayout(),
   //  // ClientIndexLayout(),
   "home": (context) => const MobileLayout1(), // home 页路由
   "introduce": (context) => Introduction1(), //介绍页路由

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:path/path.dart' as p;
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -101,13 +103,10 @@ class _IndexState extends State<PluginListComponent> {
                               leading: SizedBox(
                                 width: 50,
                                 height: 50,
-                                child: CircularProfileAvatar(
-                                  pluginInfoModel.icon,
-                                  borderColor: Colors.purpleAccent,
-                                  borderWidth: 3,
-                                  elevation: 2,
-                                  radius: 50,
-                                  child: FlutterLogo(),
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: _loadImage(pluginInfoModel.icon),
                                 ),
                               ),
                               // 名称：唯一性ID
@@ -174,6 +173,19 @@ class _IndexState extends State<PluginListComponent> {
         ],
       ),
     );
+  }
+
+  Widget _loadImage(String path) {
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      // 网络图片
+      return Image.network(path, fit: BoxFit.cover);
+    } else if (path.startsWith('/')) {
+      // 本地文件系统图片
+      return Image.file(File(path), fit: BoxFit.cover);
+    } else {
+      // asset 图片
+      return Image.asset(path, fit: BoxFit.cover);
+    }
   }
 
   /*

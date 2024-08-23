@@ -62,7 +62,7 @@ class _IndexState extends State<SettingPage>
                 // server服务地址
                 NeumorphicTextField(
                   label: "server_ip",
-                  hint: appConfigModel!.serverIp.toString().tr(),
+                  hint: appConfigModel.serverIp.toString().tr(),
                   onChanged: (newIp) {
                     setState(() {
                       if (appConfigModel != null) {
@@ -121,7 +121,16 @@ class _IndexState extends State<SettingPage>
                   onChanged: (maxRetry) {
                     appModule.setMaxRetryInHive(double.parse(maxRetry));
                   },
-                )
+                ),
+                // 最大探测次数
+                NeumorphicCounterWidget(
+                  label: "max find",
+                  flex: 4,
+                  value: appModule.getMaxFindInHive(),
+                  onChanged: (value) {
+                    appModule.setMaxFindInHive(double.parse(value));
+                  },
+                ),
               ]),
             ),
           );

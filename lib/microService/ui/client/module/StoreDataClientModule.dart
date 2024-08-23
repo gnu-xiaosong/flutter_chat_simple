@@ -22,8 +22,65 @@ class StoreDataClientModule extends CommonModule {
     getRetryInHive();
     getMaxRetryInHive();
     getSecretInHive();
+    getChatWallPaper();
     // 初始化参数
     setIsRunningInHive(false);
+  }
+
+  /*
+  获取用户壁纸列表
+   */
+  List getChatWallPaper() {
+    List wallPapers = box.get("wallpaper", defaultValue: <String>[
+      'assets/wallpaper/wallpaper1.jpeg',
+      'assets/wallpaper/wallpaper2.jpg',
+      'assets/wallpaper/wallpaper3.jpg',
+    ]);
+    return wallPapers;
+  }
+
+  /*
+  设置聊天壁纸
+   */
+  setChatPaper(String value) {
+    // 剔除相同地
+    List wallPapers = box.get("wallpaper") ?? getChatWallPaper();
+
+    print("ok: $wallPapers");
+    wallPapers.removeWhere((e) => e == value);
+
+    // 添加
+    wallPapers.insert(0, value);
+
+    // 保存
+    box.put("wallpaper", wallPapers);
+  }
+
+  /*
+  删除聊天壁纸
+   */
+  deleteChatPaper(String value) {
+    // 剔除相同地
+    List wallPapers = box.get("wallpaper") ?? getChatWallPaper();
+
+    wallPapers.removeWhere((e) => e == value);
+
+    // 保存
+    box.put("wallpaper", wallPapers);
+  }
+
+  /*
+  获取最大探测次数
+   */
+  double getMaxFindInHive() {
+    return box.get("maxFind", defaultValue: 100.0);
+  }
+
+  /*
+  设置最大探测次数
+   */
+  setMaxFindInHive(double value) {
+    box.put("maxFind", value);
   }
 
   /*

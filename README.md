@@ -776,6 +776,22 @@ server端响应
 
   同时将flutter版本升级到20.xx版本
 
+  > 提示：目前插件系统的注入点还没有注入，因此目前插件模块开发还不能使用，暂时作为功能性阅览，后期将会补充完善并编写对应开发文档。
+
+* 2024.8.21  新增ws模块，用于显示socket信息处理类别模块
+
+  <img src="project/README/image-20240821141511695.png" alt="image-20240821141511695" style="zoom:25%;" /><img src="project/README/image-20240821141446277.png" alt="image-20240821141446277" style="zoom:25%;" />
+
+* 2024.8.23  新增聊天UI设置：自定义背景图像
+
+  <img src="project/README/image-20240823180930832.png" alt="image-20240823180930832" style="zoom:25%;" />
+
+* 
+
+  
+
+
+
 
 
   
