@@ -833,6 +833,10 @@ server端响应
 
   <img src="project/README/image-20240826104601379.png" alt="image-20240826104601379" style="zoom:25%;" />
 
+* 2024.8.26  新增client端聊天图片支持，并支持图片阅览缩放等操作,重构部分代码
+
+  
+
   
 
   
