@@ -2,6 +2,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import '../websocket/WebsocketClientManager.dart';
 import '../websocket/messageByTypeHandler/AuthTypeMessageHandler.dart';
 import '../websocket/messageByTypeHandler/BroadcastInlineClientTypeMessageHandler.dart';
+import '../websocket/messageByTypeHandler/FtpTypeMessageHandler.dart';
 import '../websocket/messageByTypeHandler/MessageTypeMessageHandler.dart';
 import '../websocket/messageByTypeHandler/RequestInlineClientTypeMessageHandler.dart';
 import '../websocket/messageByTypeHandler/RequestScanAddUserTypeMessageHandler.dart';
@@ -11,6 +12,7 @@ import '../websocket/messageByTypeHandler/TestTypeMessageHandler.dart';
 enum MsgType { 
 AUTH,
 BROADCAST_INLINE_CLIENT,
+FTP,
 MESSAGE,
 REQUEST_INLINE_CLIENT,
 REQUEST_SCAN_ADD_USER,
@@ -22,6 +24,7 @@ TEST,
 Map<String, dynamic> msgTypeByString = {
  "AUTH": MsgType.AUTH,
  "BROADCAST_INLINE_CLIENT": MsgType.BROADCAST_INLINE_CLIENT,
+ "FTP": MsgType.FTP,
  "MESSAGE": MsgType.MESSAGE,
  "REQUEST_INLINE_CLIENT": MsgType.REQUEST_INLINE_CLIENT,
  "REQUEST_SCAN_ADD_USER": MsgType.REQUEST_SCAN_ADD_USER,
@@ -33,6 +36,7 @@ Map<String, dynamic> msgTypeByString = {
 Map<dynamic, String> stringByMsgType = {
  MsgType.AUTH: "AUTH",
  MsgType.BROADCAST_INLINE_CLIENT: "BROADCAST_INLINE_CLIENT",
+ MsgType.FTP: "FTP",
  MsgType.MESSAGE: "MESSAGE",
  MsgType.REQUEST_INLINE_CLIENT: "REQUEST_INLINE_CLIENT",
  MsgType.REQUEST_SCAN_ADD_USER: "REQUEST_SCAN_ADD_USER",
@@ -41,7 +45,7 @@ Map<dynamic, String> stringByMsgType = {
 };
 
 class CommunicationTypeClientModulator  {
-  List classNames = [AuthTypeMessageHandler(), BroadcastInlineClientTypeMessageHandler(), MessageTypeMessageHandler(), RequestInlineClientTypeMessageHandler(), RequestScanAddUserTypeMessageHandler(), ScanTypeMessageHandler(), TestTypeMessageHandler()];
+  List classNames = [AuthTypeMessageHandler(), BroadcastInlineClientTypeMessageHandler(), FtpTypeMessageHandler(), MessageTypeMessageHandler(), RequestInlineClientTypeMessageHandler(), RequestScanAddUserTypeMessageHandler(), ScanTypeMessageHandler(), TestTypeMessageHandler()];
   void handler(WebsocketClientManager websocketClientManager, Map msgDataTypeMap) {
     for (var item in classNames) {
       String messageTypeStr = msgDataTypeMap["type"].toUpperCase();

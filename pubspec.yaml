@@ -165,6 +165,11 @@ dependencies:
   graphview: ^1.2.0
   syncfusion_flutter_gauges: ^26.2.10
   glass_kit: ^4.0.1
+  http_multi_server: ^3.2.1
+  http_parser: ^4.0.0
+  mime: ^1.0.0
+  shelf_router: ^1.1.0
+  shelf_multipart: ^2.0.0
 
 
 

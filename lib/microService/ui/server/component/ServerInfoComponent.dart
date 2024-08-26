@@ -32,8 +32,16 @@ class _IndexState extends State<ServerInfoComponent> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      child: Center(
-        child: gridLayout(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            fit: FlexFit.loose,
+            child: Center(
+              child: gridLayout(),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -29,13 +29,11 @@ class _FindServerComponentState extends State<FindServerComponent>
       AppClientSettingModule();
 
   bool isFinding = false;
-  String statusMessage = "";
-  String tip = "";
+  String statusMessage = "-";
+  String tip = "-";
   late String wifiIP;
   late AnimationController _controller;
   Offset? devicePosition;
-
-  int i = 0;
 
   // Found servers
   List<Map<String, dynamic>> serverList = [];
@@ -101,7 +99,8 @@ class _FindServerComponentState extends State<FindServerComponent>
               child: ListView(
                 children: serverList.map((server) {
                   return ListTile(
-                    leading: const Icon(Icons.devices, color: Colors.white),
+                    leading: const Iconify(HeroiconsOutline.device_tablet,
+                        color: Colors.white),
                     title: Text("ip:${server["ip"]}".tr()),
                     subtitle: Text("port:${server["port"]}".tr()),
                     trailing: TextButton(
@@ -126,7 +125,9 @@ class _FindServerComponentState extends State<FindServerComponent>
             ),
             SizedBox(height: 30.h),
             Container(
+              width: 100.w,
               alignment: Alignment.center,
+              height: 40.h,
               child: GestureDetector(
                 onTap: () {
                   setState(() {
@@ -145,7 +146,7 @@ class _FindServerComponentState extends State<FindServerComponent>
                     isFinding
                         ? Ic.baseline_pause_circle
                         : Ic.baseline_play_circle,
-                    size: 70),
+                    size: 100),
               ),
             ),
           ],
@@ -154,7 +155,7 @@ class _FindServerComponentState extends State<FindServerComponent>
 
   Future<void> startFinding() async {
     double max = appClientSettingModule.getMaxFindInHive();
-    for (; i < max; i++) {
+    for (int i = 0; i < max; i++) {
       if (!isFinding) break;
 
       var subnet = CommonModule().ipToCSubnet(wifiIP);
@@ -192,8 +193,6 @@ class _FindServerComponentState extends State<FindServerComponent>
     setState(() {
       statusMessage = "Search completed";
     });
-    isFinding = !isFinding;
-    i = 0;
     _controller.stop();
   }
 

@@ -34,8 +34,13 @@ class _IndexState extends State<SettingPage>
     AppConfigModel? appConfigModel = appModule.getAppConfig();
 
     return ValueListenableBuilder(
-        valueListenable: Hive.box("server").listenable(
-            keys: ["darkMode", "retry", "maxRetry", "serverConfig"]),
+        valueListenable: Hive.box("server").listenable(keys: [
+          "darkMode",
+          "retry",
+          "maxRetry",
+          "serverConfig",
+          "httpPort"
+        ]),
         builder: (context, box, child) {
           print("端口:${appConfigModel!.websocketPort.toString().tr()}");
           return Scaffold(
@@ -47,13 +52,27 @@ class _IndexState extends State<SettingPage>
                 SizedBox(height: 8),
                 // 端口地址
                 NeumorphicTextField(
-                  label: "port",
+                  label: "socket port",
                   hint: appConfigModel.websocketPort.toString().tr(),
                   onChanged: (newIp) {
                     setState(() {
                       if (appConfigModel != null) {
                         // 保存
                         appConfigModel.websocketPort = int.parse(newIp);
+                      }
+                    });
+                  },
+                  flex: 4,
+                ),
+                SizedBox(height: 10),
+                NeumorphicTextField(
+                  label: "http port",
+                  hint: appModule.getHttpPortInHive().toString().tr(),
+                  onChanged: (newIp) {
+                    setState(() {
+                      if (appConfigModel != null) {
+                        // 保存
+                        appModule.setHttpPortInHive(int.parse(newIp));
                       }
                     });
                   },
@@ -71,14 +90,20 @@ class _IndexState extends State<SettingPage>
                     }),
                 SizedBox(height: 10),
                 // 最大重连次数
-                NeumorphicCounterWidget(
+                NeumorphicTextField(
                   label: "max retry",
-                  flex: 5,
-                  value: appModule.getMaxRetryInHive(),
-                  onChanged: (maxRetry) {
-                    appModule.setMaxRetryInHive(double.parse(maxRetry));
+                  hint: appModule.getMaxRetryInHive().toString().tr(),
+                  onChanged: (newIp) {
+                    setState(() {
+                      if (appConfigModel != null) {
+                        // 保存
+                        appModule
+                            .setMaxRetryInHive(int.parse(newIp.toString()));
+                      }
+                    });
                   },
-                )
+                  flex: 4,
+                ),
               ]),
             ),
           );

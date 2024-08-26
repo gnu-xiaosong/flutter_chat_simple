@@ -222,7 +222,7 @@ websocketServerManager.boot();
 
 3. 运行该命令生成代码：切换到项目根目录下
 
-   `dart run .\bin\genOtherClientMsgTypeClass.dart`
+   `dart run .\bin\genCommunicationTypeClientModulatorClass.dart`
 
   提示： 与server类似使用
 
@@ -263,6 +263,49 @@ websocketClientManager.conn();
 ### 层级模型
 
 ### 模块模型
+
+#### 一，公共类消息模块
+
+参见详情代码逻辑
+
+#### 二，FTP类消息模块
+
+##### 系统架构图
+
+![image-20240824092049675](project/README/image-20240824092049675.png)
+
+##### 技术栈选型
+
+- **目录结构传输协议**： 采用socket双向传输协议，能进行主动传输。
+
+- **文件传输协议**: 有如下协议选择
+
+  1. http协议：被动
+  2. webscoket协议：主动
+
+     文件存储策略：
+
+  1. 中心服务器托管：设计柔性，用户可选择中心服务器（充分保障用户信息安全）
+  2. 去中心化(客户端本地存储)存储：只依托于中心服务器作为文件传输的中转站(会进行加密，防止中心服务器劫持文件内容)        **推荐**
+
+##### 文件传输系统开发
+
+###### 系统架构图
+
+![image-20240824102504675](project/README/image-20240824102504675.png)
+
+###### 设计要求
+
+- 用户自行选择文件服务器：server端构建的文件服务器、自建的文件服务器、阿里云等官方存储文件服务
+- 高安全性，信息传输链中仅仅通讯双方client才能有权限进行查阅，server中心文件服务器也无权查阅文件内容，充分保障用户隐私与安全。
+
+###### HTTP system开发
+
+
+
+​			
+
+
 
 
 
@@ -786,7 +829,11 @@ server端响应
 
   <img src="project/README/image-20240823180930832.png" alt="image-20240823180930832" style="zoom:25%;" />
 
-* 
+* 2024.8.26 新增本地启动Http server服务
+
+  <img src="project/README/image-20240826104601379.png" alt="image-20240826104601379" style="zoom:25%;" />
+
+  
 
   
 

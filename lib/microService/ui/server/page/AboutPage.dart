@@ -70,14 +70,14 @@ class _IndexState extends State<AboutPage> with SingleTickerProviderStateMixin {
                     }),
                 SizedBox(height: 10),
                 // 最大重连次数
-                NeumorphicCounterWidget(
+                NeumorphicTextField(
                   label: "max retry",
-                  flex: 5,
-                  value: appModule.getMaxRetryInHive(),
-                  onChanged: (maxRetry) {
-                    appModule.setMaxRetryInHive(double.parse(maxRetry));
+                  hint: appModule.getMaxRetryInHive().toString().tr(),
+                  onChanged: (newIp) {
+                    appModule.setMaxRetryInHive(int.parse(newIp));
                   },
-                )
+                  flex: 4,
+                ),
               ]),
             ),
           );

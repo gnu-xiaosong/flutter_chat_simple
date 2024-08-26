@@ -16,19 +16,34 @@ class ServerStoreDataModule extends ServerStoreDataCommonModule {
    */
   initial() {
     setIsRunningInHive(false);
+    // setHttpIsRunningInHive(false);
+  }
+
+  /*
+  获取http端口
+   */
+  int getHttpPortInHive() {
+    return int.parse(box.get("httpPort", defaultValue: 5200).toString());
+  }
+
+  /*
+  设置http端口
+   */
+  setHttpPortInHive(int port) {
+    box.put("httpPort", port);
   }
 
   /*
   获取断线重连次数
    */
-  double getMaxRetryInHive() {
-    return double.parse(box.get("maxRetry", defaultValue: 10.0).toString());
+  int getMaxRetryInHive() {
+    return int.parse(box.get("maxRetry", defaultValue: 10).toString());
   }
 
   /*
   设置断线重连次数
    */
-  setMaxRetryInHive(double max) {
+  setMaxRetryInHive(int max) {
     box.put("maxRetry", max);
   }
 
@@ -105,5 +120,22 @@ class ServerStoreDataModule extends ServerStoreDataCommonModule {
    */
   void setIsRunningInHive(bool result) {
     box.put("isRunning", result);
+  }
+
+  /*
+  获取Hive中的http server运行状态bool
+   */
+  bool getHttpIsRunningInHive() {
+    var isRunning = box.get("httpIsRunning", defaultValue: false);
+
+    // 获取
+    return isRunning;
+  }
+
+  /*
+  设置Hive中的http server运行状态bool
+   */
+  void setHttpIsRunningInHive(bool result) {
+    box.put("httpIsRunning", result);
   }
 }

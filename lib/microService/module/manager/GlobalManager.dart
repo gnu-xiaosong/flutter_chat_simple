@@ -65,8 +65,10 @@ class GlobalManager {
   static bool isOnline = false;
   // 14.启动开始时间
   static DateTime? websocketBootStartTime = DateTime.now();
+  static DateTime? httpBootStartTime = DateTime.now();
   // 15.全局controller变量
   static var globalControl;
+  static var globalControlHttp;
   // 16.全局hiveBox
   static var hiveBox;
   // 17. 全局定时器
