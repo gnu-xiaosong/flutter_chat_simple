@@ -164,14 +164,15 @@ class _ChatBottomState extends State<ChatBottom> {
       actions: [
         InkWell(
           child: Icon(
-            Icons.file_present,
+            Icons.image,
             color: Colors.black,
             size: 28,
           ),
           onTap: () {
             print("open file");
             // 打开sheet显示图片和文件
-            chatPageModel.handleAttachmentPressed();
+            // chatPageModel.handleAttachmentPressed();
+            chatPageModel.handleImageSelection();
           },
         ),
         Padding(

@@ -72,14 +72,14 @@ class StoreDataClientModule extends CommonModule {
   /*
   获取最大探测次数
    */
-  double getMaxFindInHive() {
-    return box.get("maxFind", defaultValue: 100.0);
+  int getMaxFindInHive() {
+    return box.get("maxFind", defaultValue: 100);
   }
 
   /*
   设置最大探测次数
    */
-  setMaxFindInHive(double value) {
+  setMaxFindInHive(int value) {
     box.put("maxFind", value);
   }
 
@@ -106,20 +106,20 @@ class StoreDataClientModule extends CommonModule {
   /*
   获取断线重连次数
    */
-  double getMaxRetryInHive() {
+  int getMaxRetryInHive() {
     var serverConfig = box.get("maxRetry");
     if (serverConfig == null) {
       print("---------serverConfig Hive is not exist----------------");
       // 无，创建
-      box.put("maxRetry", 10.0);
+      box.put("maxRetry", 10);
     }
-    return double.parse(box.get("maxRetry").toString());
+    return int.parse(box.get("maxRetry").toString());
   }
 
   /*
   设置断线重连次数
    */
-  setMaxRetryInHive(double max) {
+  setMaxRetryInHive(int max) {
     box.put("maxRetry", max);
   }
 
@@ -175,7 +175,9 @@ class StoreDataClientModule extends CommonModule {
         "username": generateRandomUsername(7),
         "serverIp": "192.168.1.3",
         "serverPort": 1314,
-        'wsType': "ws"
+        'wsType': "ws",
+        "httpIp": "192.168.1.3",
+        "httpPort": 5200
       };
       box.put("clientConfig", config);
     }

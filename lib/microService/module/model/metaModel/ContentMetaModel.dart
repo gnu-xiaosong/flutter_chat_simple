@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import '../../common/tools.dart';
-import 'AttachmentMetaModel.dart.dart';
+import 'AttachmentMetaModel.dart';
 
 class ContentMetaModel with CommonTool {
   // 文本

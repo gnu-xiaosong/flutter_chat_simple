@@ -115,8 +115,8 @@
   "normal": "正常",
   "message": "消息",
   "user": "用户",
-  "server_ip": "服务地址",
-  "server_port": "服务端口",
+  "server_ip": "socket地址",
+  "server_port": "socket端口",
   "ws_type": "ws协议",
   "log info": "日志信息",
   "log": "日志",
@@ -134,5 +134,8 @@
   "wall paper": "壁纸",
   "chat ui": "聊天UI",
   "file translate": "文件传输",
-  "file synergy": "文件协同"
+  "file synergy": "文件协同",
+  "http_ip": "http地址",
+  "http_port": "http端口",
+  "deviceName": "设备名"
 }

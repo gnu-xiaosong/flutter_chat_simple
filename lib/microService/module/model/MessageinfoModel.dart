@@ -2,7 +2,7 @@
 消息MESSAGE类模型 继承至CommunicationModel类
  */
 
-import 'metaModel/ContentMetaModel.dart.dart';
+import 'metaModel/ContentMetaModel.dart';
 import 'metaModel/MetadataModel.dart';
 import 'metaModel/RecipientMetaModel.dart';
 import 'metaModel/SenderMetaModel.dart';

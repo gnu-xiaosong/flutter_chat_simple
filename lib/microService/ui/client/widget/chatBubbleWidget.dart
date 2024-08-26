@@ -1,9 +1,16 @@
+import 'dart:io';
+
+import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:socket_service/microService/ui/client/widget/textSelectionWidget.dart';
 
 import '../../../module/manager/GlobalManager.dart';
+import '../../common/module/CommonUITool.dart';
+import '../component/ImagePreviewScreenComponent.dart';
+
+CommonUITool commonUITool = CommonUITool();
 
 Widget chatBubbleBuilder(
   Widget child, {
@@ -15,13 +22,27 @@ Widget chatBubbleBuilder(
 
   // 从消息对象中提取文本
   String messageText = '';
+
   if (message is types.TextMessage) {
     messageText = message.text ?? ''; // 如果消息为空，则默认为空字符串
   }
+  // types.ImageMessage().uri
 
   // 判断消息类型
   if (message.type == types.MessageType.image) {
     // 图片bubble
+    return BubbleNormalImage(
+      id: message.id, // 唯一消息id
+      image: ImageWidget(imagePath: message.uri),
+      color: Colors.transparent,
+      tail: true,
+      delivered: false,
+      sent: false,
+      isSender: msgPosition[2],
+      onTap: () {
+        print("點擊了");
+      },
+    );
   } else if (message.type == types.MessageType.text) {
     // 文本bubble
     return chatTextBubble(msgPosition: msgPosition, messageText: messageText);
@@ -55,10 +76,10 @@ List messagePosition(types.Message message) {
 
   if (deviceId == msgDeviceId) {
     // 本机
-    return [BubbleType.sendBubble, Alignment.topRight];
+    return [BubbleType.sendBubble, Alignment.topRight, true];
   } else {
     // 对方
-    return [BubbleType.receiverBubble, Alignment.topLeft];
+    return [BubbleType.receiverBubble, Alignment.topLeft, false];
   }
 }
 

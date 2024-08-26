@@ -154,7 +154,7 @@ class _FindServerComponentState extends State<FindServerComponent>
   }
 
   Future<void> startFinding() async {
-    double max = appClientSettingModule.getMaxFindInHive();
+    int max = appClientSettingModule.getMaxFindInHive();
     for (int i = 0; i < max; i++) {
       if (!isFinding) break;
 
@@ -173,7 +173,8 @@ class _FindServerComponentState extends State<FindServerComponent>
         setState(() {
           statusMessage = "Server found at $ip";
           // Calculate device position
-          devicePosition = calculateDevicePosition(i, max, 200.w / 2);
+          devicePosition =
+              calculateDevicePosition(i, max.toDouble(), 200.w / 2);
           // Add to server list
           serverList.add({
             "name": i.toString(),

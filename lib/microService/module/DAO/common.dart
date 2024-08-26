@@ -20,7 +20,7 @@ class CommonDao {
       senderId: Value(msgObj["sender"]["id"]),
       senderUsername: msgObj["sender"]["username"],
       msgType: msgObj["msgType"],
-      contentText: msgObj["content"]["text"],
+      contentText: msgObj["content"]["text"] ?? "",
       timestamp: DateTime.parse(msgObj["timestamp"]) ?? DateTime.now(),
       metadataMessageId: msgObj["metadata"]["messageId"],
       //消息状态,消息状态，例如 sent, delivered, read

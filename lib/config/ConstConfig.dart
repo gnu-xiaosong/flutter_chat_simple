@@ -11,6 +11,7 @@
 enum METHODS {
   POST,
   GET,
+  FILE,
   PUT,
 }
 

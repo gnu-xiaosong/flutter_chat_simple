@@ -17,6 +17,9 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import '../../../module/DAO/common.dart';
 import '../../../module/encryption/MessageEncrypte.dart';
 import '../../../module/manager/GlobalManager.dart';
+import '../../../module/model/metaModel/AttachmentMetaModel.dart';
+import '../../../module/model/metaModel/MetadataModel.dart';
+import '../api/FileHttpApi.dart';
 import '../model/ChatAuthor.dart';
 import '../model/ChatMessage.dart';
 import '../model/ChatUser.dart';
@@ -39,6 +42,8 @@ class ChatPageModel extends MessageEncrypte {
       CommunicationMessageObject(); // 消息实体
   CommonDao commonDao = CommonDao(); // 公共DAO功能模块
   ClientModule clientModule = ClientModule(); //
+  FileHttpApi fileHttpApi = FileHttpApi();
+
   /*
   初始化model类
    */
@@ -112,9 +117,9 @@ class ChatPageModel extends MessageEncrypte {
         createdAt: chatMessage.createdAt,
         id: chatMessage.id.toString(),
         // mimeType: lookupMimeType(result.files.single.path!),
-        name: chatMessage.attachmentsList?[0]["name"],
+        name: chatMessage.name ?? chatMessage.attachmentsList?[0]["name"],
         size: chatMessage.size!.toInt(), //result.files.single.size,
-        uri: chatMessage.attachmentsList?[0]["url"],
+        uri: chatMessage.url ?? chatMessage.attachmentsList?[0]["url"],
       );
     } else if (chatMessage.type == "image") {
       // 图片
@@ -123,9 +128,9 @@ class ChatPageModel extends MessageEncrypte {
         createdAt: chatMessage.createdAt,
         // height: image.height.toDouble(),
         id: chatMessage.id.toString(),
-        name: chatMessage.attachmentsList?[0]["name"],
+        name: chatMessage.name ?? chatMessage.attachmentsList?[0]["name"],
         size: chatMessage.size!.toInt(), //bytes.length,
-        uri: chatMessage.attachmentsList?[0]["url"],
+        uri: chatMessage.url ?? chatMessage.attachmentsList?[0]["url"],
         // width: image.width.toDouble(),
       );
     } else if (chatMessage.type == "system") {
@@ -136,17 +141,17 @@ class ChatPageModel extends MessageEncrypte {
           author: chatMessage.author!,
           duration: Duration(),
           id: chatMessage.id.toString(),
-          name: chatMessage.attachmentsList?[0]["name"],
+          name: chatMessage.name ?? chatMessage.attachmentsList?[0]["name"],
           size: chatMessage.size!.toInt(),
-          uri: chatMessage.attachmentsList?[0]["url"]);
+          uri: chatMessage.url ?? chatMessage.attachmentsList?[0]["url"]);
     } else if (chatMessage.type == "video") {
       // 视频
       _message = types.VideoMessage(
           author: chatMessage.author!,
           id: chatMessage.id.toString(),
-          name: chatMessage.attachmentsList?[0]["name"],
+          name: chatMessage.name ?? chatMessage.attachmentsList?[0]["name"],
           size: chatMessage.size!.toInt(),
-          uri: chatMessage.attachmentsList?[0]["url"]);
+          uri: chatMessage.url ?? chatMessage.attachmentsList?[0]["url"]);
     } else if (chatMessage.type == "unsupported") {
       // 不支持的类型
     } else {
@@ -191,6 +196,7 @@ class ChatPageModel extends MessageEncrypte {
       ChatMessage chatMessage = ChatMessage(
           type: chat.msgType, // 消息类型
           author: _user, //用户
+          url: attachmentsList[0]["url"],
           id: chat.metadataMessageId, //消息唯一标识
           attachmentsList: attachmentsList,
           name: chat.contentText, // 默认文本
@@ -237,27 +243,59 @@ class ChatPageModel extends MessageEncrypte {
 
   // 添加消息到消息列表
   Future<void> addMessage(
-    types.Message message,
+    dynamic message,
   ) async {
-    // print("-------------------------------------");
-    // print(message.toJson()["text"]);
+    printSuccess("message = $message");
+    printSuccess("messageId = ${message.id}");
+    // 增加进入聊天列表：自动刷新信息，该信息只能作为暂时状态
+    addMessageCallback(message);
 
-    // print("recipientId:${deviceId}");
-    // 设置消息元
-    Map metadata = {
-      "messageId": message.id, // 消息的唯一标识符
-      "status": "sent" // 消息状态，例如 sent, delivered, read
-    };
+    //************** 以下为将信息发送到client端: 包括将数据插入到数据库中和send给client*********************
+    // 封裝消息体
+    Map metadata = (MetadataModel()
+          ..status = MessageStatus.sent
+          ..messageId = message.id)
+        .toJson();
 
-    bool result = clientModule.sendMessage(
-        senderId: myDeviceId,
-        recipientId: deviceId!,
-        contentText: message.toJson()["text"],
-        metadata: metadata);
+    printSuccess("metadata = $metadata");
+    if (message.type == types.MessageType.text) {
+      //文本: 提示文本类型数据已经插入到了数据库中
+      clientModule.sendMessage(
+          msgType: "text",
+          senderId: myDeviceId, //
+          recipientId: deviceId!, //
+          contentText: message.text, //
+          metadata: metadata);
+    } else if (message.type == types.MessageType.image) {
+      // 图像
+      // 获取文件类型
+      String typeString = message.uri.toString().split(".").last;
+      // 文件名
+      String filename = message.uri.toString().split("/").last;
 
-    if (result) {
-      // add message to messageList
-      addMessageCallback(message);
+      // 附件封装
+      List<Map> attachments = [
+        (AttachmentMetaModel()
+              ..type = (stringToAttachmentType[typeString] as AttachmentType)
+              ..url = message.uri
+              ..name = filename)
+            .toJson(),
+      ];
+      printSuccess("attachments=$attachments");
+
+      // 发送消息给client
+      clientModule.sendMessage(
+          msgType: "image",
+          senderId: myDeviceId, //
+          recipientId: deviceId!, //
+          metadata: metadata,
+          contentText: filename,
+          attachments: attachments);
+
+      // 上传文件获取网络地址
+      Map reData = fileHttpApi.uploadFile(filename, message.uri);
+      printSuccess("上传文件返回数据: ${reData}");
+      String netUrl = reData["url"];
     }
   }
 
@@ -341,6 +379,8 @@ class ChatPageModel extends MessageEncrypte {
     if (result != null) {
       final bytes = await result.readAsBytes(); // 读取图片字节
       final image = await decodeImageFromList(bytes); // 解码图片
+
+      // 图片上传
 
       // 封装图片消息
       final message = types.ImageMessage(
@@ -434,29 +474,6 @@ class ChatPageModel extends MessageEncrypte {
       id: const Uuid().v4(), // 生成唯一消息 ID
       text: message.text, // 消息文本
     );
-    // ******* 插入数据库中 ************
-    // 封装消息
-    Map msgObj = await communicationMessageObject.message(
-        msgType: "text",
-        senderId: GlobalManager.deviceId,
-        username: AppConfig.username,
-        avatar: chatAuthor.imageUrl,
-        recipientId: deviceId,
-        groupOrUser: "user",
-        contentText: message.text,
-        timestamp: DateTime.fromMillisecondsSinceEpoch(textMessage.createdAt!)
-            .toString(),
-        metadata: {
-          "messageId": textMessage.id,
-          // 消息的唯一标识符
-          "status": justifyStatus(
-              message.metadata?["status"]) // 消息状态，例如 sent, delivered, read
-        });
-    // print("**********************插入数据库*****************************");
-    // print(msgObj);
-
-    // 插入数据库中
-    commonDao.insertMessageToDataStorage(msgObj["info"]);
     // 添加消息
     addMessage(textMessage);
   }
@@ -469,9 +486,6 @@ class ChatPageModel extends MessageEncrypte {
 
     // 本地deviceId
     String myselfDeviceId = GlobalManager.deviceId.toString();
-    //
-    // print(
-    //     "userDeviceId=${deviceId.toString()}   myselfDeviceId=${myselfDeviceId}");
 
     // 从数据库中获取聊天信息
     List<Chat> chatMessagesList = await getUserChatMessagesByDeviceId(

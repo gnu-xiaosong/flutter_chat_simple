@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:socket_service/microService/module/DAO/common.dart';
 import 'package:socket_service/microService/ui/client/model/AppSettingModel.dart';
 import 'package:socket_service/microService/ui/client/module/AppSettingModule.dart';
 import '../../../module/DAO/UserChat.dart';
@@ -18,15 +19,16 @@ class ClientModule extends MessageEncrypte {
   UserChat userChat = UserChat();
   CommunicationMessageObject communicationMessageObject =
       CommunicationMessageObject();
+  CommonDao commonDao = CommonDao();
   AppClientSettingModule appClientSettingModule = AppClientSettingModule();
 
   /*
   send方法:该方法负责客户端的chat  MESSAGE类型消息发送函数
    */
-  bool sendMessage(
+  void sendMessage(
       {required String recipientId,
       String? groupOrUser,
-      required String contentText,
+      String? contentText,
       String? timestamp,
       String? username,
       String? senderId,
@@ -53,21 +55,21 @@ class ClientModule extends MessageEncrypte {
         timestamp: timestamp,
         metadata: metadata);
 
+    // 插入数据库中
+    commonDao.insertMessageToDataStorage(msg["info"]);
+
     printError("发送消息: ${msg}");
     String secret = appClientSettingModule.getSecretInHive();
     if (secret.isEmpty) {
       print("-warning: 通讯秘钥 'chat_secret' 为空！消息加密失败。");
-      return false;
-    }
-
-    try {
-      msg["info"] = MessageEncrypte().encodeMessage(secret, msg["info"]);
-      // 发送
-      GlobalManager.GlobalChatWebsocket.send(json.encode(msg));
-      return true;
-    } catch (e) {
-      print("发送消息失败：$e");
-      return false;
+    } else {
+      try {
+        msg["info"] = MessageEncrypte().encodeMessage(secret, msg["info"]);
+        // 发送
+        GlobalManager.GlobalChatWebsocket.send(json.encode(msg));
+      } catch (e) {
+        print("发送消息失败：$e");
+      }
     }
   }
 

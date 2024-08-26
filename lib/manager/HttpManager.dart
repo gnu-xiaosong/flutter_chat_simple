@@ -16,34 +16,32 @@ import '../config/ConstConfig.dart';
 import './ExceptionsHandlerManager.dart';
 import './TestManager.dart';
 
-
-class HttpManager extends ExceptionsHandlerManager{
-
+class HttpManager extends ExceptionsHandlerManager {
   //1、通过静态方法 getInstance() 访问实例—————— getInstance() 构造、获取、返回实例
   /*通过工厂方法获取该类的实例，将实例对象按对应的方法返回出去
    *实例不存在时，调用命名构造方法获取一个新的实例 */
-  static HttpManager getInstance(){
+  static HttpManager getInstance() {
     _instance ??= HttpManager._internal();
     return _instance!;
   }
 
   //2、静态属性——该类的实例
-  static HttpManager? _instance=HttpManager._internal();
+  static HttpManager? _instance = HttpManager._internal();
 
   //4.1、创建一个 Dio 实例
   late Dio dio;
 
   //3、私有的命名构造函数，确保外部不能拿到它————初始化实例
-  HttpManager._internal(){
+  HttpManager._internal() {
     //4.2、从配置HttpBasedConfig类获取配置实例
-    BaseOptions baseOptions= HttpBasedConfig().getBasedOptions;
+    BaseOptions baseOptions = HttpBasedConfig().getBasedOptions;
 
     //4.3 初始化dio实例
-    dio=Dio(baseOptions);
+    dio = Dio(baseOptions);
 
     /******************************插件拓展*************************************/
     //1.添加适配器
-    dio.httpClientAdapter=AppConfig.httpClientAdapter;
+    dio.httpClientAdapter = AppConfig.httpClientAdapter;
     //2.重试请求插件
     dio.interceptors.add(AppConfig.getRetryInterceptor(dio));
     //3.添加ssl证书:需要更高版本的Android Sdk
@@ -57,11 +55,11 @@ class HttpManager extends ExceptionsHandlerManager{
   }
 
   //请求方法封装
-  Future api(String url,{
-    METHODS method=METHODS.GET,
-    Map<String,dynamic>? parameters,
-    Function? onProgress,
-    CachePolicy?  policy}) async {
+  Future api(String url,
+      {METHODS method = METHODS.GET,
+      var parameters,
+      Function? onProgress,
+      CachePolicy? policy}) async {
     /*
     * 参数说明：
     * parameters   Map       请求字段
@@ -70,43 +68,64 @@ class HttpManager extends ExceptionsHandlerManager{
     * method       enum      请求方法  METHODS.x
     * */
 
-     //请求方法
+    //请求方法
     Response? response;
     try {
-      switch(method){
+      switch (method) {
         case METHODS.GET:
-          response = await dio.get(
-              url,
+          response = await dio.get(url,
               queryParameters: parameters,
-              onReceiveProgress: (int a, b)=>onProgress,
-              options: AppConfig.cacheOptions.copyWith(policy: (policy==null)?AppConfig.cacheOptions.policy:policy).toOptions()
-          );
+              onReceiveProgress: (int a, b) => onProgress,
+              options: AppConfig.cacheOptions
+                  .copyWith(
+                      policy: (policy == null)
+                          ? AppConfig.cacheOptions.policy
+                          : policy)
+                  .toOptions());
           break;
         case METHODS.POST:
-          response = await dio.post(
-              url,
-              data:parameters as Object,
-              onSendProgress:(int a, b)=>onProgress,
-              options: AppConfig.cacheOptions.copyWith(policy: (policy==null)?AppConfig.cacheOptions.policy:policy).toOptions()
-          );
+          response = await dio.post(url,
+              data: parameters,
+              onSendProgress: (int a, b) => onProgress,
+              options: AppConfig.cacheOptions
+                  .copyWith(
+                      policy: (policy == null)
+                          ? AppConfig.cacheOptions.policy
+                          : policy)
+                  .toOptions());
 
+          break;
+        case METHODS.FILE:
+          /*
+          文件上传
+           */
+          response = await dio.post(url,
+              data: parameters,
+              options: Options(
+                method: 'POST',
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              ),
+              onSendProgress: (int a, b) => onProgress);
           break;
         default:
           print("位置方法名");
       }
       //打印输出
       //TestManager.textPrint(response!);
-
-      return response?.data;
+      // 检查响应是否成功
+      if (response?.statusCode == 200) {
+        // 将响应结果转化为 Map
+        Map<String, dynamic> result = response?.data as Map<String, dynamic>;
+        return result;
+      } else {
+        // 处理非 200 响应
+        throw Exception('上传失败，状态码: ${response?.statusCode}');
+      }
     } on DioException catch (e) {
       //调用异常处理工具
       HttpExceptionErr(e);
     }
-
-
   }
 }
-
-
-
-

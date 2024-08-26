@@ -4,8 +4,10 @@
 // 角色枚举类型
 import 'dart:io';
 
+import 'package:uuid/uuid.dart';
+
 import '../../common/tools.dart';
-import 'AttachmentMetaModel.dart.dart';
+import 'AttachmentMetaModel.dart';
 
 enum MessageStatus {
   sending, // 正在发送
@@ -41,7 +43,7 @@ class MetadataModel with CommonTool {
   // toJson
   Map toJson() {
     Map jsonMap = {
-      "messageId": "msg123",
+      "messageId": messageId ?? const Uuid().v4(),
       "status": messageStatusToString[status].toString()
     };
     return jsonMap;
