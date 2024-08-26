@@ -829,7 +829,7 @@ server端响应
 
   <img src="project/README/image-20240823180930832.png" alt="image-20240823180930832" style="zoom:25%;" />
 
-* 2024.8.26 新增本地启动Http server服务
+* 2024.8.26 新增本地启动Http server服务  主要用于聊天文件请求,但存在bug，当Android切换应用时，httpserver会自动关闭，进入又能自动启动。
 
   <img src="project/README/image-20240826104601379.png" alt="image-20240826104601379" style="zoom:25%;" />
 
