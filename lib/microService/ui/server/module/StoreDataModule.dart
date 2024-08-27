@@ -16,7 +16,7 @@ class ServerStoreDataModule extends ServerStoreDataCommonModule {
    */
   initial() {
     setIsRunningInHive(false);
-    // setHttpIsRunningInHive(false);
+    setHttpIsRunningInHive(false);
   }
 
   /*

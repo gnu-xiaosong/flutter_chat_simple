@@ -43,7 +43,7 @@ class HttpManager extends ExceptionsHandlerManager {
     //1.添加适配器
     dio.httpClientAdapter = AppConfig.httpClientAdapter;
     //2.重试请求插件
-    dio.interceptors.add(AppConfig.getRetryInterceptor(dio));
+    // dio.interceptors.add(AppConfig.getRetryInterceptor(dio));
     //3.添加ssl证书:需要更高版本的Android Sdk
     //dio.interceptors.add(CertificatePinningInterceptor(allowedSHAFingerprints))
     //4.添加缓存插件
@@ -54,11 +54,10 @@ class HttpManager extends ExceptionsHandlerManager {
     dio.interceptors.add(AppConfig.talkerDioLogger);
   }
 
-  //请求方法封装
-  Future api(String url,
+  Future<Map<String, dynamic>?> api(String url,
       {METHODS method = METHODS.GET,
       var parameters,
-      Function? onProgress,
+      Function(int, int)? onProgress,
       CachePolicy? policy}) async {
     /*
     * 参数说明：
@@ -67,15 +66,13 @@ class HttpManager extends ExceptionsHandlerManager {
     * policy       enum      缓存策略 CachePolicy.x
     * method       enum      请求方法  METHODS.x
     * */
-
-    //请求方法
     Response? response;
     try {
       switch (method) {
         case METHODS.GET:
           response = await dio.get(url,
               queryParameters: parameters,
-              onReceiveProgress: (int a, b) => onProgress,
+              onReceiveProgress: onProgress,
               options: AppConfig.cacheOptions
                   .copyWith(
                       policy: (policy == null)
@@ -86,19 +83,15 @@ class HttpManager extends ExceptionsHandlerManager {
         case METHODS.POST:
           response = await dio.post(url,
               data: parameters,
-              onSendProgress: (int a, b) => onProgress,
+              onSendProgress: onProgress,
               options: AppConfig.cacheOptions
                   .copyWith(
                       policy: (policy == null)
                           ? AppConfig.cacheOptions.policy
                           : policy)
                   .toOptions());
-
           break;
         case METHODS.FILE:
-          /*
-          文件上传
-           */
           response = await dio.post(url,
               data: parameters,
               options: Options(
@@ -107,25 +100,26 @@ class HttpManager extends ExceptionsHandlerManager {
                   "Content-Type": "multipart/form-data",
                 },
               ),
-              onSendProgress: (int a, b) => onProgress);
+              onSendProgress: onProgress);
           break;
         default:
-          print("位置方法名");
+          throw Exception("未知的方法类型");
       }
-      //打印输出
-      //TestManager.textPrint(response!);
-      // 检查响应是否成功
+
+      print("获取http数据: ${response.data}");
+
       if (response?.statusCode == 200) {
-        // 将响应结果转化为 Map
-        Map<String, dynamic> result = response?.data as Map<String, dynamic>;
-        return result;
+        if (response?.data is Map<String, dynamic>) {
+          return response?.data;
+        } else {
+          throw Exception('响应数据格式错误');
+        }
       } else {
-        // 处理非 200 响应
         throw Exception('上传失败，状态码: ${response?.statusCode}');
       }
     } on DioException catch (e) {
-      //调用异常处理工具
       HttpExceptionErr(e);
+      return null;
     }
   }
 }

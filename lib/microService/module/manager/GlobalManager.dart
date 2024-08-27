@@ -28,6 +28,7 @@ import '../adapter/CommandInfoAdapter.dart';
 import '../common/unique_device_id.dart';
 import '../plugin/storeData/ServerStoreDataPlugin.dart';
 import 'AppLifecycleStateManager.dart';
+import 'AppWorkmanager.dart';
 import 'NotificationsManager.dart';
 import 'ToolsManager.dart';
 
@@ -107,6 +108,15 @@ class GlobalManager {
   //初始化全局信息，会在APP启动时执行
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    // 初始化后台任务执行
+    // Workmanager().initialize(
+    //     callbackDispatcher, // The top level function, aka callbackDispatcher
+    //     isInDebugMode:
+    //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+    //     );
+    // // 注册一次性任务
+    // Workmanager().registerOneOffTask("task-1", "appBackTask");
     // ********************Hive配置****************************
     // 初始化Hive
     await Hive.initFlutter();

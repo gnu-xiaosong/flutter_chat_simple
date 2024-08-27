@@ -20,6 +20,7 @@ import '../../../module/manager/GlobalManager.dart';
 import '../../../module/model/metaModel/AttachmentMetaModel.dart';
 import '../../../module/model/metaModel/MetadataModel.dart';
 import '../api/FileHttpApi.dart';
+import '../model/AppSettingModel.dart';
 import '../model/ChatAuthor.dart';
 import '../model/ChatMessage.dart';
 import '../model/ChatUser.dart';
@@ -27,6 +28,7 @@ import '../model/CommunicationMessageObject.dart';
 import 'package:mime/mime.dart';
 import 'package:http/http.dart' as http;
 
+import 'AppSettingModule.dart';
 import 'ClientModule.dart';
 
 class ChatPageModel extends MessageEncrypte {
@@ -43,6 +45,7 @@ class ChatPageModel extends MessageEncrypte {
   CommonDao commonDao = CommonDao(); // 公共DAO功能模块
   ClientModule clientModule = ClientModule(); //
   FileHttpApi fileHttpApi = FileHttpApi();
+  AppClientSettingModule appClientSettingModule = AppClientSettingModule();
 
   /*
   初始化model类
@@ -85,6 +88,7 @@ class ChatPageModel extends MessageEncrypte {
         id: message["metadata"]["messageId"],
         attachmentsList: attachmentsList,
         name: message["content"]["text"], // 默认文本
+        url: attachmentsList[0]["url"],
         createdAt: DateTime.parse(message["timestamp"]).millisecondsSinceEpoch,
         text: message["content"]["text"]);
 
@@ -122,6 +126,9 @@ class ChatPageModel extends MessageEncrypte {
         uri: chatMessage.url ?? chatMessage.attachmentsList?[0]["url"],
       );
     } else if (chatMessage.type == "image") {
+      printSuccess(
+          "+++++++++++++++连接地址:${chatMessage.url ?? chatMessage.attachmentsList?[0]["url"]}");
+      print("${chatMessage.toString()}");
       // 图片
       _message = types.ImageMessage(
         author: chatMessage.author!,
@@ -188,18 +195,18 @@ class ChatPageModel extends MessageEncrypte {
       List<Map<String, dynamic>> attachmentsList =
           List<Map<String, dynamic>>.from(
               jsonList.map((item) => item as Map<String, dynamic>));
-
+      print("地址:${attachmentsList[0]["url"]}");
       // 打印结果
       // print("Attachments list: $attachmentsList");
 
-      // 聊天消息实体
+      // 聊天消息实体: 封装数据
       ChatMessage chatMessage = ChatMessage(
           type: chat.msgType, // 消息类型
           author: _user, //用户
-          url: attachmentsList[0]["url"],
           id: chat.metadataMessageId, //消息唯一标识
           attachmentsList: attachmentsList,
           name: chat.contentText, // 默认文本
+          url: attachmentsList[0]["url"],
           createdAt: chat.timestamp.millisecondsSinceEpoch,
           text: chat.contentText);
 
@@ -273,29 +280,43 @@ class ChatPageModel extends MessageEncrypte {
       // 文件名
       String filename = message.uri.toString().split("/").last;
 
-      // 附件封装
-      List<Map> attachments = [
-        (AttachmentMetaModel()
-              ..type = (stringToAttachmentType[typeString] as AttachmentType)
-              ..url = message.uri
-              ..name = filename)
-            .toJson(),
-      ];
-      printSuccess("attachments=$attachments");
-
-      // 发送消息给client
-      clientModule.sendMessage(
-          msgType: "image",
-          senderId: myDeviceId, //
-          recipientId: deviceId!, //
-          metadata: metadata,
-          contentText: filename,
-          attachments: attachments);
-
+      print("***************************测试点**********************************");
+      print("uri:${message.uri}");
       // 上传文件获取网络地址
-      Map reData = fileHttpApi.uploadFile(filename, message.uri);
-      printSuccess("上传文件返回数据: ${reData}");
-      String netUrl = reData["url"];
+      try {
+        // 异步调用 uploadFile 方法，使用 await 等待结果
+        Map<String, dynamic>? reData =
+            await fileHttpApi.uploadFile(message.uri);
+
+        printSuccess("上传文件返回数据: $reData");
+        AppClientSettingModel? appClientSettingModel =
+            appClientSettingModule.getAppConfig();
+        String netUrl =
+            "http://${appClientSettingModel?.httpIp}:${appClientSettingModel?.httpPort}${reData?["url"]}";
+        // 继续处理 netUrl，例如将其用于消息发送或显示
+        print("网路地址: $netUrl");
+
+        // 附件封装
+        List<Map> attachments = [
+          (AttachmentMetaModel()
+                ..type = (stringToAttachmentType[typeString] as AttachmentType)
+                ..url = netUrl // 换成网络地址
+                ..name = filename)
+              .toJson(),
+        ];
+        printSuccess("attachments=$attachments");
+
+        // 发送消息给client
+        clientModule.sendMessage(
+            msgType: "image",
+            senderId: myDeviceId, //
+            recipientId: deviceId!, //
+            metadata: metadata,
+            contentText: filename,
+            attachments: attachments);
+      } catch (e) {
+        print("文件上传过程中发生错误: $e");
+      }
     }
   }
 
@@ -380,6 +401,7 @@ class ChatPageModel extends MessageEncrypte {
       final bytes = await result.readAsBytes(); // 读取图片字节
       final image = await decodeImageFromList(bytes); // 解码图片
 
+      print("图片字节: $bytes");
       // 图片上传
 
       // 封装图片消息
@@ -479,7 +501,7 @@ class ChatPageModel extends MessageEncrypte {
   }
 
   /*
-  加载数据
+  加载聊天数据
    */
   Future<List<types.Message>> loadMessages() async {
     print("******************load data***************************");
@@ -490,6 +512,10 @@ class ChatPageModel extends MessageEncrypte {
     // 从数据库中获取聊天信息
     List<Chat> chatMessagesList = await getUserChatMessagesByDeviceId(
         userDeviceId: deviceId.toString(), myselfDeviceId: myselfDeviceId);
+
+    chatMessagesList.forEach((element) {
+      printSuccess("聊天数据:${element.contentAttachments}");
+    });
 
     // 打印长字符串
     // ToolsManager().printLongString("chatMessagesList=${chatMessagesList}");

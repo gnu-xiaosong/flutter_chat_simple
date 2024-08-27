@@ -34,7 +34,7 @@ class MessageTypeMessageHandler extends TypeMessageClientHandler {
     printInfo("--------------MESSAGE TASK HANDLER--------------------");
     // 写入数据库
     Map msgObj = msgDataTypeMap["info"];
-
+    printSuccess("新消息: $msgObj");
     // 插入数据库中
     commonDao.insertMessageToDataStorage(msgObj);
 

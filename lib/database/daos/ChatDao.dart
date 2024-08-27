@@ -3,12 +3,13 @@ desc: ChatDao类DAO操作: 聊天记录DAO类集中管理 CRUD 操作
 */
 
 import 'package:drift/drift.dart';
+import 'package:socket_service/microService/module/common/Console.dart';
 
 import '../../microService/module/manager/GlobalManager.dart';
 import '../LocalStorage.dart';
 import 'BaseDao.dart';
 
-class ChatDao implements BaseDao<Chat> {
+class ChatDao with Console implements BaseDao<Chat> {
   // 获取database单例
   var db = GlobalManager.database;
   /*
@@ -19,14 +20,17 @@ class ChatDao implements BaseDao<Chat> {
       ChatsCompanion chatsCompanion) async {
     // 构建查询: 获取双方的聊天信息，限制20条
     final query = db.select(db.chats)
-      ..where((tbl) => (tbl.senderId.equals(chatsCompanion.recipientId.value!) |
-          tbl.recipientId.equals(chatsCompanion.recipientId.value!)))
-      ..orderBy([
-        (tbl) => OrderingTerm.asc(tbl.timestamp)
-      ]) // 或者使用 `tbl.id` 代替 `tbl.timestamp`
-      ..limit(30);
+          ..where((tbl) =>
+              (tbl.senderId.equals(chatsCompanion.recipientId.value!) |
+                  tbl.recipientId.equals(chatsCompanion.recipientId.value!)))
+          ..orderBy([
+            (tbl) => OrderingTerm.asc(tbl.timestamp)
+          ]) // 或者使用 `tbl.id` 代替 `tbl.timestamp`
+        ;
+
     // 获取查询结果
     final result = await query.get();
+    printSuccess("查询聊天数量:${result.toList().length}");
     return result.toList();
   }
 
@@ -34,7 +38,7 @@ class ChatDao implements BaseDao<Chat> {
   Future<dynamic> insertChat(ChatsCompanion chatsCompanion) async {
     // 构建
     final result = await db.into(db.chats).insert(chatsCompanion);
-    // print("插入结果: ${result}");
+    printSuccess("@@@@@插入结果: ${result}");
     return result;
   }
 

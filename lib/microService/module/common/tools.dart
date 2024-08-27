@@ -9,6 +9,37 @@ import '../../service/server/model/ClientModel.dart';
 import '../manager/GlobalManager.dart';
 
 mixin CommonTool {
+  /*
+  获取内网ip
+   */
+  Future<String?> getLocalIPv4Address() async {
+    try {
+      // 获取所有网络接口
+      List<NetworkInterface> interfaces = await NetworkInterface.list(
+        includeLoopback: false, // 排除回环接口
+        includeLinkLocal: true, // 包括链路本地地址
+      );
+
+      // 遍历所有网络接口
+      for (var interface in interfaces) {
+        // 遍历接口的所有地址
+        for (var address in interface.addresses) {
+          print("地址: ${address.address}");
+          // 如果地址是 IPv4 地址
+          if (address.type == InternetAddressType.IPv4) {
+            return address.address; // 返回 IPv4 地址
+          }
+        }
+      }
+
+      // 如果没有找到 IPv4 地址
+      return null;
+    } catch (e) {
+      print('获取本地 IPv4 地址时发生错误: $e');
+      return null;
+    }
+  }
+
   // 在某个指定字符后插入字符
   String insertAfterCharacter(
       String original, String targetChar, String toInsert) {

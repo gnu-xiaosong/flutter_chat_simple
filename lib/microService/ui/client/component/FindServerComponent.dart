@@ -99,7 +99,7 @@ class _FindServerComponentState extends State<FindServerComponent>
               child: ListView(
                 children: serverList.map((server) {
                   return ListTile(
-                    leading: const Iconify(HeroiconsOutline.device_tablet,
+                    leading: const Iconify(Ic.round_devices_other,
                         color: Colors.white),
                     title: Text("ip:${server["ip"]}".tr()),
                     subtitle: Text("port:${server["port"]}".tr()),

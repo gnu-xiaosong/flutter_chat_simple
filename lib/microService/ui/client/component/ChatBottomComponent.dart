@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/bx.dart';
 import 'package:social_media_recorder/audio_encoder_type.dart';
 import 'package:social_media_recorder/screen/social_media_recorder.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -163,8 +165,8 @@ class _ChatBottomState extends State<ChatBottom> {
       // left左边功能
       actions: [
         InkWell(
-          child: Icon(
-            Icons.image,
+          child: Iconify(
+            Bx.image,
             color: Colors.black,
             size: 28,
           ),

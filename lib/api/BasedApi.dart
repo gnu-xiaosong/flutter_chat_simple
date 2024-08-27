@@ -5,11 +5,15 @@
  * @LastEditTime: 2023-12-30 21:52:07
  * @Description: api请求基类
  */
+import 'package:dio/dio.dart';
 
-import '../manager/HttpManager.dart';
 import '../microService/module/manager/GlobalManager.dart';
 
 class BasedApi extends GlobalManager {
-  //全局方法http
-  HttpManager get appHttp => GlobalManager().GlobalHttp;
+  //基础url
+  String baseUrl = "http://192.168.1.4:5200";
+  // 创建 Dio 实例
+  Dio dio = Dio();
+  // 上传进度回调函数
+  Function? onSendProgress;
 }

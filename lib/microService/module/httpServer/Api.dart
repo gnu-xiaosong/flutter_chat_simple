@@ -8,16 +8,16 @@ import 'package:path/path.dart' as p;
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:mime/mime.dart';
 import 'package:uuid/uuid.dart';
+import '../common/tools.dart';
 import 'HttpConfig.dart';
 
-class Api extends HttpConfig {
+class Api extends HttpConfig with CommonTool {
   Api() : super();
   /*
   测试接口
    */
   test(shelf.Request request) async {
     return shelf.Response.ok("hello ichat");
-    return uploadFile(request);
   }
 
   /*
@@ -57,7 +57,9 @@ class Api extends HttpConfig {
           final file = File(p.join(workDir, newFileName));
           await part.pipe(file.openWrite());
         }
-        re = {"code": 200, "msg": "文件上传成功", "url": newFileName};
+        // 封装为网络url
+        String? ip = await getLocalIPv4Address();
+        re = {"code": 200, "msg": "文件上传成功", "url": "/file/$newFileName"};
       }
     } catch (e) {
       re = {"code": 500, "msg": "文件上传失败: $e"};
@@ -71,19 +73,6 @@ class Api extends HttpConfig {
   文件访问接口
    */
   Future<shelf.Response> getFile(shelf.Request request, String filename) async {
-    // late Map re;
-
-    // // 从请求头中获取 deviceId
-    // String? deviceId = request.headers['deviceId'];
-    //
-    // // 在线才返回数据
-    // ClientModel? clientModel = getClientObjectByDeviceId(deviceId!);
-    //
-    // if (clientModel == null) {
-    //   re = {"code": 300, "msg": "该请求client客户端暂时未在线！"};
-    //   // 返回数据
-    //   return shelf.Response.ok(json.encode(re));
-    // }
     // 解码文件名
     String decodedFilename = Uri.decodeComponent(filename);
 

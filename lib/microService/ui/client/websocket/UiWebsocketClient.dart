@@ -73,7 +73,7 @@ class UiWebsocketClient extends ClientWebsocketModule with ExceptionUiModule {
   消息处理程序
    */
   messageHandler(WebSocketChannel webSocketChannel, Map message) {
-    print("+message hanlder");
+    printSuccess("+++++++++++++++++++++++++++message hanlder");
     // 调用处理程序
     communicationTypeClientModulator.handler(websocketClientManager, message);
   }

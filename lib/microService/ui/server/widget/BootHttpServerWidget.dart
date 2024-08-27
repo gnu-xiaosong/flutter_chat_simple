@@ -31,7 +31,7 @@ class RotatingStartButton extends StatefulWidget {
 }
 
 class _RotatingStartButtonState extends State<RotatingStartButton>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late AnimationController _controller;
   late Animation<double> _animation;
   late Animation<double> _glowAnimation;
@@ -42,6 +42,7 @@ class _RotatingStartButtonState extends State<RotatingStartButton>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -55,7 +56,18 @@ class _RotatingStartButtonState extends State<RotatingStartButton>
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // 应用从后台恢复时，重新启动 HTTP 服务
+    } else if (state == AppLifecycleState.paused) {
+      // 应用进入后台时，可以选择停止 HTTP 服务
+      server.boot();
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
   }
@@ -63,7 +75,7 @@ class _RotatingStartButtonState extends State<RotatingStartButton>
   /*
   启动关闭按钮
    */
-  void _onPressed() {
+  Future<void> _onPressed() async {
     print("isRunning: ${appModule.getHttpIsRunningInHive()}");
     if (appModule.getHttpIsRunningInHive()) {
       print("nooooooooo");
@@ -81,13 +93,11 @@ class _RotatingStartButtonState extends State<RotatingStartButton>
       // 停止运行中： 开启
       GlobalManager.httpBootStartTime = DateTime.now();
       // 启动服务
-      server.boot();
+      await server.boot();
       // UI提示
       notificationInApp.motionSuccessToast(
           titleText: "boot server", messageText: "the server is booted");
     }
-    // 设置参数:改变缓存中的isRunning值
-    appModule.setHttpIsRunningInHive(!appModule.getHttpIsRunningInHive());
   }
 
   @override
@@ -114,12 +124,15 @@ class _RotatingStartButtonState extends State<RotatingStartButton>
                     Iconify(
                       Ep.switch_button,
                       size: 100,
-                      color:
-                          box.get("httpIsRunning") ? Colors.red : Colors.green,
+                      color: appModule.getHttpIsRunningInHive()
+                          ? Colors.red
+                          : Colors.green,
                     ),
                     // tip
                     Text(
-                        box.get("httpIsRunning") ? "running".tr() : "boot".tr(),
+                        appModule.getHttpIsRunningInHive()
+                            ? "running".tr()
+                            : "boot".tr(),
                         style: TextStyle(
                             color: box.get("httpIsRunning")
                                 ? Colors.red
