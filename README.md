@@ -1,8 +1,12 @@
 # flutter_chat_DAPP  去中心化聊天程序
+
 > 这是一款致力于隐私保护的去中心化聊天的跨平台应用程序。
 >
 
+[TOC]
+
 ## 特性
+
 * **去中心化**
 * **微服务架构**
 * **布局自适应**
@@ -12,8 +16,6 @@
 * **接口化**
 * **本地化存储**
 * **存储及通信加密化，连接通讯更安全**
-
-
 
 ## 下载
 app下载分为：
@@ -59,13 +61,15 @@ app下载分为：
 
 ## 技术栈
 
-#### 去中心化实现
+## 核心技术难点
+
+### 去中心化实现
 
 ### 可拓展
 
-#### 通讯加解密
+### 通讯加解密
 
-### 系统设计
+## 系统设计
 
 ## 模块划分
 
@@ -105,7 +109,7 @@ app下载分为：
    import 'package:app_template/microService/service/server/websocket/other/TypeMessageClientHandler.dart';
    
    class TestTypeWebsocketCommunication extends TypeWebsocketCommunication {
-     String type = "TEST";
+     MsgType type = MsgType.TEST;
      void handler(msgDataTypeMap, clientObject) {
        //
      }
@@ -258,7 +262,7 @@ websocketClientManager.conn();
 
 ## 模型划分
 
-#### 功能体模型
+### 功能体模型
 
 ### 层级模型
 
@@ -338,7 +342,7 @@ websocketClientManager.conn();
 
 
 
-## 详细设计及开发文档
+## 数据库设计
 
 ### 用户表 (user)
 
@@ -355,7 +359,7 @@ websocketClientManager.conn();
 7. `profile_picture`: 用户的头像URL（可选）。
 8. `status`: 用户当前的状态（在线、离线、勿扰等）（可选）
 
-##### sql语句：
+**sql语句：**
 
 ```sql
 CREATE TABLE user (
@@ -384,7 +388,7 @@ CREATE TABLE user (
 6. `is_read`: 表示消息是否已被接收者阅读。
 7. `message_type`: 消息的类型（文本、图片、文件等）。
 
-##### sql语句：
+sql语句：
 
 ```sql
 CREATE TABLE chat (
@@ -398,7 +402,7 @@ CREATE TABLE chat (
 );
 ```
 
-##### 表定义类
+**表定义类**
 
 UserTable.dart 文件
 
@@ -424,16 +428,18 @@ ChatTable.dart文件
 
 
 
-## websocket服务端设计
+## 通讯websocket设计
 
 websocket server服务端处理总消息队列的策略
 
 1. **被动触发**：在listen中监听到消息时被动立即转发该消息，不需要建立新的线程专门处理消息队列，容易造成阻塞
 2. **循环任务**：建立新线程专门处理消息队列，优点在于不会造成阻塞，难点在于怎样处理线程之间的通信
 
+### 通讯方式：Queue队列存储形式
 
+### 功能消息体设计
 
-##### client客户端扫描scan
+#### 一、client客户端扫描scan
 
 client**端**
 
@@ -458,7 +464,7 @@ server端
 }
 ```
 
-##### 客户端请求认证auth: 采用加密算法比较
+#### 二、客户端请求认证auth: 采用加密算法比较
 
 ```
 算法规则: data_["info"]["key"] + data_["info"]["plait_text"]  使用md5加密生成encrypte
@@ -503,11 +509,9 @@ server端返回
 }
 ```
 
-##### 通讯方式：Queue队列存储形式
 
 
-
-通讯秘钥认证失败
+#### 三、通讯秘钥认证失败
 
 ```json
 {
@@ -519,7 +523,7 @@ server端返回
 }
 ```
 
-通用消息
+#### 四、通用消息
 
 ```json
 {
@@ -536,7 +540,7 @@ server端返回
 		},
 		"recipient": {
 			"id": "all", // 设备唯一标识
-			// 接收者的唯一标识符，可以是 all 表示广播给所有用户
+			// 接收者的唯一标识符，可以是 all 表示广播给所有用户， 
 			"type": "group" // 接收者类型，例如 group 表示群组消息，user 表示私聊消息
 		},
 		"content": {
@@ -560,7 +564,7 @@ server端返回
 }
 ```
 
-##### 请求在线客户端client
+#### 五、请求在线客户端client
 
 client端发起请求
 
@@ -586,7 +590,7 @@ server端响应
 
 ```
 
-##### server端主动广播在线的用户设计
+#### 六、server端主动广播在线的用户设计
 
 - 触发点: 有新用户连接或有用户断开
 
@@ -635,11 +639,7 @@ server端响应
 
   > 注: 根据该设计可知，以后聊天业务只需面向该map用户消息队列编程即可，便于解耦
 
-
-
-
-
-##### 扫码加好友设计
+#### 七、扫码加好友设计
 
 <img src="project/README/image-20240618230120303.png" alt="image-20240618230120303" style="zoom: 67%;" />
 
@@ -664,17 +664,254 @@ server端响应
    }
   ```
 
+
+#### 八、群组设计
+
+##### 群组管理器模块类设计
+
+> server和client端各自继承该类实现具体逻辑
+
+* 创建群组
+* 删除群组
+* 修改群组
+* 查询群组
+* 消息处理
+* 消息加解密
+
+##### 通讯类型处理方案
+
+###### 方案一： 分离式，单独为一个通讯类型模块
+
+###### 方案二：嵌入式，将其嵌入到通用消息类型中进
+
+##### server服务端设计
+
+。。。。。。
+
+##### client客户端设计
+
+###### 数据库设计
+
+###### **目录结构**
+
+![image-20241204214616401](project/README/image-20241204214616401.png)
+
+###### **数据表设计**
+
+* 群组表
+
+  ```dart
+  /*
+  desc: 定义数据库表结构:群组表
+   */
+  import 'package:drift/drift.dart';
   
+  // 定义群组表
+  @DataClassName('Group')
+  class Groups extends Table {
+    /// 自增的群组ID，唯一标识一个群组
+    IntColumn get id => integer().autoIncrement()();
+  
+    /// 群组名称，必须唯一且长度在1到50个字符之间
+    TextColumn get name => text()
+        .withLength(min: 1, max: 50)
+        .nullable()
+        .customConstraint('NOT NULL UNIQUE')();
+  
+    /// 群组描述，可为空
+    TextColumn get description => text().nullable()();
+  
+    /// 群组创建时间，默认为当前时间
+    TextColumn get createdAt =>
+        text().withDefault(Constant(DateTime.now().toIso8601String()))();
+  
+    /// 群组更新时间，默认为当前时间
+    TextColumn get updatedAt =>
+        text().withDefault(Constant(DateTime.now().toIso8601String()))();
+  }
+  
+  ```
 
+* 用户群组关系表
 
+  ```dart
+  /*
+  desc: 定义数据库表结构:用户群组关系表： 多对多
+   */
+  import 'package:drift/drift.dart';
+  
+  // 定义用户和群组之间的关系表
+  @DataClassName('UserGroupRelation')
+  class UserGroupRelations extends Table {
+    /// 自增的关系ID，唯一标识一条关系
+    IntColumn get id => integer().autoIncrement()();
+  
+    /// 用户ID，表示一个群组成员
+    IntColumn get userId => integer()();
+  
+    /// 群组ID，表示用户所属的群组
+    IntColumn get groupId => integer()();
+  
+    /// 用户是否为群组管理员
+    BoolColumn get isAdmin => boolean().withDefault(Constant(false))();
+  
+    /// 用户加入群组的时间，默认为当前时间
+    TextColumn get joinedAt =>
+        text().withDefault(Constant(DateTime.now().toIso8601String()))();
+  }
+  ```
 
+###### **数据表事务DAO操作**
 
+* 群组DAO
 
+  ```dart
+  /*
+  desc: UserDao类DAO操作: DAO类集中管理 CRUD 操作
+  */
+  import '../../microService/module/manager/GlobalManager.dart';
+  import '../LocalStorage.dart';
+  import 'BaseDao.dart';
+  
+  class GroupDao implements BaseDao<Group> {
+    // 查询数据
+    Future<List> selectGroup(GroupsCompanion groupsCompanion) async {
+      // 获取database单例
+      var db = GlobalManager.database;
+  
+      // 构建查询
+      final query = db.select(db.groups)
+        ..where((tbl) => tbl.id.equals(groupsCompanion.id.value));
+      // 获取查询结果
+      final result = await query.get();
+  
+      // 将查询结果转换为 UserData 的列表
+      return result.toList();
+    }
+  
+    // 插入数据
+    Future<dynamic> insertGroup(GroupsCompanion groupsCompanion) async {
+      // 获取database单例
+      var db = GlobalManager.database;
+  
+      // 构建
+      final result = await db.batch((batch) {
+        batch.insertAll(db.groups, [groupsCompanion]);
+      });
+  
+      return result;
+    }
+  
+    // 更新数据
+    Future<int> updateGroup(GroupsCompanion groupsCompanion) async {
+      // 获取database单例
+      var db = GlobalManager.database;
+      int result = 0;
+      await db.update(db.groups)
+        ..where((tbl) => tbl.id.equals(groupsCompanion.id.value))
+        ..write(groupsCompanion).then((value) {
+          print("update result: $value");
+          result = value;
+        });
+  
+      return result;
+    }
+  
+    // 删除数据
+    int deleteGroup(GroupsCompanion groupsCompanion) {
+      // 获取database单例
+      var db = GlobalManager.database;
+      // 删除条数
+      int result = 0;
+      db.delete(db.groups)
+        ..where((tbl) => tbl.id.equals(groupsCompanion.id.value))
+        ..go().then((value) {
+          print("delete data count: $value");
+          result = value;
+        });
+  
+      return result;
+    }
+  }
+  ```
 
+* 用户群组DAO
 
+  ```dart
+  /*
+  desc: UserDao类DAO操作: DAO类集中管理 CRUD 操作
+  */
+  import '../../microService/module/manager/GlobalManager.dart';
+  import '../LocalStorage.dart';
+  import 'BaseDao.dart';
+  
+  class UserGroupRelationDao implements BaseDao<UserGroupRelation> {
+    // 查询数据
+    Future<List> selectUserGroupRelation(
+        UserGroupRelationsCompanion userGroupRelationsCompanion) async {
+      // 获取database单例
+      var db = GlobalManager.database;
+  
+      // 构建查询
+      final query = db.select(db.userGroupRelations)
+        ..where((tbl) => tbl.id.equals(userGroupRelationsCompanion.id.value));
+      // 获取查询结果
+      final result = await query.get();
+  
+      // 将查询结果转换为 UserData 的列表
+      return result.toList();
+    }
+  
+    // 插入数据
+    Future<dynamic> insertUserGroupRelation(
+        UserGroupRelationsCompanion userGroupRelationsCompanion) async {
+      // 获取database单例
+      var db = GlobalManager.database;
+  
+      // 构建
+      final result = await db.batch((batch) {
+        batch.insertAll(db.userGroupRelations, [userGroupRelationsCompanion]);
+      });
+  
+      return result;
+    }
+  
+    // 更新数据
+    Future<int> updateUserGroupRelation(
+        UserGroupRelationsCompanion userGroupRelationsCompanion) async {
+      // 获取database单例
+      var db = GlobalManager.database;
+      int result = 0;
+      await db.update(db.userGroupRelations)
+        ..where((tbl) => tbl.id.equals(userGroupRelationsCompanion.id.value))
+        ..write(userGroupRelationsCompanion).then((value) {
+          print("update result: $value");
+          result = value;
+        });
+  
+      return result;
+    }
+  
+    // 删除数据
+    int deleteUserGroupRelation(
+        UserGroupRelationsCompanion userGroupRelationsCompanion) {
+      // 获取database单例
+      var db = GlobalManager.database;
+      // 删除条数
+      int result = 0;
+      db.delete(db.userGroupRelations)
+        ..where((tbl) => tbl.id.equals(userGroupRelationsCompanion.id as int))
+        ..go().then((value) {
+          print("delete data count: $value");
+          result = value;
+        });
+  
+      return result;
+    }
+  }
+  ```
 
-
-##### server消息任务调度设计
+### server消息任务调度设计
 
 ![image-20240614174920349](project/README/image-20240614174920349.png)**矩阵式调度client的消息进入总线的消息队列**
 
@@ -685,7 +922,7 @@ server端响应
 
 创新调度方法：采用人工智能调度
 
-##### 总消息队列设计
+### 总消息队列设计
 
 * **在线client消息队列**
 * **离线client消息队列**：负责各类的离线信息调度，进入其消息队列的**msg的info字段已进行加密处理**
@@ -716,7 +953,7 @@ server端响应
  }
 ```
 
-##### 离线消息加密设计：两道加密防护
+### 离线消息加密设计：两道加密防护
 
 
 
@@ -736,7 +973,11 @@ server端响应
 
 ##### 加密与加密
 
-## 消息页面缓存设计
+
+
+## UI界面
+
+### 消息页面缓存设计
 
 为每个通讯对象实体(普通用户、群主)设计一个用于缓存新消息的队列。只需要面向队列变成即可。
 
@@ -748,9 +989,9 @@ server端响应
 
 
 
-### server端作为client设计
+## server端作为client设计
 
-##### 方案
+**方案**
 
 - **方案一**(**目前方案**): 本地重启一个client客户端实例，server与client服务分离
 
@@ -777,17 +1018,17 @@ server端响应
 3. 
 
 
-# 离线消息新解决方案，采用Hive存储消息并发送：好友添加和离线消息
+## 离线消息新解决方案，采用Hive存储消息并发送：好友添加和离线消息
 
 
-## 开发日历
+### 开发日历
 
 - server端离线消息队列调度存在问题，消息文本加解密问题
 - 离线消息队列待解决，出现bug，无法正常运行。addUser调度
 
 
 
-## 开发日志
+### 开发日志
 
 * **2024-7-23** 创建并初始化项目
 
@@ -797,7 +1038,7 @@ server端响应
   
 * 2024-8-5 修复scan扫描add user bug，并重新整合项目新架构，优化项目结构
 
-* 2024-8-10 增加msi构建模块，并设置应用图标
+* 2024-8-10 增加msi构建模块，并设置应用图标      
 
 * 2024-8-12 修复websoketClient snd 关闭server无法广播在线在线client bug
 
@@ -836,19 +1077,19 @@ server端响应
 * 2024.8.26  新增client端聊天图片支持，并支持图片阅览缩放等操作,重构部分代码
 * 2024.8.27  新增发送图片支持,并优化httpserver，后续将会持续新增语音和文件支持，后续优化点: 将资源在获取的http连
   接下载在本地存储，并及时删除服务器中转的资源文件，保障用户隐私。目前图片暂时在服务端存储,后续后改进优化"
- 
-
-  
-
-  
+* 2024.12.04  开始群组设计........
 
 
 
 
 
-  
 
-  
 
-  
+
+
+
+
+
+
+
 

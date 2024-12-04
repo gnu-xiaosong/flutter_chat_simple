@@ -2,6 +2,7 @@ import 'dart:io';
 import '../websocket/WebsocketServerManager.dart';
 import '../websocket/messageByTypeHandler/AuthTypeMessageHandler.dart';
 import '../websocket/messageByTypeHandler/FtpTypeMessageHandler.dart';
+import '../websocket/messageByTypeHandler/GroupTypeMessageHandler.dart';
 import '../websocket/messageByTypeHandler/MessageTypeMessageHandler.dart';
 import '../websocket/messageByTypeHandler/RequestInlineClientTypeMessageHandler.dart';
 import '../websocket/messageByTypeHandler/RequestScanAddUserTypeMessageHandler.dart';
@@ -11,6 +12,7 @@ import '../websocket/messageByTypeHandler/TestTypeMessageHandler.dart';
 enum MsgType { 
 AUTH,
 FTP,
+GROUP,
 MESSAGE,
 REQUEST_INLINE_CLIENT,
 REQUEST_SCAN_ADD_USER,
@@ -22,6 +24,7 @@ TEST,
 Map<String, dynamic> msgTypeByString = {
  "AUTH": MsgType.AUTH,
  "FTP": MsgType.FTP,
+ "GROUP": MsgType.GROUP,
  "MESSAGE": MsgType.MESSAGE,
  "REQUEST_INLINE_CLIENT": MsgType.REQUEST_INLINE_CLIENT,
  "REQUEST_SCAN_ADD_USER": MsgType.REQUEST_SCAN_ADD_USER,
@@ -33,6 +36,7 @@ Map<String, dynamic> msgTypeByString = {
 Map<dynamic, String> stringByMsgType = {
  MsgType.AUTH: "AUTH",
  MsgType.FTP: "FTP",
+ MsgType.GROUP: "GROUP",
  MsgType.MESSAGE: "MESSAGE",
  MsgType.REQUEST_INLINE_CLIENT: "REQUEST_INLINE_CLIENT",
  MsgType.REQUEST_SCAN_ADD_USER: "REQUEST_SCAN_ADD_USER",
@@ -41,7 +45,7 @@ Map<dynamic, String> stringByMsgType = {
 };
 
 class CommunicationTypeServerModulator{
-      List classNames = [AuthTypeMessageHandler(), FtpTypeMessageHandler(), MessageTypeMessageHandler(), RequestInlineClientTypeMessageHandler(), RequestScanAddUserTypeMessageHandler(), ScanTypeMessageHandler(), TestTypeMessageHandler()];
+      List classNames = [AuthTypeMessageHandler(), FtpTypeMessageHandler(), GroupTypeMessageHandler(), MessageTypeMessageHandler(), RequestInlineClientTypeMessageHandler(), RequestScanAddUserTypeMessageHandler(), ScanTypeMessageHandler(), TestTypeMessageHandler()];
       void handler(HttpRequest request, WebSocket webSocket, WebsocketServerManager websocketServerManager,  Map msgDataTypeMap) {
           for (var item in classNames) {
             String messageTypeStr = msgDataTypeMap["type"].toUpperCase();
